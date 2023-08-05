@@ -1,0 +1,39 @@
+// ignore_for_file: constant_identifier_names
+
+import 'package:get/route_manager.dart';
+import 'package:gorillacards/modules/Signin/Signin.dart';
+import 'package:gorillacards/modules/Signin/SigninBinding.dart';
+import 'package:gorillacards/modules/Signup/Signup.dart';
+import 'package:gorillacards/modules/Signup/SignupBinding.dart';
+
+import '../modules/Splash/index.dart';
+import '../modules/Welcome/index.dart';
+
+part 'app_routes.dart';
+
+class AppPages {
+  static const INITIAL = Routes.SPLASH;
+
+  static final routes = [
+    GetPage(
+      name: Routes.SPLASH,
+      page: () => const Splash(),
+      binding: SplashBinding(),
+    ),
+    GetPage(
+      name: Routes.WELCOME,
+      page: () => const Welcome(),
+      binding: WelcomeBinding(),
+    ),
+    GetPage(
+      name: Routes.SIGNUP,
+      page: () => const Signup(),
+      binding: SignupBinding(),
+    ),
+    GetPage(
+      name: Routes.SIGNIN,
+      page: () => Signin(),
+      binding: SigninBinding(),
+    ),
+  ];
+}
