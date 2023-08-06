@@ -69,7 +69,7 @@ ThemeData CustomTheme() {
         fontFamily: AppFonts.regular,
       ),
       labelMedium: TextStyle(
-        fontSize: 16.sp,
+        fontSize: 14.sp,
         fontFamily: AppFonts.bold,
         color: AppColors.white,
       ),

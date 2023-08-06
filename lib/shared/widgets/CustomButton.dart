@@ -2,14 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:gorillacards/shared/constants/colors.dart';
+import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomButton extends StatelessWidget {
-  final void Function() onTap;
+  final void Function()? onTap;
   final String text;
   final Color bg;
   final Color textColor;
   final bool isWide;
+  final bool hasIcon;
+  final IconData icon;
   const CustomButton({
     super.key,
     required this.onTap,
@@ -17,6 +21,8 @@ class CustomButton extends StatelessWidget {
     required this.bg,
     required this.textColor,
     this.isWide = false,
+    this.hasIcon = false,
+    this.icon = Icons.add,
   });
 
   @override
@@ -32,17 +38,36 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: bg,
           borderRadius: BorderRadius.circular(
-            isWide ? 5.sp : 20.sp,
+            isWide || hasIcon ? 5.sp : 20.sp,
           ),
         ),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .labelMedium
-              ?.copyWith(color: textColor),
-        ),
+        child: hasIcon
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(icon, color: AppColors.white),
+                  AppSpacer.w2,
+                  Expanded(
+                    child: Text(
+                      text,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelMedium
+                          ?.copyWith(color: textColor),
+                    ),
+                  ),
+                ],
+              )
+            : Text(
+                text,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelMedium
+                    ?.copyWith(color: textColor),
+              ),
       ),
     );
   }

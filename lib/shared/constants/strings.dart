@@ -4,7 +4,7 @@ class AppStrings {
   static const appName = "Gorilla Cards";
 
   // base url
-  static const String baseUrl = "https://stg-api.gorillacards.app/auth/";
+  static const String baseUrl = "https://stg-api.gorillacards.app/";
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 15000);
@@ -12,8 +12,9 @@ class AppStrings {
   // connectTimeout
   static const Duration connectionTimeout = Duration(milliseconds: 1500);
 
-  static const String signupPath = '/signup';
-  static const String signinPath = '/signin';
+  static const String signupPath = '/auth/signup';
+  static const String signinPath = '/auth/signin';
+  static const String createDeckPath = '/decks';
 
   static const String loadingPath = "assets/jsons/gorilla.json";
 
@@ -46,4 +47,13 @@ class AppStrings {
   static const passwordAgainBlankError = "Password again cannot be blank";
   static const passwordAgainNotMatch = "Passwords do not match";
   static const hasAccount = "You already have an account ? ";
+
+  // HOME
+  static const deckName = "Deck Name";
+  static const deckDescription = "Description (Optional)";
+  static const deckNameHint = "Enter your deck name";
+  static const deckNameInvalid = "Deck name can not be empty";
+  static const createDeckButtonTitle = "Create Deck";
+  static const createdDeckSuccessMessage = "Deck created";
+  static const createdDeckErrorMessage = "Deck does not created";
 }

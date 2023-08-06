@@ -109,7 +109,7 @@ class Signup extends GetView<SignupController> {
                   Obx(
                     () => CustomButton(
                       onTap: controller.buttonDisabled.value
-                          ? () {}
+                          ? null
                           : () {
                               controller.allFocusNodeUnfocus();
                               if (controller.formKey.currentState!.validate()) {
