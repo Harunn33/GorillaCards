@@ -11,6 +11,7 @@ class AppColors {
   static Color bellflowerBlue = const Color(0xFFE2E8F0);
   static Color santasGrey = const Color(0xFF9CA3AF);
   static Color red = const Color(0xFFFE0000);
+  static Color dustyGreen = const Color(0xFF7AA874);
 }
 
 Color hexToColor(String hex) {

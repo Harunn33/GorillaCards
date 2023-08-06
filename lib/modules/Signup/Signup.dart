@@ -22,10 +22,7 @@ class Signup extends GetView<SignupController> {
     return GestureDetector(
       onTap: () => controller.allFocusNodeUnfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          surfaceTintColor: AppColors.white,
-          backgroundColor: AppColors.white,
-        ),
+        appBar: AppBar(),
         body: Container(
           alignment: Alignment.center,
           padding: AppPaddings.generalPadding,
@@ -109,17 +106,21 @@ class Signup extends GetView<SignupController> {
                     ),
                   ),
                   AppSpacer.h3,
-                  CustomButton(
-                    onTap: () {
-                      controller.allFocusNodeUnfocus();
-                      if (controller.formKey.currentState!.validate()) {
-                        controller.handleSignup();
-                      }
-                    },
-                    text: AppStrings.signup,
-                    isWide: true,
-                    bg: AppColors.primary,
-                    textColor: AppColors.white,
+                  Obx(
+                    () => CustomButton(
+                      onTap: controller.buttonDisabled.value
+                          ? () {}
+                          : () {
+                              controller.allFocusNodeUnfocus();
+                              if (controller.formKey.currentState!.validate()) {
+                                controller.handleSignup();
+                              }
+                            },
+                      text: AppStrings.signup,
+                      isWide: true,
+                      bg: AppColors.primary,
+                      textColor: AppColors.white,
+                    ),
                   ),
                   AppSpacer.h2,
                   CustomRichText(

@@ -1,9 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 
 class SplashController extends GetxController {
+  final GetStorage box = GetStorage();
   @override
   void onInit() {
     super.onInit();
@@ -16,8 +18,13 @@ class SplashController extends GetxController {
             seconds: 2,
           ),
         ),
-        Get.toNamed(
-          Routes.WELCOME,
-        )
+        if (box.read("token") != null)
+          Get.offAllNamed(
+            Routes.HOME,
+          )
+        else
+          Get.toNamed(
+            Routes.WELCOME,
+          )
       };
 }

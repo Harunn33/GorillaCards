@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
-import 'package:gorillacards/shared/constants/strings.dart';
 
 import '../constants/colors.dart';
 
-SnackbarController CustomSnackbar() {
+SnackbarController CustomSnackbar(
+    {required String title, required String message, bool type = false}) {
   return Get.snackbar(
-    AppStrings.error,
-    AppStrings.invalidEmailOrPassword,
-    backgroundColor: AppColors.red,
+    title,
+    message,
+    backgroundColor: type ? AppColors.dustyGreen : AppColors.red,
     colorText: AppColors.white,
   );
 }

@@ -2,7 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:gorillacards/data/model/signupModel.dart';
 import 'package:gorillacards/data/network/api/SignupApi.dart';
+import 'package:gorillacards/routes/app_pages.dart';
+import 'package:gorillacards/shared/constants/strings.dart';
+import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
 
 import '../../shared/methods/CustomLoadingDialog.dart';
 
@@ -24,12 +29,9 @@ class SignupController extends GetxController {
 
   RxBool passwordObscure = false.obs;
   RxBool passwordAgainObscure = false.obs;
+  RxBool buttonDisabled = false.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    print("Signup");
-  }
+  final GetStorage box = GetStorage();
 
   @override
   void dispose() {
@@ -46,20 +48,33 @@ class SignupController extends GetxController {
   }
 
   Future<void> handleSignup() async {
+    buttonDisabled.value = true;
+    await Get.closeCurrentSnackbar();
     CustomLoadingDialog();
+    final SignupModel signupModel = SignupModel(
+      email: emailController.text,
+      password: passwordController.text,
+      repassword: passwordAgainController.text,
+    );
     try {
-      final response = await _signupApi.postSignup(data: {
-        "email": emailController.text,
-        "password": passwordController.text,
-        "repassword": passwordAgainController.text,
-      });
+      final response = await _signupApi.postSignup(data: signupModel.toJson());
       if (response.statusCode == 201) {
-        Get.back();
-        print("Başarıyla kayıt oldunuz\n${response.data}");
+        buttonDisabled.value = false;
+        box.write("token", response.data["token"]);
+        CustomSnackbar(
+          message: AppStrings.successRegistered,
+          title: AppStrings.success,
+          type: true,
+        );
+        Get.offAllNamed(Routes.HOME);
       }
     } catch (e) {
+      buttonDisabled.value = false;
       Get.back();
-      print("Catch$e");
+      CustomSnackbar(
+        message: AppStrings.emailAlreadyExists,
+        title: AppStrings.error,
+      );
     }
   }
 }

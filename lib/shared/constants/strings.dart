@@ -18,7 +18,10 @@ class AppStrings {
   static const String loadingPath = "assets/jsons/gorilla.json";
 
   static const String error = "Error";
+  static const String success = "Success";
+  static const String successRegistered = "You have successfully registered.";
   static const String invalidEmailOrPassword = "Email or password is wrong";
+  static const String emailAlreadyExists = "Email already exists";
 
   // WELCOME
   static const welcomeTitle = "Welcome\nto Gorilla Cards";

@@ -9,6 +9,10 @@ ThemeData CustomTheme() {
   return ThemeData(
     scaffoldBackgroundColor: AppColors.white,
     useMaterial3: true,
+    appBarTheme: AppBarTheme(
+      surfaceTintColor: AppColors.white,
+      backgroundColor: AppColors.white,
+    ),
     inputDecorationTheme: InputDecorationTheme(
       fillColor: AppColors.drWhite,
       filled: true,
