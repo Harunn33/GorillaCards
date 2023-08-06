@@ -111,25 +111,9 @@ class Signup extends GetView<SignupController> {
                   AppSpacer.h3,
                   CustomButton(
                     onTap: () {
-                      // showDialog(
-                      //   barrierDismissible: false,
-                      //   context: context,
-                      //   builder: (context) {
-                      //     return WillPopScope(
-                      //       onWillPop: () async => false,
-                      //       child: Center(
-                      //         child: Lottie.asset(
-                      //           "assets/jsons/gorilla.json",
-                      //           width: 35.h,
-                      //           height: 35.h,
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      // );
                       controller.allFocusNodeUnfocus();
                       if (controller.formKey.currentState!.validate()) {
-                        print("Kayıt Başarılı");
+                        controller.handleSignup();
                       }
                     },
                     text: AppStrings.signup,

@@ -3,6 +3,23 @@ class AppStrings {
   // GENERAL
   static const appName = "Gorilla Cards";
 
+  // base url
+  static const String baseUrl = "https://stg-api.gorillacards.app/auth/";
+
+  // receiveTimeout
+  static const Duration receiveTimeout = Duration(milliseconds: 15000);
+
+  // connectTimeout
+  static const Duration connectionTimeout = Duration(milliseconds: 1500);
+
+  static const String signupPath = '/signup';
+  static const String signinPath = '/signin';
+
+  static const String loadingPath = "assets/jsons/gorilla.json";
+
+  static const String error = "Error";
+  static const String invalidEmailOrPassword = "Email or password is wrong";
+
   // WELCOME
   static const welcomeTitle = "Welcome\nto Gorilla Cards";
   static const welcomeDescription =

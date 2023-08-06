@@ -87,7 +87,7 @@ class Signin extends GetView<SigninController> {
                     onTap: () {
                       controller.allFocusNodeUnfocus();
                       if (controller.formKey.currentState!.validate()) {
-                        print("Kayıt Başarılı");
+                        controller.handleSignin();
                       }
                     },
                     text: AppStrings.signin,
@@ -99,9 +99,7 @@ class Signin extends GetView<SigninController> {
                   CustomRichText(
                     firstText: AppStrings.dontHaveAccount,
                     secondText: AppStrings.signup,
-                    secondTextOnTap: () {
-                      Get.offNamed(Routes.SIGNUP);
-                    },
+                    secondTextOnTap: () => Get.offNamed(Routes.SIGNUP),
                   )
                 ],
               ),
