@@ -11,6 +11,8 @@ import 'package:gorillacards/shared/widgets/CustomButton.dart';
 import 'package:gorillacards/shared/widgets/CustomModalBottomSheetTextFormField.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../routes/app_pages.dart';
+
 class Home extends GetView<HomeController> {
   const Home({super.key});
 
@@ -28,7 +30,10 @@ class Home extends GetView<HomeController> {
             children: [
               Images.appLogo.png,
               Bounceable(
-                onTap: () {},
+                onTap: () {
+                  controller.signinController.box.remove("token");
+                  Get.offAllNamed(Routes.WELCOME);
+                },
                 child: Images.settings.svg,
               )
             ],
@@ -42,19 +47,11 @@ class Home extends GetView<HomeController> {
           children: [
             Expanded(
               flex: 5,
-              child: Bounceable(
-                onTap: () {
-                  print(
-                    controller.signinController.box.read("token").toString(),
-                  );
-                  // signinController.box.remove("token");
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "There is no deck yet.",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  AppStrings.noDecksYet,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ),
@@ -67,6 +64,7 @@ class Home extends GetView<HomeController> {
                         onTap: controller.buttonDisabled.value
                             ? null
                             : () {
+                                controller.allRemoveText();
                                 showModalBottomSheet(
                                   context: context,
                                   isScrollControlled: true,

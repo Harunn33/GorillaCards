@@ -13,6 +13,7 @@ ThemeData CustomTheme() {
       surfaceTintColor: AppColors.white,
       backgroundColor: AppColors.white,
     ),
+    dialogBackgroundColor: AppColors.white,
     inputDecorationTheme: InputDecorationTheme(
       fillColor: AppColors.drWhite,
       filled: true,

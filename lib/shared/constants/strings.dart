@@ -49,6 +49,7 @@ class AppStrings {
   static const hasAccount = "You already have an account ? ";
 
   // HOME
+  static const noDecksYet = "There is no deck yet.";
   static const deckName = "Deck Name";
   static const deckDescription = "Description (Optional)";
   static const deckNameHint = "Enter your deck name";
