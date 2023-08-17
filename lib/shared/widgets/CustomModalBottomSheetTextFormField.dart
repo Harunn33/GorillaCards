@@ -9,18 +9,20 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final bool isDescription;
-  const CustomModalBottomSheetTextFormField({
-    super.key,
-    required this.hintText,
-    required this.focusNode,
-    required this.controller,
-    this.validator,
-    this.isDescription = false,
-  });
+  final void Function(PointerDownEvent)? onTapOutside;
+  const CustomModalBottomSheetTextFormField(
+      {super.key,
+      required this.hintText,
+      required this.focusNode,
+      required this.controller,
+      this.validator,
+      this.isDescription = false,
+      this.onTapOutside});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTapOutside: onTapOutside,
       cursorColor: AppColors.black,
       cursorHeight: 3.h,
       focusNode: focusNode,

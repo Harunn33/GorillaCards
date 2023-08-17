@@ -10,7 +10,7 @@ class AppStrings {
   static const Duration receiveTimeout = Duration(milliseconds: 15000);
 
   // connectTimeout
-  static const Duration connectionTimeout = Duration(milliseconds: 1500);
+  static const Duration connectionTimeout = Duration(milliseconds: 15000);
 
   static const String signupPath = '/auth/signup';
   static const String signinPath = '/auth/signin';
@@ -57,4 +57,8 @@ class AppStrings {
   static const createDeckButtonTitle = "Create Deck";
   static const createdDeckSuccessMessage = "Deck created";
   static const createdDeckErrorMessage = "Deck does not created";
+  static const delete = "Delete";
+  static const edit = "Edit";
+  static const addDeck = "Add Deck";
+  static const browse = "Browse";
 }

@@ -1,14 +1,17 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/modules/Home/HomeController.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
+import 'package:gorillacards/shared/constants/fonts.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/enums/images.dart';
 import 'package:gorillacards/shared/widgets/CustomButton.dart';
-import 'package:gorillacards/shared/widgets/CustomModalBottomSheetTextFormField.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../routes/app_pages.dart';
@@ -47,13 +50,24 @@ class Home extends GetView<HomeController> {
           children: [
             Expanded(
               flex: 5,
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  AppStrings.noDecksYet,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
+              child: controller.allDecks.isEmpty
+                  ? Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        AppStrings.noDecksYet,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    )
+                  : Obx(
+                      () => ListView.builder(
+                        itemCount: controller.allDecks.length,
+                        padding: EdgeInsets.only(top: 2.h),
+                        itemBuilder: (context, index) {
+                          return _CustomDeckCardItem(
+                              index: index, context: context);
+                        },
+                      ),
+                    ),
             ),
             Expanded(
               child: Row(
@@ -65,103 +79,10 @@ class Home extends GetView<HomeController> {
                             ? null
                             : () {
                                 controller.allRemoveText();
-                                showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  backgroundColor: AppColors.white,
-                                  showDragHandle: true,
-                                  builder: (context) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        controller.allFocusNodeUnfocus();
-                                      },
-                                      child: Container(
-                                        padding:
-                                            AppPaddings.generalPadding.copyWith(
-                                          bottom: 4.h,
-                                        ),
-                                        child: SingleChildScrollView(
-                                          child: Form(
-                                            key: controller.formKey,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  AppStrings.deckName,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelMedium
-                                                      ?.copyWith(
-                                                        color: AppColors.black,
-                                                      ),
-                                                ),
-                                                AppSpacer.h1,
-                                                CustomModalBottomSheetTextFormField(
-                                                  hintText:
-                                                      AppStrings.deckNameHint,
-                                                  focusNode: controller
-                                                      .deckNameFocusNode,
-                                                  controller: controller
-                                                      .deckNameController,
-                                                  validator: (value) {
-                                                    if (value == null) {
-                                                      return null;
-                                                    }
-                                                    if (value.isEmpty) {
-                                                      return AppStrings
-                                                          .deckNameInvalid;
-                                                    }
-                                                    return null;
-                                                  },
-                                                ),
-                                                AppSpacer.h3,
-                                                Text(
-                                                  AppStrings.deckDescription,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelMedium
-                                                      ?.copyWith(
-                                                        color: AppColors.black,
-                                                      ),
-                                                ),
-                                                AppSpacer.h1,
-                                                CustomModalBottomSheetTextFormField(
-                                                  hintText: "",
-                                                  focusNode: controller
-                                                      .deckDescriptionFocuNode,
-                                                  controller: controller
-                                                      .deckDescriptionController,
-                                                  isDescription: true,
-                                                ),
-                                                AppSpacer.h3,
-                                                CustomButton(
-                                                  onTap: () {
-                                                    if (controller
-                                                        .formKey.currentState!
-                                                        .validate()) {
-                                                      controller
-                                                          .handleCreateDeck();
-                                                    }
-                                                  },
-                                                  text: AppStrings
-                                                      .createDeckButtonTitle,
-                                                  bg: AppColors.primary,
-                                                  textColor: AppColors.white,
-                                                  hasIcon: false,
-                                                  isWide: true,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
+                                controller.createBottomSheet(context);
                                 // controller.handleCreateDeck();
                               },
-                        text: "Add Deck",
+                        text: AppStrings.addDeck,
                         bg: AppColors.primary,
                         textColor: AppColors.white,
                         hasIcon: true,
@@ -172,7 +93,7 @@ class Home extends GetView<HomeController> {
                   Expanded(
                     child: CustomButton(
                       onTap: () {},
-                      text: "Browse Decks",
+                      text: AppStrings.browse,
                       icon: Icons.search,
                       bg: AppColors.primary,
                       textColor: AppColors.white,
@@ -185,6 +106,91 @@ class Home extends GetView<HomeController> {
           ],
         ),
       ),
+    );
+  }
+
+  // DECK CARD ITEM
+  Bounceable _CustomDeckCardItem(
+      {required int index, required BuildContext context}) {
+    return Bounceable(
+      onTap: () {},
+      child: SwipeActionCell(
+        backgroundColor: Colors.transparent,
+        key: ValueKey(controller.allDecks[index].id),
+        trailingActions: <SwipeAction>[
+          _SwipeAction(
+            title: AppStrings.delete,
+            icon: Icons.delete_outlined,
+            onTap: () {},
+          ),
+          _SwipeAction(
+            title: AppStrings.edit,
+            icon: Icons.edit_outlined,
+            onTap: () {},
+            color: AppColors.santasGrey,
+          ),
+        ],
+        child: Container(
+          margin: EdgeInsets.symmetric(
+            vertical: .5.h,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.santasGrey.withOpacity(.15),
+            borderRadius: BorderRadius.circular(
+              6.sp,
+            ),
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: 3.w,
+            vertical: 1.h,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                controller.allDecks[index].name,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontSize: 12.sp,
+                    ),
+              ),
+              Text(
+                controller.allDecks[index].totalItem.toString(),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.black,
+                      fontSize: 12.sp,
+                    ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Swipe Action Buttons
+  SwipeAction _SwipeAction(
+      {required String title,
+      required IconData icon,
+      required void Function() onTap,
+      Color? color}) {
+    return SwipeAction(
+      forceAlignmentToBoundary: true,
+      backgroundRadius: 6.sp,
+      title: title,
+      icon: Icon(
+        icon,
+        color: AppColors.white,
+      ),
+      style: TextStyle(
+        fontSize: 10.sp,
+        color: AppColors.white,
+        fontFamily: AppFonts.medium,
+      ),
+      onTap: (CompletionHandler handler) async {
+        await handler(true);
+        onTap();
+      },
+      color: color ?? AppColors.red,
     );
   }
 }

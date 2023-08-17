@@ -14,7 +14,7 @@ import '../modules/Welcome/index.dart';
 part 'app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.SPLASH;
+  static const INITIAL = Routes.HOME;
 
   static final routes = [
     GetPage(
@@ -39,7 +39,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.HOME,
-      page: () => Home(),
+      page: () => const Home(),
       binding: HomeBinding(),
     ),
   ];

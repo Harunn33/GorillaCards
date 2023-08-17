@@ -50,6 +50,7 @@ dependencies:
   # Animation
   flutter_bounceable: ^1.1.0
   lottie: ^2.5.0
+  flutter_swipe_action_cell: ^3.1.2
 
   # Local Storage
   get_storage: ^2.1.1
@@ -92,18 +93,18 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: EduSABeginner Regular
+    - family: Poppins Regular
       fonts:
-        - asset: assets/fonts/EduSABeginner-Regular.ttf
-    - family: EduSABeginner Medium
+        - asset: assets/fonts/Poppins-Regular.ttf
+    - family: Poppins Medium
       fonts:
-        - asset: assets/fonts/EduSABeginner-Medium.ttf
-    - family: EduSABeginner Semibold
+        - asset: assets/fonts/Poppins-Medium.ttf
+    - family: Poppins Semibold
       fonts:
-        - asset: assets/fonts/EduSABeginner-Semibold.ttf
-    - family: EduSABeginner Bold
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+    - family: Poppins Bold
       fonts:
-        - asset: assets/fonts/EduSABeginner-Bold.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

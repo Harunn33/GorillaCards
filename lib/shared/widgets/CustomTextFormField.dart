@@ -13,21 +13,23 @@ class CustomTextFormField extends StatelessWidget {
   final FocusNode focusNode;
   final TextEditingController controller;
   final String? Function(String?)? validator;
-  const CustomTextFormField({
-    super.key,
-    required this.hintText,
-    required this.prefixIcon,
-    this.isPassword = false,
-    this.isObscure = false,
-    this.onTap,
-    required this.focusNode,
-    required this.controller,
-    this.validator,
-  });
+  final void Function(PointerDownEvent)? onTapOutside;
+  const CustomTextFormField(
+      {super.key,
+      required this.hintText,
+      required this.prefixIcon,
+      this.isPassword = false,
+      this.isObscure = false,
+      this.onTap,
+      required this.focusNode,
+      required this.controller,
+      this.validator,
+      this.onTapOutside});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTapOutside: onTapOutside,
       cursorColor: AppColors.black,
       cursorHeight: 3.h,
       focusNode: focusNode,

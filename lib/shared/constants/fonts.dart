@@ -1,8 +1,8 @@
 class AppFonts {
   AppFonts._();
 
-  static const regular = "EduSABeginner Regular";
-  static const medium = "EduSABeginner Medium";
-  static const semibold = "EduSABeginner Semibold";
-  static const bold = "EduSABeginner Bold";
+  static const regular = "Poppins Regular";
+  static const medium = "Poppins Medium";
+  static const semibold = "Poppins Semibold";
+  static const bold = "Poppins Bold";
 }
