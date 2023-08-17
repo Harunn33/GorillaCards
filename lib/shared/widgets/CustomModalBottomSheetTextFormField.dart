@@ -24,15 +24,13 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
     return TextFormField(
       onTapOutside: onTapOutside,
       cursorColor: AppColors.black,
-      cursorHeight: 3.h,
+      cursorHeight: 2.h,
       focusNode: focusNode,
       minLines: isDescription ? 4 : 1,
       maxLines: isDescription ? 8 : 2,
       controller: controller,
       validator: validator,
-      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            color: AppColors.black,
-          ),
+      style: Theme.of(context).textTheme.titleMedium,
       decoration: InputDecoration(
         hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: AppColors.santasGrey,

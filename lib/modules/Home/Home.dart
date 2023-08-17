@@ -147,19 +147,10 @@ class Home extends GetView<HomeController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                controller.allDecks[index].name,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: 12.sp,
-                    ),
-              ),
-              Text(
-                controller.allDecks[index].totalItem.toString(),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: AppColors.black,
-                      fontSize: 12.sp,
-                    ),
-              ),
+              Text(controller.allDecks[index].name,
+                  style: Theme.of(context).textTheme.titleMedium),
+              Text(controller.allDecks[index].totalItem.toString(),
+                  style: Theme.of(context).textTheme.titleMedium),
             ],
           ),
         ),

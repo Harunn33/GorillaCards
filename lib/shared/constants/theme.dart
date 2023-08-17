@@ -75,7 +75,7 @@ ThemeData CustomTheme() {
         color: AppColors.white,
       ),
       titleMedium: TextStyle(
-        fontSize: 15.sp,
+        fontSize: 11.sp,
         color: AppColors.black,
         fontFamily: AppFonts.medium,
       ),
