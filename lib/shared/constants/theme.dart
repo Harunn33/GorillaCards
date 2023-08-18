@@ -18,8 +18,8 @@ ThemeData CustomTheme() {
       fillColor: AppColors.drWhite,
       filled: true,
       errorStyle: TextStyle(
-        fontSize: 10.sp,
-        fontFamily: AppFonts.semibold,
+        fontSize: 8.sp,
+        fontFamily: AppFonts.medium,
         color: AppColors.red,
       ),
       focusedErrorBorder: OutlineInputBorder(
@@ -49,36 +49,40 @@ ThemeData CustomTheme() {
       ),
     ),
     textTheme: TextTheme(
-      headlineLarge: TextStyle(
-        fontSize: 30.sp,
-        fontFamily: AppFonts.bold,
-      ),
-      headlineMedium: TextStyle(
-        fontSize: 20.sp,
-        fontFamily: AppFonts.bold,
-      ),
-      headlineSmall: TextStyle(
-        fontSize: 16.sp,
-        fontFamily: AppFonts.bold,
-      ),
-      bodyLarge: TextStyle(
-        fontSize: 18.sp,
-        fontFamily: AppFonts.medium,
-      ),
-      bodyMedium: TextStyle(
-        fontSize: 14.sp,
-        fontFamily: AppFonts.regular,
-      ),
-      labelMedium: TextStyle(
-        fontSize: 12.sp,
-        fontFamily: AppFonts.semibold,
-        color: AppColors.white,
-      ),
-      titleMedium: TextStyle(
-        fontSize: 11.sp,
-        color: AppColors.black,
-        fontFamily: AppFonts.medium,
-      ),
-    ),
+        headlineLarge: TextStyle(
+          fontSize: 25.sp,
+          fontFamily: AppFonts.bold,
+        ),
+        headlineMedium: TextStyle(
+          fontSize: 20.sp,
+          fontFamily: AppFonts.bold,
+        ),
+        headlineSmall: TextStyle(
+          fontSize: 16.sp,
+          fontFamily: AppFonts.bold,
+        ),
+        bodyLarge: TextStyle(
+          fontSize: 15.sp,
+          fontFamily: AppFonts.medium,
+        ),
+        bodyMedium: TextStyle(
+          fontSize: 11.6.sp,
+          fontFamily: AppFonts.regular,
+        ),
+        labelMedium: TextStyle(
+          fontSize: 12.sp,
+          fontFamily: AppFonts.semibold,
+          color: AppColors.white,
+        ),
+        titleMedium: TextStyle(
+          fontSize: 11.sp,
+          color: AppColors.black,
+          fontFamily: AppFonts.medium,
+        ),
+        titleSmall: TextStyle(
+          fontSize: 8.sp,
+          color: AppColors.santasGrey,
+          fontFamily: AppFonts.regular,
+        )),
   );
 }

@@ -4,9 +4,9 @@ import 'package:gorillacards/models/flashCardModel.dart';
 
 class Deck {
   final int id;
-  final String name;
-  final int totalItem;
+  String name;
+  String desc;
   final List<FlashCard> content;
 
-  Deck(this.name, this.totalItem, this.content, this.id);
+  Deck(this.name, this.desc, this.content, this.id);
 }

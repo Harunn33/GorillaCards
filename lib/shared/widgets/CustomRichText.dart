@@ -19,11 +19,13 @@ class CustomRichText extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: firstText,
-        style: Theme.of(context).textTheme.bodyMedium,
+        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              color: AppColors.black,
+            ),
         children: [
           TextSpan(
             text: secondText,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: AppColors.primary,
                 ),
             recognizer: TapGestureRecognizer()..onTap = secondTextOnTap,

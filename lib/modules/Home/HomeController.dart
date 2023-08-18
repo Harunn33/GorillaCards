@@ -6,14 +6,9 @@ import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/models/flashCardModel.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomLoadingDialog.dart';
+import 'package:gorillacards/shared/methods/CustomModalBottomSheet.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
-import 'package:sizer/sizer.dart';
 
-import '../../shared/constants/colors.dart';
-import '../../shared/constants/paddings.dart';
-import '../../shared/constants/spacer.dart';
-import '../../shared/widgets/CustomButton.dart';
-import '../../shared/widgets/CustomModalBottomSheetTextFormField.dart';
 import '../Signin/SigninController.dart';
 
 class HomeController extends GetxController {
@@ -21,20 +16,32 @@ class HomeController extends GetxController {
 
   FocusNode deckNameFocusNode = FocusNode();
   FocusNode deckDescriptionFocuNode = FocusNode();
+  FocusNode searchFocusNode = FocusNode();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> editFormKey = GlobalKey<FormState>();
 
   final SigninController signinController = SigninController();
 
   TextEditingController deckNameController = TextEditingController();
   TextEditingController deckDescriptionController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   RxBool buttonDisabled = false.obs;
+  RxString searchQuery = "".obs;
+  RxList<Deck> searchResults = <Deck>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    searchDecks();
+  }
 
 // ALL INPUT UNFOCUS
   void allFocusNodeUnfocus() {
     deckNameFocusNode.unfocus();
     deckDescriptionFocuNode.unfocus();
+    searchFocusNode.unfocus();
   }
 
   // ALL INPUT TEXT REMOVE
@@ -75,88 +82,76 @@ class HomeController extends GetxController {
     }
   }
 
-// CREATE A BOTTOM SHEET
-  void createBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+// CREATE DECK BOTTOM SHEET
+  void createDeck(BuildContext context) {
+    CustomModalBottomSheet(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: AppColors.white,
-      showDragHandle: true,
-      builder: (context) {
-        return Container(
-          padding: AppPaddings.generalPadding.copyWith(
-            bottom: 4.h,
-          ),
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppStrings.deckName,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: AppColors.black,
-                        ),
-                  ),
-                  AppSpacer.h1,
-                  CustomModalBottomSheetTextFormField(
-                    onTapOutside: (p0) {
-                      allFocusNodeUnfocus();
-                    },
-                    hintText: AppStrings.deckNameHint,
-                    focusNode: deckNameFocusNode,
-                    controller: deckNameController,
-                    validator: (value) {
-                      if (value == null) {
-                        return null;
-                      }
-                      if (value.isEmpty) {
-                        return AppStrings.deckNameInvalid;
-                      }
-                      return null;
-                    },
-                  ),
-                  AppSpacer.h3,
-                  Text(
-                    AppStrings.deckDescription,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: AppColors.black,
-                        ),
-                  ),
-                  AppSpacer.h1,
-                  CustomModalBottomSheetTextFormField(
-                    hintText: "",
-                    focusNode: deckDescriptionFocuNode,
-                    controller: deckDescriptionController,
-                    isDescription: true,
-                  ),
-                  AppSpacer.h3,
-                  CustomButton(
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        handleCreateDeck();
-                      }
-                    },
-                    text: AppStrings.createDeckButtonTitle,
-                    bg: AppColors.primary,
-                    textColor: AppColors.white,
-                    hasIcon: false,
-                    isWide: true,
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
+      formKey: formKey,
+      onTapOutside: (p0) => allFocusNodeUnfocus(),
+      deckNameFocusNode: deckNameFocusNode,
+      deckDescriptionFocuNode: deckDescriptionFocuNode,
+      deckNameController: deckNameController,
+      deckDescriptionController: deckDescriptionController,
+      onTap: () {
+        if (formKey.currentState!.validate()) {
+          // handleCreateDeck();
+          final Deck newDeck = Deck(
+              deckNameController.text,
+              deckDescriptionController.text,
+              [
+                FlashCard("", ""),
+              ],
+              4);
+          allDecks.add(newDeck);
+          searchDecks();
+          Get.back();
+        }
       },
     );
+  }
+
+  void editDeck(
+    BuildContext context,
+    int index,
+  ) {
+    CustomModalBottomSheet(
+      context: context,
+      formKey: formKey,
+      onTapOutside: (p0) => allFocusNodeUnfocus(),
+      deckNameFocusNode: deckNameFocusNode,
+      deckDescriptionFocuNode: deckDescriptionFocuNode,
+      deckNameController: deckNameController,
+      deckDescriptionController: deckDescriptionController,
+      onTap: () {
+        if (formKey.currentState!.validate()) {
+          searchResults[index].name = deckNameController.text;
+          searchResults[index].desc = deckDescriptionController.text;
+          searchDecks();
+          Get.back();
+        }
+      },
+    );
+  }
+
+  void searchDecks() {
+    searchResults.clear();
+
+    if (searchQuery.isEmpty) {
+      searchResults.addAll(allDecks);
+      return;
+    }
+
+    for (var deck in allDecks) {
+      if (deck.name.toLowerCase().contains(searchQuery.value.toLowerCase())) {
+        searchResults.add(deck);
+      }
+    }
   }
 
   RxList<Deck> allDecks = <Deck>[
     Deck(
       "First Deck",
-      1,
+      "First Deck Desc",
       [
         FlashCard("Deneme a", "Deneme s"),
       ],
@@ -164,7 +159,7 @@ class HomeController extends GetxController {
     ),
     Deck(
       "Second Deck",
-      2,
+      "Second Deck Desc",
       [
         FlashCard("Deneme 1", "Deneme 2"),
         FlashCard("Deneme 3", "Deneme 4"),
@@ -173,13 +168,21 @@ class HomeController extends GetxController {
     ),
     Deck(
       "Third Deck",
-      3,
+      "Third Deck Desc",
       [
         FlashCard("Deneme 5", "Deneme 6"),
         FlashCard("Deneme 7", "Deneme 8"),
         FlashCard("Deneme 9", "Deneme 10")
       ],
       3,
+    ),
+    Deck(
+      "Fourth Deck",
+      "Fourth Deck Desc",
+      [
+        FlashCard("Deneme 11", "Deneme 12"),
+      ],
+      4,
     ),
   ].obs;
 }

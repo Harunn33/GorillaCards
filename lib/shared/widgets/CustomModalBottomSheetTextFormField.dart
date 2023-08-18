@@ -10,14 +10,17 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool isDescription;
   final void Function(PointerDownEvent)? onTapOutside;
-  const CustomModalBottomSheetTextFormField(
-      {super.key,
-      required this.hintText,
-      required this.focusNode,
-      required this.controller,
-      this.validator,
-      this.isDescription = false,
-      this.onTapOutside});
+  final TextInputAction? actionType;
+  const CustomModalBottomSheetTextFormField({
+    super.key,
+    required this.hintText,
+    required this.focusNode,
+    required this.controller,
+    this.validator,
+    this.isDescription = false,
+    this.onTapOutside,
+    this.actionType,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +30,10 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
       cursorHeight: 2.h,
       focusNode: focusNode,
       minLines: isDescription ? 4 : 1,
-      maxLines: isDescription ? 8 : 2,
+      maxLines: isDescription ? 8 : 1,
       controller: controller,
       validator: validator,
+      textInputAction: actionType,
       style: Theme.of(context).textTheme.titleMedium,
       decoration: InputDecoration(
         hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -37,7 +41,7 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
             ),
         hintText: hintText,
         contentPadding: EdgeInsets.symmetric(
-          horizontal: 3.w,
+          horizontal: 2.w,
           vertical: .5.h,
         ),
       ),

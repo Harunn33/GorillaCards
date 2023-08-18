@@ -61,4 +61,5 @@ class AppStrings {
   static const edit = "Edit";
   static const addDeck = "Add Deck";
   static const browse = "Browse";
+  static const searchFieldHint = "Search your decks...";
 }

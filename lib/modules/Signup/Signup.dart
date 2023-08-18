@@ -37,6 +37,7 @@ class Signup extends GetView<SignupController> {
                 AppSpacer.h3,
                 // Email
                 CustomTextFormField(
+                  actionType: TextInputAction.next,
                   onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
                   controller: controller.emailController,
                   focusNode: controller.emailFocusNode,
@@ -47,9 +48,9 @@ class Signup extends GetView<SignupController> {
                       return null;
                     }
                     if (value.isEmpty) {
-                      return AppStrings.emailBlankError;
+                      return "* ${AppStrings.emailBlankError}";
                     } else if (!controller.emailRegex.hasMatch(value)) {
-                      return AppStrings.emailNotValid;
+                      return "* ${AppStrings.emailNotValid}";
                     }
                     return null;
                   },
@@ -58,6 +59,7 @@ class Signup extends GetView<SignupController> {
                 // Password
                 Obx(
                   () => CustomTextFormField(
+                    actionType: TextInputAction.next,
                     onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
                     controller: controller.passwordController,
                     focusNode: controller.passwordFocusNode,
@@ -73,9 +75,9 @@ class Signup extends GetView<SignupController> {
                         return null;
                       }
                       if (value.isEmpty) {
-                        return AppStrings.passwordBlankError;
+                        return "* ${AppStrings.passwordBlankError}";
                       } else if (value.length < 6) {
-                        return AppStrings.passwordNotValid;
+                        return "* ${AppStrings.passwordNotValid}";
                       }
                       return null;
                     },
@@ -97,9 +99,9 @@ class Signup extends GetView<SignupController> {
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return AppStrings.passwordAgainBlankError;
+                        return "* ${AppStrings.passwordAgainBlankError}";
                       } else if (value != controller.passwordController.text) {
-                        return AppStrings.passwordAgainNotMatch;
+                        return "* ${AppStrings.passwordAgainNotMatch}";
                       }
                       return null;
                     },

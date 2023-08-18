@@ -11,7 +11,6 @@ import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/enums/images.dart';
-import 'package:gorillacards/shared/widgets/CustomButton.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../routes/app_pages.dart';
@@ -48,8 +47,37 @@ class Home extends GetView<HomeController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            AppSpacer.h2,
+            TextFormField(
+              style: Theme.of(context).textTheme.titleMedium,
+              onTapOutside: (event) => controller.allFocusNodeUnfocus(),
+              cursorColor: AppColors.black,
+              cursorHeight: 2.h,
+              focusNode: controller.searchFocusNode,
+              controller: controller.searchController,
+              onChanged: (value) {
+                controller.searchController.addListener(() {
+                  controller.searchQuery.value =
+                      controller.searchController.text;
+                  controller.searchDecks();
+                });
+              },
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  Icons.search_outlined,
+                  color: AppColors.santasGrey,
+                ),
+                hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.santasGrey,
+                    ),
+                hintText: AppStrings.searchFieldHint,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 3.w,
+                  vertical: .5.h,
+                ),
+              ),
+            ),
             Expanded(
-              flex: 5,
               child: controller.allDecks.isEmpty
                   ? Container(
                       alignment: Alignment.center,
@@ -60,7 +88,7 @@ class Home extends GetView<HomeController> {
                     )
                   : Obx(
                       () => ListView.builder(
-                        itemCount: controller.allDecks.length,
+                        itemCount: controller.searchResults.length,
                         padding: EdgeInsets.only(top: 2.h),
                         itemBuilder: (context, index) {
                           return _CustomDeckCardItem(
@@ -69,42 +97,14 @@ class Home extends GetView<HomeController> {
                       ),
                     ),
             ),
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () => CustomButton(
-                        onTap: controller.buttonDisabled.value
-                            ? null
-                            : () {
-                                controller.allRemoveText();
-                                controller.createBottomSheet(context);
-                                // controller.handleCreateDeck();
-                              },
-                        text: AppStrings.addDeck,
-                        bg: AppColors.primary,
-                        textColor: AppColors.white,
-                        hasIcon: true,
-                      ),
-                    ),
-                  ),
-                  AppSpacer.w3,
-                  Expanded(
-                    child: CustomButton(
-                      onTap: () {},
-                      text: AppStrings.browse,
-                      icon: Icons.search,
-                      bg: AppColors.primary,
-                      textColor: AppColors.white,
-                      hasIcon: true,
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
+      ),
+      floatingActionButton: _CustomFAB(
+        onTap: () {
+          controller.allRemoveText();
+          controller.createDeck(context);
+        },
       ),
     );
   }
@@ -116,17 +116,23 @@ class Home extends GetView<HomeController> {
       onTap: () {},
       child: SwipeActionCell(
         backgroundColor: Colors.transparent,
-        key: ValueKey(controller.allDecks[index].id),
+        key: ValueKey(controller.searchResults[index].id),
         trailingActions: <SwipeAction>[
           _SwipeAction(
             title: AppStrings.delete,
             icon: Icons.delete_outlined,
-            onTap: () {},
+            onTap: () {
+              controller.allDecks.removeAt(index);
+            },
           ),
           _SwipeAction(
+            editMode: true,
             title: AppStrings.edit,
             icon: Icons.edit_outlined,
-            onTap: () {},
+            onTap: () {
+              controller.allRemoveText();
+              controller.editDeck(context, index);
+            },
             color: AppColors.santasGrey,
           ),
         ],
@@ -144,13 +150,17 @@ class Home extends GetView<HomeController> {
             horizontal: 3.w,
             vertical: 1.h,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(controller.allDecks[index].name,
-                  style: Theme.of(context).textTheme.titleMedium),
-              Text(controller.allDecks[index].totalItem.toString(),
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                controller.searchResults[index].name,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              Text(
+                controller.searchResults[index].desc,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
             ],
           ),
         ),
@@ -163,7 +173,8 @@ class Home extends GetView<HomeController> {
       {required String title,
       required IconData icon,
       required void Function() onTap,
-      Color? color}) {
+      Color? color,
+      bool? editMode = false}) {
     return SwipeAction(
       forceAlignmentToBoundary: true,
       backgroundRadius: 6.sp,
@@ -178,10 +189,43 @@ class Home extends GetView<HomeController> {
         fontFamily: AppFonts.medium,
       ),
       onTap: (CompletionHandler handler) async {
-        await handler(true);
+        editMode == true ? null : await handler(true);
         onTap();
       },
       color: color ?? AppColors.red,
+    );
+  }
+}
+
+class _CustomFAB extends StatelessWidget {
+  final void Function() onTap;
+  const _CustomFAB({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.extended(
+      icon: Icon(
+        Icons.add,
+        color: AppColors.white,
+      ),
+      extendedPadding: EdgeInsets.symmetric(
+        horizontal: 2.w,
+      ),
+      backgroundColor: AppColors.primary,
+      splashColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          5.sp,
+        ),
+      ),
+      onPressed: onTap,
+      label: Text(
+        AppStrings.addDeck,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: AppColors.white,
+            ),
+      ),
     );
   }
 }

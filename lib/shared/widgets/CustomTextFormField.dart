@@ -14,27 +14,32 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final void Function(PointerDownEvent)? onTapOutside;
-  const CustomTextFormField(
-      {super.key,
-      required this.hintText,
-      required this.prefixIcon,
-      this.isPassword = false,
-      this.isObscure = false,
-      this.onTap,
-      required this.focusNode,
-      required this.controller,
-      this.validator,
-      this.onTapOutside});
+  final TextInputAction? actionType;
+  const CustomTextFormField({
+    super.key,
+    required this.hintText,
+    required this.prefixIcon,
+    this.isPassword = false,
+    this.isObscure = false,
+    this.onTap,
+    required this.focusNode,
+    required this.controller,
+    this.validator,
+    this.onTapOutside,
+    this.actionType,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: Theme.of(context).textTheme.titleMedium,
       onTapOutside: onTapOutside,
       cursorColor: AppColors.black,
-      cursorHeight: 3.h,
+      cursorHeight: 2.h,
       focusNode: focusNode,
       controller: controller,
       validator: validator,
+      textInputAction: actionType,
       obscureText: isPassword ? !isObscure : false,
       decoration: InputDecoration(
         suffixIcon: isPassword
@@ -58,7 +63,7 @@ class CustomTextFormField extends StatelessWidget {
         hintText: hintText,
         contentPadding: EdgeInsets.symmetric(
           horizontal: 3.w,
-          vertical: 1.5.h,
+          vertical: .5.h,
         ),
       ),
     );

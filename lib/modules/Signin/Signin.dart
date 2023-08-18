@@ -36,6 +36,7 @@ class Signin extends GetView<SigninController> {
                 ),
                 AppSpacer.h3,
                 CustomTextFormField(
+                  actionType: TextInputAction.next,
                   onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
                   hintText: AppStrings.emailHint,
                   prefixIcon: Icons.email_outlined,
@@ -46,9 +47,9 @@ class Signin extends GetView<SigninController> {
                       return null;
                     }
                     if (value.isEmpty) {
-                      return AppStrings.emailBlankError;
+                      return "* ${AppStrings.emailBlankError}";
                     } else if (!signupController.emailRegex.hasMatch(value)) {
-                      return AppStrings.emailNotValid;
+                      return "* ${AppStrings.emailNotValid}";
                     }
                     return null;
                   },
@@ -71,9 +72,9 @@ class Signin extends GetView<SigninController> {
                         return null;
                       }
                       if (value.isEmpty) {
-                        return AppStrings.passwordBlankError;
+                        return "* ${AppStrings.passwordBlankError}";
                       } else if (value.length < 6) {
-                        return AppStrings.passwordNotValid;
+                        return "* ${AppStrings.passwordNotValid}";
                       }
                       return null;
                     },
