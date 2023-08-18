@@ -96,16 +96,22 @@ class HomeController extends GetxController {
         if (formKey.currentState!.validate()) {
           // handleCreateDeck();
           final Deck newDeck = Deck(
-              deckNameController.text,
-              deckDescriptionController.text,
-              [
-                FlashCard("", ""),
-              ],
-              4);
+              deckNameController.text, deckDescriptionController.text, [], 4);
           allDecks.add(newDeck);
           searchDecks();
           Get.back();
         }
+      },
+      submit: (p0) {
+        if (formKey.currentState!.validate()) {
+          // handleCreateDeck();
+          final Deck newDeck = Deck(
+              deckNameController.text, deckDescriptionController.text, [], 4);
+          allDecks.add(newDeck);
+          searchDecks();
+          Get.back();
+        }
+        return null;
       },
     );
   }
@@ -129,6 +135,15 @@ class HomeController extends GetxController {
           searchDecks();
           Get.back();
         }
+      },
+      submit: (p0) {
+        if (formKey.currentState!.validate()) {
+          searchResults[index].name = deckNameController.text;
+          searchResults[index].desc = deckDescriptionController.text;
+          searchDecks();
+          Get.back();
+        }
+        return null;
       },
     );
   }

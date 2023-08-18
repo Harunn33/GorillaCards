@@ -17,6 +17,7 @@ Future<dynamic> CustomModalBottomSheet({
   required TextEditingController deckNameController,
   required TextEditingController deckDescriptionController,
   required void Function() onTap,
+  required String? Function(String)? submit,
 }) {
   return showModalBottomSheet(
     context: context,
@@ -72,6 +73,7 @@ Future<dynamic> CustomModalBottomSheet({
                   focusNode: deckDescriptionFocuNode,
                   controller: deckDescriptionController,
                   isDescription: true,
+                  submit: submit,
                 ),
                 AppSpacer.h3,
                 CustomButton(

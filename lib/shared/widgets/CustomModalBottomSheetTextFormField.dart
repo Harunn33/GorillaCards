@@ -8,6 +8,7 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
   final FocusNode focusNode;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final String? Function(String)? submit;
   final bool isDescription;
   final void Function(PointerDownEvent)? onTapOutside;
   final TextInputAction? actionType;
@@ -20,6 +21,7 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
     this.isDescription = false,
     this.onTapOutside,
     this.actionType,
+    this.submit,
   });
 
   @override
@@ -34,6 +36,7 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
       controller: controller,
       validator: validator,
       textInputAction: actionType,
+      onFieldSubmitted: submit,
       style: Theme.of(context).textTheme.titleMedium,
       decoration: InputDecoration(
         hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(

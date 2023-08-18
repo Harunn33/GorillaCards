@@ -130,7 +130,10 @@ class Home extends GetView<HomeController> {
             title: AppStrings.edit,
             icon: Icons.edit_outlined,
             onTap: () {
-              controller.allRemoveText();
+              controller.deckNameController.text =
+                  controller.searchResults[index].name;
+              controller.deckDescriptionController.text =
+                  controller.searchResults[index].desc;
               controller.editDeck(context, index);
             },
             color: AppColors.santasGrey,
