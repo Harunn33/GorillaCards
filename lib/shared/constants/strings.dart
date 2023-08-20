@@ -49,4 +49,7 @@ class AppStrings {
   static const browse = "Browse";
   static const searchFieldHint = "Search your decks...";
   static const successDeleteDeck = "The deck was successfully deleted";
+  static const successAddFlashCard = "Card successfully added";
+  static const successEditDeck = "Deck successfully edited";
+  static const successCreateDeck = "Deck successfully created";
 }

@@ -120,25 +120,11 @@ class HomeController extends GetxController {
       deckDescriptionFocuNode: deckDescriptionFocuNode,
       deckNameController: deckNameController,
       deckDescriptionController: deckDescriptionController,
-      onTap: () {
-        if (formKey.currentState!.validate()) {
-          // handleCreateDeck();
-          final Deck newDeck = Deck(
-              deckNameController.text, deckDescriptionController.text, [], 4);
-          allDecks.add(newDeck);
-          searchDecks();
-          Get.back();
-        }
-      },
+      onTap: () => _handleCreateDeck(formKey, deckNameController,
+          deckDescriptionController, allDecks, searchDecks),
       submit: (p0) {
-        if (formKey.currentState!.validate()) {
-          // handleCreateDeck();
-          final Deck newDeck = Deck(
-              deckNameController.text, deckDescriptionController.text, [], 4);
-          allDecks.add(newDeck);
-          searchDecks();
-          Get.back();
-        }
+        _handleCreateDeck(formKey, deckNameController,
+            deckDescriptionController, allDecks, searchDecks);
         return null;
       },
     );
@@ -156,21 +142,11 @@ class HomeController extends GetxController {
       deckNameController: deckNameController,
       deckDescriptionController: deckDescriptionController,
       isEditButton: true,
-      onTap: () {
-        if (formKey.currentState!.validate()) {
-          searchResults[index].name = deckNameController.text;
-          searchResults[index].desc = deckDescriptionController.text;
-          searchDecks();
-          Get.back();
-        }
-      },
+      onTap: () => _handleEditDeck(formKey, searchResults, index,
+          deckNameController, deckDescriptionController, searchDecks),
       submit: (p0) {
-        if (formKey.currentState!.validate()) {
-          searchResults[index].name = deckNameController.text;
-          searchResults[index].desc = deckDescriptionController.text;
-          searchDecks();
-          Get.back();
-        }
+        _handleEditDeck(formKey, searchResults, index, deckNameController,
+            deckDescriptionController, searchDecks);
         return null;
       },
     );
@@ -280,6 +256,7 @@ class HomeController extends GetxController {
   ].obs;
 }
 
+// Custom Create Flashcard Widget
 class _CustomCreateFlashCard extends StatelessWidget {
   const _CustomCreateFlashCard({
     required this.focusNode,
@@ -344,20 +321,7 @@ class _CustomCreateFlashCard extends StatelessWidget {
                 if (cardKey.currentState!.isFront) {
                   cardKey.currentState?.toggleCard();
                 } else {
-                  if (homeController.frontCardController.text.isNotEmpty ||
-                      homeController.backCardController.text.isNotEmpty) {
-                    final FlashCard flashCard = FlashCard(
-                      homeController.frontCardController.text,
-                      homeController.backCardController.text,
-                    );
-                    homeController.allDecks[index].content.add(flashCard);
-                    Get.back();
-                    CustomSnackbar(
-                      title: AppStrings.success,
-                      message: "Card successfully added",
-                      type: SnackbarType.success,
-                    );
-                  }
+                  _addCard(homeController, index);
                 }
                 return null;
               },
@@ -377,22 +341,7 @@ class _CustomCreateFlashCard extends StatelessWidget {
                   textColor: AppColors.white,
                 ),
                 CustomButton(
-                  onTap: () {
-                    if (homeController.frontCardController.text.isNotEmpty ||
-                        homeController.backCardController.text.isNotEmpty) {
-                      final FlashCard flashCard = FlashCard(
-                        homeController.frontCardController.text,
-                        homeController.backCardController.text,
-                      );
-                      homeController.allDecks[index].content.add(flashCard);
-                      Get.back();
-                      CustomSnackbar(
-                        title: AppStrings.success,
-                        message: "Card successfully added",
-                        type: SnackbarType.success,
-                      );
-                    }
-                  },
+                  onTap: () => _addCard(homeController, index),
                   text: "OK",
                   bg: AppColors.primary,
                   textColor: AppColors.white,
@@ -402,6 +351,66 @@ class _CustomCreateFlashCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+// Add Flashcard
+void _addCard(HomeController homeController, int index) {
+  if (homeController.frontCardController.text.isNotEmpty ||
+      homeController.backCardController.text.isNotEmpty) {
+    final FlashCard flashCard = FlashCard(
+      homeController.frontCardController.text,
+      homeController.backCardController.text,
+    );
+    homeController.allDecks[index].content.add(flashCard);
+    Get.back();
+    CustomSnackbar(
+      title: AppStrings.success,
+      message: AppStrings.successAddFlashCard,
+      type: SnackbarType.success,
+    );
+  }
+}
+
+void _handleEditDeck(
+  GlobalKey<FormState> formKey,
+  RxList<Deck> searchResults,
+  int index,
+  TextEditingController deckNameController,
+  TextEditingController deckDescriptionController,
+  Function searchDecks,
+) {
+  if (formKey.currentState!.validate()) {
+    searchResults[index].name = deckNameController.text;
+    searchResults[index].desc = deckDescriptionController.text;
+    searchDecks();
+    Get.back();
+    CustomSnackbar(
+      title: AppStrings.success,
+      message: AppStrings.successEditDeck,
+      type: SnackbarType.success,
+    );
+  }
+}
+
+void _handleCreateDeck(
+  GlobalKey<FormState> formKey,
+  TextEditingController deckNameController,
+  TextEditingController deckDescriptionController,
+  RxList<Deck> allDecks,
+  Function searchDecks,
+) {
+  if (formKey.currentState!.validate()) {
+    final Deck newDeck =
+        Deck(deckNameController.text, deckDescriptionController.text, [], 4);
+    allDecks.add(newDeck);
+    searchDecks();
+    Get.back();
+    CustomSnackbar(
+      title: AppStrings.success,
+      message: AppStrings.successCreateDeck,
+      type: SnackbarType.success,
     );
   }
 }
