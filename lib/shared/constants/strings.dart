@@ -55,6 +55,7 @@ class AppStrings {
   static const deckNameHint = "Enter your deck name";
   static const deckNameInvalid = "Deck name can not be empty";
   static const createDeckButtonTitle = "Create Deck";
+  static const editDeckButtonTitle = "Edit Deck";
   static const createdDeckSuccessMessage = "Deck created";
   static const createdDeckErrorMessage = "Deck does not created";
   static const delete = "Delete";

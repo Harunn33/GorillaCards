@@ -64,7 +64,7 @@ class SignupController extends GetxController {
         CustomSnackbar(
           message: AppStrings.successRegistered,
           title: AppStrings.success,
-          type: true,
+          type: SnackbarType.success,
         );
         Get.offAllNamed(Routes.HOME);
       }

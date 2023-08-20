@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -122,7 +122,7 @@ class Home extends GetView<HomeController> {
             title: AppStrings.delete,
             icon: Icons.delete_outlined,
             onTap: () {
-              controller.allDecks.removeAt(index);
+              controller.deleteDeck(index);
             },
           ),
           _SwipeAction(

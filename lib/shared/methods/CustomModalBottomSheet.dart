@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, file_names
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -18,6 +20,7 @@ Future<dynamic> CustomModalBottomSheet({
   required TextEditingController deckDescriptionController,
   required void Function() onTap,
   required String? Function(String)? submit,
+  bool isEditButton = false,
 }) {
   return showModalBottomSheet(
     context: context,
@@ -78,7 +81,9 @@ Future<dynamic> CustomModalBottomSheet({
                 AppSpacer.h3,
                 CustomButton(
                   onTap: onTap,
-                  text: AppStrings.createDeckButtonTitle,
+                  text: isEditButton
+                      ? AppStrings.editDeckButtonTitle
+                      : AppStrings.createDeckButtonTitle,
                   bg: AppColors.primary,
                   textColor: AppColors.white,
                   hasIcon: false,

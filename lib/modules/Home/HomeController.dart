@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/data/model/CreateDeckModel.dart';
@@ -69,21 +71,24 @@ class HomeController extends GetxController {
         Get.close(2);
         allRemoveText();
         CustomSnackbar(
-            title: AppStrings.success,
-            message: AppStrings.createdDeckSuccessMessage,
-            type: true);
+          title: AppStrings.success,
+          message: AppStrings.createdDeckSuccessMessage,
+          type: SnackbarType.success,
+        );
       }
     } catch (e) {
       buttonDisabled.value = false;
       Get.back();
       CustomSnackbar(
-          title: AppStrings.success,
-          message: AppStrings.createdDeckErrorMessage);
+        title: AppStrings.error,
+        message: AppStrings.createdDeckErrorMessage,
+      );
     }
   }
 
 // CREATE DECK BOTTOM SHEET
   void createDeck(BuildContext context) {
+    Get.closeCurrentSnackbar();
     CustomModalBottomSheet(
       context: context,
       formKey: formKey,
@@ -116,10 +121,12 @@ class HomeController extends GetxController {
     );
   }
 
+// EDIT DECK
   void editDeck(
     BuildContext context,
     int index,
   ) {
+    Get.closeCurrentSnackbar();
     CustomModalBottomSheet(
       context: context,
       formKey: formKey,
@@ -128,6 +135,7 @@ class HomeController extends GetxController {
       deckDescriptionFocuNode: deckDescriptionFocuNode,
       deckNameController: deckNameController,
       deckDescriptionController: deckDescriptionController,
+      isEditButton: true,
       onTap: () {
         if (formKey.currentState!.validate()) {
           searchResults[index].name = deckNameController.text;
@@ -148,6 +156,19 @@ class HomeController extends GetxController {
     );
   }
 
+// DELETE DECK
+  void deleteDeck(int index) {
+    Get.closeCurrentSnackbar();
+    searchResults.removeAt(index);
+    allDecks.removeAt(index);
+    CustomSnackbar(
+      title: AppStrings.success,
+      message: "The deck was successfully deleted",
+      type: SnackbarType.success,
+    );
+  }
+
+// SEARCH DECK
   void searchDecks() {
     searchResults.clear();
 

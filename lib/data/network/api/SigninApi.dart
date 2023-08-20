@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:dio/dio.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import '../services/ApiService.dart';
