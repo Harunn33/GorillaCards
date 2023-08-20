@@ -14,6 +14,7 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
   final bool isDescription;
   final void Function(PointerDownEvent)? onTapOutside;
   final TextInputAction? actionType;
+  final bool autoFocus;
   const CustomModalBottomSheetTextFormField({
     super.key,
     required this.hintText,
@@ -24,11 +25,13 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
     this.onTapOutside,
     this.actionType,
     this.submit,
+    this.autoFocus = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: autoFocus,
       onTapOutside: onTapOutside,
       cursorColor: AppColors.black,
       cursorHeight: 2.h,

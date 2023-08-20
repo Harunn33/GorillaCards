@@ -45,6 +45,7 @@ class AppStrings {
   static const delete = "Delete";
   static const edit = "Edit";
   static const addDeck = "Add Deck";
+  static const addCard = "Add Card";
   static const browse = "Browse";
   static const searchFieldHint = "Search your decks...";
   static const successDeleteDeck = "The deck was successfully deleted";

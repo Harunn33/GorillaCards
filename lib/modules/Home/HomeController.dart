@@ -1,16 +1,23 @@
 // ignore_for_file: file_names
 
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/data/model/CreateDeckModel.dart';
 import 'package:gorillacards/data/network/api/CreateDeckApi.dart';
 import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/models/flashCardModel.dart';
+import 'package:gorillacards/shared/constants/colors.dart';
+import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomLoadingDialog.dart';
 import 'package:gorillacards/shared/methods/CustomModalBottomSheet.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
+import 'package:gorillacards/shared/widgets/CustomButton.dart';
+import 'package:gorillacards/shared/widgets/CustomModalBottomSheetTextFormField.dart';
+import 'package:sizer/sizer.dart';
 
+import '../../shared/constants/spacer.dart';
 import '../Signin/SigninController.dart';
 
 class HomeController extends GetxController {
@@ -19,15 +26,19 @@ class HomeController extends GetxController {
   FocusNode deckNameFocusNode = FocusNode();
   FocusNode deckDescriptionFocuNode = FocusNode();
   FocusNode searchFocusNode = FocusNode();
+  FocusNode frontCardFocusNode = FocusNode();
+  FocusNode backCardFocusNode = FocusNode();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> editFormKey = GlobalKey<FormState>();
+  final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
 
   final SigninController signinController = SigninController();
 
   TextEditingController deckNameController = TextEditingController();
   TextEditingController deckDescriptionController = TextEditingController();
   TextEditingController searchController = TextEditingController();
+  TextEditingController frontCardController = TextEditingController();
+  TextEditingController backCardController = TextEditingController();
 
   RxBool buttonDisabled = false.obs;
   RxString searchQuery = "".obs;
@@ -37,6 +48,18 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     searchDecks();
+  }
+
+// FLASH CARD INPUT TEXT REMOVE
+  void flashCardRemoveText() {
+    frontCardController.clear();
+    backCardController.clear();
+  }
+
+// FLASH CARD INPUT UNFOCUS
+  void flashCardFocusNodeUnfocus() {
+    frontCardFocusNode.unfocus();
+    backCardFocusNode.unfocus();
   }
 
 // ALL INPUT UNFOCUS
@@ -165,6 +188,54 @@ class HomeController extends GetxController {
     );
   }
 
+// ADD CARD TO DECK
+  void addCardToDeck(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      // barrierDismissible: false,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 10.w,
+            vertical: 30.h,
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: FlipCard(
+              key: cardKey,
+              flipOnTouch: false,
+              fill: Fill.fillBack,
+              direction: FlipDirection.HORIZONTAL,
+              side: CardSide.FRONT,
+              front: _CustomCreateFlashCard(
+                label: "Front Card",
+                btnText: "Turn the back",
+                hint: "Front Card Text",
+                focusNode: frontCardFocusNode,
+                controller: frontCardController,
+                cardKey: cardKey,
+                onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
+                homeController: this,
+                index: index,
+              ),
+              back: _CustomCreateFlashCard(
+                focusNode: backCardFocusNode,
+                controller: backCardController,
+                cardKey: cardKey,
+                label: "Back Card",
+                btnText: "Turn the front",
+                hint: "Back Card Text",
+                onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
+                homeController: this,
+                index: index,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 // SEARCH DECK
   void searchDecks() {
     searchResults.clear();
@@ -185,37 +256,152 @@ class HomeController extends GetxController {
     Deck(
       "First Deck",
       "First Deck Desc",
-      [
-        FlashCard("Deneme a", "Deneme s"),
-      ],
+      [],
       1,
     ),
     Deck(
       "Second Deck",
       "Second Deck Desc",
-      [
-        FlashCard("Deneme 1", "Deneme 2"),
-        FlashCard("Deneme 3", "Deneme 4"),
-      ],
+      [],
       2,
     ),
     Deck(
       "Third Deck",
       "Third Deck Desc",
-      [
-        FlashCard("Deneme 5", "Deneme 6"),
-        FlashCard("Deneme 7", "Deneme 8"),
-        FlashCard("Deneme 9", "Deneme 10")
-      ],
+      [],
       3,
     ),
     Deck(
       "Fourth Deck",
       "Fourth Deck Desc",
-      [
-        FlashCard("Deneme 11", "Deneme 12"),
-      ],
+      [],
       4,
     ),
   ].obs;
+}
+
+class _CustomCreateFlashCard extends StatelessWidget {
+  const _CustomCreateFlashCard({
+    required this.focusNode,
+    required this.controller,
+    required this.cardKey,
+    required this.label,
+    required this.btnText,
+    required this.hint,
+    required this.onTapOutside,
+    required this.homeController,
+    required this.index,
+  });
+
+  final FocusNode focusNode;
+  final TextEditingController controller;
+  final GlobalKey<FlipCardState> cardKey;
+  final String label;
+  final String btnText;
+  final String hint;
+  final void Function(PointerDownEvent)? onTapOutside;
+  final HomeController homeController;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: AppPaddings.generalPadding.copyWith(
+          top: 2.h,
+          bottom: 2.h,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            5.sp,
+          ),
+          color: AppColors.drWhite,
+          image: const DecorationImage(
+            image: AssetImage(
+              "assets/images/appLogo.png",
+            ),
+            opacity: .15,
+            repeat: ImageRepeat.repeat,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: AppColors.black,
+                  ),
+            ),
+            AppSpacer.h1,
+            CustomModalBottomSheetTextFormField(
+              autoFocus: true,
+              actionType: cardKey.currentState!.isFront
+                  ? TextInputAction.next
+                  : TextInputAction.done,
+              submit: (p0) {
+                if (cardKey.currentState!.isFront) {
+                  cardKey.currentState?.toggleCard();
+                } else {
+                  if (homeController.frontCardController.text.isNotEmpty ||
+                      homeController.backCardController.text.isNotEmpty) {
+                    final FlashCard flashCard = FlashCard(
+                      homeController.frontCardController.text,
+                      homeController.backCardController.text,
+                    );
+                    homeController.allDecks[index].content.add(flashCard);
+                    Get.back();
+                    CustomSnackbar(
+                      title: AppStrings.success,
+                      message: "Card successfully added",
+                      type: SnackbarType.success,
+                    );
+                  }
+                }
+                return null;
+              },
+              onTapOutside: onTapOutside,
+              hintText: hint,
+              focusNode: focusNode,
+              controller: controller,
+            ),
+            AppSpacer.h3,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomButton(
+                  onTap: () => cardKey.currentState?.toggleCard(),
+                  text: btnText,
+                  bg: AppColors.primary,
+                  textColor: AppColors.white,
+                ),
+                CustomButton(
+                  onTap: () {
+                    if (homeController.frontCardController.text.isNotEmpty ||
+                        homeController.backCardController.text.isNotEmpty) {
+                      final FlashCard flashCard = FlashCard(
+                        homeController.frontCardController.text,
+                        homeController.backCardController.text,
+                      );
+                      homeController.allDecks[index].content.add(flashCard);
+                      Get.back();
+                      CustomSnackbar(
+                        title: AppStrings.success,
+                        message: "Card successfully added",
+                        type: SnackbarType.success,
+                      );
+                    }
+                  },
+                  text: "OK",
+                  bg: AppColors.primary,
+                  textColor: AppColors.white,
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }

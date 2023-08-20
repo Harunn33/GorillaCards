@@ -113,7 +113,12 @@ class Home extends GetView<HomeController> {
   Bounceable _CustomDeckCardItem(
       {required int index, required BuildContext context}) {
     return Bounceable(
-      onTap: () {},
+      onTap: () {
+        print(controller.allDecks[index].content.length.toString());
+        for (var flashcard in controller.allDecks[index].content) {
+          print("${flashcard.front}------${flashcard.back}");
+        }
+      },
       child: SwipeActionCell(
         backgroundColor: Colors.transparent,
         key: ValueKey(controller.searchResults[index].id),
@@ -126,7 +131,7 @@ class Home extends GetView<HomeController> {
             },
           ),
           _SwipeAction(
-            editMode: true,
+            hasHandler: true,
             title: AppStrings.edit,
             icon: Icons.edit_outlined,
             onTap: () {
@@ -137,6 +142,16 @@ class Home extends GetView<HomeController> {
               controller.editDeck(context, index);
             },
             color: AppColors.santasGrey,
+          ),
+          _SwipeAction(
+            title: AppStrings.addCard,
+            icon: Icons.add,
+            onTap: () {
+              controller.flashCardRemoveText();
+              controller.addCardToDeck(context, index);
+            },
+            color: AppColors.approvalGreen,
+            hasHandler: true,
           ),
         ],
         child: Container(
@@ -172,12 +187,13 @@ class Home extends GetView<HomeController> {
   }
 
   // Swipe Action Buttons
-  SwipeAction _SwipeAction(
-      {required String title,
-      required IconData icon,
-      required void Function() onTap,
-      Color? color,
-      bool? editMode = false}) {
+  SwipeAction _SwipeAction({
+    required String title,
+    required IconData icon,
+    required void Function() onTap,
+    Color? color,
+    bool hasHandler = false,
+  }) {
     return SwipeAction(
       forceAlignmentToBoundary: true,
       backgroundRadius: 6.sp,
@@ -192,7 +208,7 @@ class Home extends GetView<HomeController> {
         fontFamily: AppFonts.medium,
       ),
       onTap: (CompletionHandler handler) async {
-        editMode == true ? null : await handler(true);
+        hasHandler ? null : await handler(true);
         onTap();
       },
       color: color ?? AppColors.red,
