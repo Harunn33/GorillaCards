@@ -8,6 +8,7 @@ import 'package:gorillacards/data/network/api/CreateDeckApi.dart';
 import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/models/flashCardModel.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
+import 'package:gorillacards/shared/constants/imagePath.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomLoadingDialog.dart';
@@ -18,6 +19,7 @@ import 'package:gorillacards/shared/widgets/CustomModalBottomSheetTextFormField.
 import 'package:sizer/sizer.dart';
 
 import '../../shared/constants/spacer.dart';
+import '../../shared/widgets/CustomInputLabel.dart';
 import '../Signin/SigninController.dart';
 
 class HomeController extends GetxController {
@@ -66,7 +68,6 @@ class HomeController extends GetxController {
   void allFocusNodeUnfocus() {
     deckNameFocusNode.unfocus();
     deckDescriptionFocuNode.unfocus();
-    searchFocusNode.unfocus();
   }
 
 // ALL INPUT TEXT REMOVE
@@ -166,6 +167,7 @@ class HomeController extends GetxController {
 
 // ADD CARD TO DECK
   void addCardToDeck(BuildContext context, int index) {
+    Get.closeCurrentSnackbar();
     showDialog(
       context: context,
       // barrierDismissible: false,
@@ -295,7 +297,7 @@ class _CustomCreateFlashCard extends StatelessWidget {
           color: AppColors.drWhite,
           image: const DecorationImage(
             image: AssetImage(
-              "assets/images/appLogo.png",
+              ImagePaths.appLogo,
             ),
             opacity: .15,
             repeat: ImageRepeat.repeat,
@@ -305,12 +307,7 @@ class _CustomCreateFlashCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              label,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: AppColors.black,
-                  ),
-            ),
+            CustomInputLabel(label: label),
             AppSpacer.h1,
             CustomModalBottomSheetTextFormField(
               autoFocus: true,
@@ -342,7 +339,7 @@ class _CustomCreateFlashCard extends StatelessWidget {
                 ),
                 CustomButton(
                   onTap: () => _addCard(homeController, index),
-                  text: "OK",
+                  text: AppStrings.ok,
                   bg: AppColors.primary,
                   textColor: AppColors.white,
                 ),

@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, file_names
 
 import 'package:flutter/material.dart';
+import 'package:gorillacards/shared/widgets/CustomInputLabel.dart';
 import 'package:sizer/sizer.dart';
 
 import '../constants/colors.dart';
@@ -39,12 +40,7 @@ Future<dynamic> CustomModalBottomSheet({
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  AppStrings.deckName,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: AppColors.black,
-                      ),
-                ),
+                const CustomInputLabel(label: AppStrings.deckName),
                 AppSpacer.h1,
                 CustomModalBottomSheetTextFormField(
                   onTapOutside: onTapOutside,
@@ -63,11 +59,8 @@ Future<dynamic> CustomModalBottomSheet({
                   },
                 ),
                 AppSpacer.h3,
-                Text(
-                  AppStrings.deckDescription,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: AppColors.black,
-                      ),
+                const CustomInputLabel(
+                  label: AppStrings.deckDescription,
                 ),
                 AppSpacer.h1,
                 CustomModalBottomSheetTextFormField(

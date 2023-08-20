@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:sizer/sizer.dart';
 
 import '../constants/colors.dart';
@@ -48,10 +49,7 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
               color: AppColors.santasGrey,
             ),
         hintText: hintText,
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: 2.w,
-          vertical: .5.h,
-        ),
+        contentPadding: AppPaddings.h3v1Padding,
       ),
     );
   }

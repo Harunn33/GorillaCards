@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:sizer/sizer.dart';
 
 import '../constants/colors.dart';
@@ -63,10 +64,7 @@ class CustomTextFormField extends StatelessWidget {
               color: AppColors.santasGrey,
             ),
         hintText: hintText,
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: 3.w,
-          vertical: .5.h,
-        ),
+        contentPadding: AppPaddings.h3v1Padding,
       ),
     );
   }

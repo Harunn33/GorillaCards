@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sizer/sizer.dart';
+import 'package:gorillacards/shared/constants/paddings.dart';
 
 import '../../shared/enums/images.dart';
 import 'SplashController.dart';
@@ -15,9 +15,7 @@ class Splash extends GetView<SplashController> {
     Get.put(SplashController());
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 5.w,
-        ),
+        padding: AppPaddings.generalPadding,
         child: Center(
           child: Images.appLogo.png,
         ),

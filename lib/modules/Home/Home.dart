@@ -50,7 +50,7 @@ class Home extends GetView<HomeController> {
             AppSpacer.h2,
             TextFormField(
               style: Theme.of(context).textTheme.titleMedium,
-              onTapOutside: (event) => controller.allFocusNodeUnfocus(),
+              onTapOutside: (event) => controller.searchFocusNode.unfocus(),
               cursorColor: AppColors.black,
               cursorHeight: 2.h,
               focusNode: controller.searchFocusNode,
@@ -71,10 +71,7 @@ class Home extends GetView<HomeController> {
                       color: AppColors.santasGrey,
                     ),
                 hintText: AppStrings.searchFieldHint,
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 3.w,
-                  vertical: .5.h,
-                ),
+                contentPadding: AppPaddings.h3v1Padding,
               ),
             ),
             Expanded(
@@ -164,10 +161,7 @@ class Home extends GetView<HomeController> {
               6.sp,
             ),
           ),
-          padding: EdgeInsets.symmetric(
-            horizontal: 3.w,
-            vertical: 1.h,
-          ),
+          padding: AppPaddings.h3v1Padding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
