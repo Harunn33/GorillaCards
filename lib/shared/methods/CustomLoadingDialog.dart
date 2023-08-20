@@ -2,9 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-
-import '../constants/strings.dart';
+import 'package:gorillacards/shared/enums/lottie.dart';
 
 Future<dynamic> CustomLoadingDialog() {
   return Get.defaultDialog(
@@ -12,9 +10,7 @@ Future<dynamic> CustomLoadingDialog() {
     barrierDismissible: false,
     onWillPop: () async => false,
     content: Center(
-      child: Lottie.asset(
-        AppStrings.loadingPath,
-      ),
+      child: CustomLottie.loading.lottieAsset,
     ),
   );
 }

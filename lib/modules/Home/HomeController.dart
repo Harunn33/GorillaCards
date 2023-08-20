@@ -46,13 +46,13 @@ class HomeController extends GetxController {
     searchFocusNode.unfocus();
   }
 
-  // ALL INPUT TEXT REMOVE
+// ALL INPUT TEXT REMOVE
   void allRemoveText() {
     deckNameController.clear();
     deckDescriptionController.clear();
   }
 
-  // CREATE DECK REQUEST
+// CREATE DECK REQUEST
   void handleCreateDeck() async {
     buttonDisabled.value = true;
     await Get.closeCurrentSnackbar();
@@ -122,10 +122,7 @@ class HomeController extends GetxController {
   }
 
 // EDIT DECK
-  void editDeck(
-    BuildContext context,
-    int index,
-  ) {
+  void editDeck(BuildContext context, int index) {
     Get.closeCurrentSnackbar();
     CustomModalBottomSheet(
       context: context,
@@ -163,7 +160,7 @@ class HomeController extends GetxController {
     allDecks.removeAt(index);
     CustomSnackbar(
       title: AppStrings.success,
-      message: "The deck was successfully deleted",
+      message: AppStrings.successDeleteDeck,
       type: SnackbarType.success,
     );
   }

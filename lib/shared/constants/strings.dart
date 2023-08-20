@@ -2,22 +2,6 @@ class AppStrings {
   AppStrings._();
   // GENERAL
   static const appName = "Gorilla Cards";
-
-  // base url
-  static const String baseUrl = "https://stg-api.gorillacards.app/";
-
-  // receiveTimeout
-  static const Duration receiveTimeout = Duration(milliseconds: 15000);
-
-  // connectTimeout
-  static const Duration connectionTimeout = Duration(milliseconds: 15000);
-
-  static const String signupPath = '/auth/signup';
-  static const String signinPath = '/auth/signin';
-  static const String createDeckPath = '/decks';
-
-  static const String loadingPath = "assets/jsons/gorilla.json";
-
   static const String error = "Error";
   static const String success = "Success";
   static const String successRegistered = "You have successfully registered.";
@@ -63,4 +47,5 @@ class AppStrings {
   static const addDeck = "Add Deck";
   static const browse = "Browse";
   static const searchFieldHint = "Search your decks...";
+  static const successDeleteDeck = "The deck was successfully deleted";
 }

@@ -1,14 +1,13 @@
 // ignore_for_file: file_names
 
 import 'package:dio/dio.dart';
-
-import '../../../shared/constants/strings.dart';
+import 'package:gorillacards/shared/constants/apiUrl.dart';
 
 class ApiService {
   static final _options = BaseOptions(
-    baseUrl: AppStrings.baseUrl,
-    connectTimeout: AppStrings.connectionTimeout,
-    receiveTimeout: AppStrings.receiveTimeout,
+    baseUrl: ApiUrl.baseUrl,
+    connectTimeout: ApiUrl.connectionTimeout,
+    receiveTimeout: ApiUrl.receiveTimeout,
     responseType: ResponseType.json,
   );
 
