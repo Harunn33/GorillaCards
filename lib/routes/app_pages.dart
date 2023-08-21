@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:get/route_manager.dart';
+import 'package:gorillacards/modules/FlashCardPage/FlashCardPage.dart';
+import 'package:gorillacards/modules/FlashCardPage/FlashCardPageBinding.dart';
 import 'package:gorillacards/modules/Home/Home.dart';
 import 'package:gorillacards/modules/Home/HomeBinding.dart';
 import 'package:gorillacards/modules/Signin/Signin.dart';
@@ -41,6 +43,11 @@ class AppPages {
       name: Routes.HOME,
       page: () => const Home(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: Routes.FLASHCARDPAGE,
+      page: () => const FlashCardPage(),
+      binding: FlashCardPageBinding(),
     ),
   ];
 }

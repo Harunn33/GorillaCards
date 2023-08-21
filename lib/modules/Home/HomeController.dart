@@ -8,13 +8,12 @@ import 'package:gorillacards/data/network/api/CreateDeckApi.dart';
 import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/models/flashCardModel.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
-import 'package:gorillacards/shared/constants/imagePath.dart';
-import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomLoadingDialog.dart';
 import 'package:gorillacards/shared/methods/CustomModalBottomSheet.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
 import 'package:gorillacards/shared/widgets/CustomButton.dart';
+import 'package:gorillacards/shared/widgets/CustomFlashCard.dart';
 import 'package:gorillacards/shared/widgets/CustomModalBottomSheetTextFormField.dart';
 import 'package:sizer/sizer.dart';
 
@@ -284,69 +283,50 @@ class _CustomCreateFlashCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: AppPaddings.generalPadding.copyWith(
-          top: 2.h,
-          bottom: 2.h,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            5.sp,
+    return CustomFlashCard(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomInputLabel(label: label),
+          AppSpacer.h1,
+          CustomModalBottomSheetTextFormField(
+            autoFocus: true,
+            actionType: cardKey.currentState!.isFront
+                ? TextInputAction.next
+                : TextInputAction.done,
+            submit: (p0) {
+              if (cardKey.currentState!.isFront) {
+                cardKey.currentState?.toggleCard();
+              } else {
+                _addCard(homeController, index);
+              }
+              return null;
+            },
+            onTapOutside: onTapOutside,
+            hintText: hint,
+            focusNode: focusNode,
+            controller: controller,
           ),
-          color: AppColors.drWhite,
-          image: const DecorationImage(
-            image: AssetImage(
-              ImagePaths.appLogo,
-            ),
-            opacity: .15,
-            repeat: ImageRepeat.repeat,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomInputLabel(label: label),
-            AppSpacer.h1,
-            CustomModalBottomSheetTextFormField(
-              autoFocus: true,
-              actionType: cardKey.currentState!.isFront
-                  ? TextInputAction.next
-                  : TextInputAction.done,
-              submit: (p0) {
-                if (cardKey.currentState!.isFront) {
-                  cardKey.currentState?.toggleCard();
-                } else {
-                  _addCard(homeController, index);
-                }
-                return null;
-              },
-              onTapOutside: onTapOutside,
-              hintText: hint,
-              focusNode: focusNode,
-              controller: controller,
-            ),
-            AppSpacer.h3,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomButton(
-                  onTap: () => cardKey.currentState?.toggleCard(),
-                  text: btnText,
-                  bg: AppColors.primary,
-                  textColor: AppColors.white,
-                ),
-                CustomButton(
-                  onTap: () => _addCard(homeController, index),
-                  text: AppStrings.ok,
-                  bg: AppColors.primary,
-                  textColor: AppColors.white,
-                ),
-              ],
-            )
-          ],
-        ),
+          AppSpacer.h3,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomButton(
+                onTap: () => cardKey.currentState?.toggleCard(),
+                text: btnText,
+                bg: AppColors.primary,
+                textColor: AppColors.white,
+              ),
+              CustomButton(
+                onTap: () => _addCard(homeController, index),
+                text: AppStrings.ok,
+                bg: AppColors.primary,
+                textColor: AppColors.white,
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

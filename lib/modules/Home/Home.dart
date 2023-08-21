@@ -5,15 +5,16 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/modules/Home/HomeController.dart';
+import 'package:gorillacards/shared/constants/borderRadius.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/fonts.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
-import 'package:gorillacards/shared/enums/images.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../routes/app_pages.dart';
+import '../../shared/widgets/CustomAppBar.dart';
 
 class Home extends GetView<HomeController> {
   const Home({super.key});
@@ -23,25 +24,7 @@ class Home extends GetView<HomeController> {
     Get.put(HomeController());
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leadingWidth: double.infinity,
-        leading: Padding(
-          padding: AppPaddings.generalPadding,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Images.appLogo.png,
-              Bounceable(
-                onTap: () {
-                  controller.signinController.box.remove("token");
-                  Get.offAllNamed(Routes.WELCOME);
-                },
-                child: Images.settings.svg,
-              )
-            ],
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(),
       body: Padding(
         padding: AppPaddings.generalPadding,
         child: Column(
@@ -111,10 +94,13 @@ class Home extends GetView<HomeController> {
       {required int index, required BuildContext context}) {
     return Bounceable(
       onTap: () {
-        print(controller.allDecks[index].content.length.toString());
-        for (var flashcard in controller.allDecks[index].content) {
-          print("${flashcard.front}------${flashcard.back}");
-        }
+        Get.closeCurrentSnackbar();
+        Get.toNamed(
+          Routes.FLASHCARDPAGE,
+          arguments: [
+            controller.allDecks[index].content,
+          ],
+        );
       },
       child: SwipeActionCell(
         backgroundColor: Colors.transparent,
@@ -157,9 +143,7 @@ class Home extends GetView<HomeController> {
           ),
           decoration: BoxDecoration(
             color: AppColors.santasGrey.withOpacity(.15),
-            borderRadius: BorderRadius.circular(
-              6.sp,
-            ),
+            borderRadius: AppBorderRadius.generalRadius,
           ),
           padding: AppPaddings.h3v1Padding,
           child: Column(
@@ -227,9 +211,7 @@ class _CustomFAB extends StatelessWidget {
       backgroundColor: AppColors.primary,
       splashColor: Colors.transparent,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-          5.sp,
-        ),
+        borderRadius: AppBorderRadius.generalRadius,
       ),
       onPressed: onTap,
       label: Text(

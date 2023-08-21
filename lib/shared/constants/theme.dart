@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:gorillacards/shared/constants/borderRadius.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -35,7 +36,7 @@ ThemeData CustomTheme() {
         ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(5.sp),
+        borderRadius: AppBorderRadius.generalRadius,
         borderSide: BorderSide(
           color: AppColors.bellflowerBlue,
           width: .3.w,
