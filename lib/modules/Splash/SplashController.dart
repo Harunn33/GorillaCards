@@ -1,30 +1,26 @@
 // ignore_for_file: file_names
 
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 
+import '../../di.dart';
+
 class SplashController extends GetxController {
-  final GetStorage box = GetStorage();
   @override
   void onInit() {
     super.onInit();
-    goWelcome();
+    redirect();
   }
 
-  void goWelcome() async => {
-        await Future.delayed(
-          const Duration(
-            seconds: 2,
-          ),
-        ),
-        if (box.read("token") != null)
-          Get.offAllNamed(
-            Routes.HOME,
-          )
-        else
-          Get.toNamed(
-            Routes.WELCOME,
-          )
-      };
+  void redirect() async {
+    await Future.delayed(
+      const Duration(seconds: 1),
+    );
+    final session = supabase.auth.currentSession;
+    if (session != null) {
+      Get.offAllNamed(Routes.HOME);
+    } else {
+      Get.toNamed(Routes.WELCOME);
+    }
+  }
 }

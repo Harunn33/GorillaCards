@@ -115,7 +115,7 @@ class Signup extends GetView<SignupController> {
                         : () {
                             controller.allFocusNodeUnfocus();
                             if (controller.formKey.currentState!.validate()) {
-                              controller.handleSignup();
+                              controller.handleSignUp();
                             }
                           },
                     text: AppStrings.signup,

@@ -81,7 +81,24 @@ class Home extends GetView<HomeController> {
         ),
       ),
       floatingActionButton: _CustomFAB(
-        onTap: () {
+        onTap: () async {
+          // await supabase.from("deneme").insert({
+          //   "name": "Deneme",
+          //   "surname": "deneme soyisim",
+          // });
+          // final Deck deck = Deck(
+          //     id: 1,
+          //     name: "First Deck",
+          //     desc: "First Deck Desc",
+          //     content: [
+          //       Content(id: 1, front: "Ön", back: "Arka"),
+          //       Content(id: 2, front: "Ön2", back: "Arka2"),
+          //       Content(id: 3, front: "Ön3", back: "Arka3"),
+          //     ]);
+          // final data = await supabase.from("deck").insert(deck);
+          // final data = await supabase.from("deck").select();
+          // final dataa = Deck.fromJson(data[0]);
+          // print(dataa.name);
           controller.allRemoveText();
           controller.createDeck(context);
         },

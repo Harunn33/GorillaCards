@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:gorillacards/data/model/CreateDeckModel.dart';
 import 'package:gorillacards/data/network/api/CreateDeckApi.dart';
 import 'package:gorillacards/models/deckModel.dart';
-import 'package:gorillacards/models/flashCardModel.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomLoadingDialog.dart';
@@ -231,28 +230,28 @@ class HomeController extends GetxController {
 
   RxList<Deck> allDecks = <Deck>[
     Deck(
-      "First Deck",
-      "First Deck Desc",
-      [],
-      1,
+      name: "First Deck",
+      desc: "First Deck Desc",
+      content: [],
+      id: 1,
     ),
     Deck(
-      "Second Deck",
-      "Second Deck Desc",
-      [],
-      2,
+      name: "Second Deck",
+      desc: "Second Deck Desc",
+      content: [],
+      id: 2,
     ),
     Deck(
-      "Third Deck",
-      "Third Deck Desc",
-      [],
-      3,
+      name: "Third Deck",
+      desc: "Third Deck Desc",
+      content: [],
+      id: 3,
     ),
     Deck(
-      "Fourth Deck",
-      "Fourth Deck Desc",
-      [],
-      4,
+      name: "Fourth Deck",
+      desc: "Fourth Deck Desc",
+      content: [],
+      id: 4,
     ),
   ].obs;
 }
@@ -336,9 +335,10 @@ class _CustomCreateFlashCard extends StatelessWidget {
 void _addCard(HomeController homeController, int index) {
   if (homeController.frontCardController.text.isNotEmpty ||
       homeController.backCardController.text.isNotEmpty) {
-    final FlashCard flashCard = FlashCard(
-      homeController.frontCardController.text,
-      homeController.backCardController.text,
+    final Content flashCard = Content(
+      id: 1,
+      front: homeController.frontCardController.text,
+      back: homeController.backCardController.text,
     );
     homeController.allDecks[index].content.add(flashCard);
     Get.back();
@@ -379,8 +379,11 @@ void _handleCreateDeck(
   Function searchDecks,
 ) {
   if (formKey.currentState!.validate()) {
-    final Deck newDeck =
-        Deck(deckNameController.text, deckDescriptionController.text, [], 4);
+    final Deck newDeck = Deck(
+        id: 4,
+        name: deckNameController.text,
+        desc: deckDescriptionController.text,
+        content: []);
     allDecks.add(newDeck);
     searchDecks();
     Get.back();

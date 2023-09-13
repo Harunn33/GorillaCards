@@ -57,6 +57,9 @@ dependencies:
   # Local Storage
   get_storage: ^2.1.1
 
+  # Database
+  supabase_flutter: ^1.10.16
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

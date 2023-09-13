@@ -4,7 +4,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gorillacards/models/flashCardModel.dart';
+import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/modules/FlashCardPage/FlashCardPageController.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:gorillacards/shared/widgets/CustomFlashCard.dart';
@@ -16,7 +16,7 @@ class FlashCardPage extends GetView<FlashCardPageController> {
   @override
   Widget build(BuildContext context) {
     var arguments = Get.arguments;
-    List<FlashCard> flashCards = arguments[0];
+    List<Content> flashCards = arguments[0];
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(

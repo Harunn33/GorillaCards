@@ -87,10 +87,10 @@ class Signin extends GetView<SigninController> {
                   () => CustomButton(
                     onTap: controller.buttonDisabled.value
                         ? null
-                        : () {
+                        : () async {
                             controller.allFocusNodeUnfocus();
                             if (controller.formKey.currentState!.validate()) {
-                              controller.handleSignin();
+                              await controller.handleLogin();
                             }
                           },
                     text: AppStrings.signin,

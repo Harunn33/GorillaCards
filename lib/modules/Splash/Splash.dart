@@ -16,9 +16,7 @@ class Splash extends GetView<SplashController> {
     return Scaffold(
       body: Padding(
         padding: AppPaddings.generalPadding,
-        child: Center(
-          child: Images.appLogo.png,
-        ),
+        child: Center(child: Images.appLogo.png),
       ),
     );
   }
