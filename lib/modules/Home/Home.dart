@@ -58,15 +58,26 @@ class Home extends GetView<HomeController> {
               ),
             ),
             Expanded(
-              child: controller.allDecks.isEmpty
-                  ? Container(
+              child: FutureBuilder(
+                future: controller.getAllDecks(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
+                    );
+                  } else if (snapshot.connectionState == ConnectionState.done &&
+                      controller.allDecks.isEmpty) {
+                    return Container(
                       alignment: Alignment.center,
                       child: Text(
                         AppStrings.noDecksYet,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                    )
-                  : Obx(
+                    );
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    return Obx(
                       () => ListView.builder(
                         itemCount: controller.searchResults.length,
                         padding: EdgeInsets.only(top: 2.h),
@@ -75,8 +86,32 @@ class Home extends GetView<HomeController> {
                               index: index, context: context);
                         },
                       ),
-                    ),
+                    );
+                  }
+                  return const Text("404 Not Found");
+                },
+              ),
             ),
+            // Expanded(
+            //   child: controller.allDecks.isEmpty
+            //       ? Container(
+            //           alignment: Alignment.center,
+            //           child: Text(
+            //             AppStrings.noDecksYet,
+            //             style: Theme.of(context).textTheme.bodyMedium,
+            //           ),
+            //         )
+            //       : Obx(
+            //           () => ListView.builder(
+            //             itemCount: controller.searchResults.length,
+            //             padding: EdgeInsets.only(top: 2.h),
+            //             itemBuilder: (context, index) {
+            //               return _CustomDeckCardItem(
+            //                   index: index, context: context);
+            //             },
+            //           ),
+            //         ),
+            // ),
           ],
         ),
       ),

@@ -16,6 +16,7 @@ import 'package:gorillacards/shared/widgets/CustomFlashCard.dart';
 import 'package:gorillacards/shared/widgets/CustomModalBottomSheetTextFormField.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../di.dart';
 import '../../shared/constants/spacer.dart';
 import '../../shared/widgets/CustomInputLabel.dart';
 import '../Signin/SigninController.dart';
@@ -48,6 +49,28 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     searchDecks();
+  }
+
+  Future<void> getAllDecks() async {
+    final data = await supabase.from("decks").select();
+    for (var i = 0; i < data.length; i++) {
+      final Deck newDeck = Deck(
+          id: data[i]["id"],
+          name: data[i]["name"],
+          desc: data[i]["desc"],
+          content: <Content>[]);
+      for (var j = 0; j < data[i]["content"].length; j++) {
+        newDeck.content.add(
+          Content(
+            id: data[i]["content"][j]["id"],
+            front: data[i]["content"][j]["front"],
+            back: data[i]["content"][j]["back"],
+          ),
+        );
+      }
+      allDecks.add(newDeck);
+      searchDecks();
+    }
   }
 
 // FLASH CARD INPUT TEXT REMOVE
@@ -229,30 +252,30 @@ class HomeController extends GetxController {
   }
 
   RxList<Deck> allDecks = <Deck>[
-    Deck(
-      name: "First Deck",
-      desc: "First Deck Desc",
-      content: [],
-      id: 1,
-    ),
-    Deck(
-      name: "Second Deck",
-      desc: "Second Deck Desc",
-      content: [],
-      id: 2,
-    ),
-    Deck(
-      name: "Third Deck",
-      desc: "Third Deck Desc",
-      content: [],
-      id: 3,
-    ),
-    Deck(
-      name: "Fourth Deck",
-      desc: "Fourth Deck Desc",
-      content: [],
-      id: 4,
-    ),
+    // Deck(
+    //   name: "First Deck",
+    //   desc: "First Deck Desc",
+    //   content: [],
+    //   id: 1,
+    // ),
+    // Deck(
+    //   name: "Second Deck",
+    //   desc: "Second Deck Desc",
+    //   content: [],
+    //   id: 2,
+    // ),
+    // Deck(
+    //   name: "Third Deck",
+    //   desc: "Third Deck Desc",
+    //   content: [],
+    //   id: 3,
+    // ),
+    // Deck(
+    //   name: "Fourth Deck",
+    //   desc: "Fourth Deck Desc",
+    //   content: [],
+    //   id: 4,
+    // ),
   ].obs;
 }
 

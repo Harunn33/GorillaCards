@@ -10,6 +10,7 @@ import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../di.dart';
+import '../../shared/methods/AuthStateListen.dart';
 import '../../shared/methods/CustomLoadingDialog.dart';
 
 class SigninController extends GetxController {
@@ -24,26 +25,20 @@ class SigninController extends GetxController {
   RxBool passwordObscure = false.obs;
   RxBool buttonDisabled = false.obs;
 
-  late final StreamSubscription<AuthState> _authSubscription;
+  late final StreamSubscription<AuthState> authSubscription;
 
   final GetStorage box = GetStorage();
 
   @override
   void onInit() {
     super.onInit();
-
-    _authSubscription = supabase.auth.onAuthStateChange.listen((event) {
-      final session = event.session;
-      if (session != null) {
-        Get.offAllNamed(Routes.HOME);
-      }
-    });
+    authSubscription = AuthStateListen.authStateListen();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _authSubscription.cancel();
+    authSubscription.cancel();
     emailController.dispose();
     passwordController.dispose();
   }
@@ -62,6 +57,7 @@ class SigninController extends GetxController {
         password: passwordController.text.trim(),
         email: emailController.text.trim(),
       );
+      buttonDisabled.value = false;
       Get.offAllNamed(Routes.HOME);
     } on AuthException catch (error) {
       buttonDisabled.value = false;
@@ -79,29 +75,4 @@ class SigninController extends GetxController {
       );
     }
   }
-
-  // Future<void> handleSignin() async {
-  //   buttonDisabled.value = true;
-  //   await Get.closeCurrentSnackbar();
-  //   CustomLoadingDialog();
-  //   final SigninModel signinModel = SigninModel(
-  //     email: emailController.text,
-  //     password: passwordController.text,
-  //   );
-  //   try {
-  //     final response = await _signinApi.putSignin(data: signinModel.toJson());
-  //     if (response.statusCode == 200) {
-  //       buttonDisabled.value = false;
-  //       box.write("token", response.data["token"]);
-  //       Get.offAllNamed(Routes.HOME);
-  //     }
-  //   } catch (e) {
-  //     buttonDisabled.value = false;
-  //     Get.back();
-  //     CustomSnackbar(
-  //       title: AppStrings.error,
-  //       message: AppStrings.invalidEmailOrPassword,
-  //     );
-  //   }
-  // }
 }

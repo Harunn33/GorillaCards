@@ -30,20 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Images.appLogo.png,
             Bounceable(
-              onTap: () async {
-                try {
-                  await Get.closeCurrentSnackbar();
-                  CustomLoadingDialog();
-                  await supabase.auth.signOut();
-                  Get.offAllNamed(Routes.WELCOME);
-                } on AuthException catch (error) {
-                  Get.back();
-                  CustomSnackbar(
-                    title: AppStrings.error,
-                    message: error.message,
-                  );
-                }
-              },
+              onTap: () => handleSignOut(),
               child: Images.settings.svg,
             )
           ],
@@ -54,4 +41,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(6.h);
+}
+
+Future<void> handleSignOut() async {
+  try {
+    await Get.closeCurrentSnackbar();
+    CustomLoadingDialog();
+    await supabase.auth.signOut();
+    Get.offAllNamed(Routes.WELCOME);
+  } on AuthException catch (error) {
+    Get.back();
+    CustomSnackbar(
+      title: AppStrings.error,
+      message: error.message,
+    );
+  }
 }

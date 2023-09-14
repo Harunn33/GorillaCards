@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
+import 'package:gorillacards/shared/methods/AuthStateListen.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -31,30 +32,22 @@ class SignupController extends GetxController {
   RxBool passwordAgainObscure = false.obs;
   RxBool buttonDisabled = false.obs;
 
-  late final StreamSubscription<AuthState> _authSubscription;
+  late final StreamSubscription<AuthState> authSubscription;
 
   final GetStorage box = GetStorage();
 
   @override
   void onInit() {
     super.onInit();
-    _authSubscription = supabase.auth.onAuthStateChange.listen((event) {
-      final session = event.session;
-      if (session != null) {
-        Get.offAllNamed(Routes.HOME);
-      }
-    });
+    authSubscription = AuthStateListen.authStateListen();
   }
 
   @override
   void dispose() {
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
-    passwordAgainFocusNode.dispose();
     emailController.dispose();
     passwordAgainController.dispose();
     passwordController.dispose();
-    _authSubscription.cancel();
+    authSubscription.cancel();
     super.dispose();
   }
 
