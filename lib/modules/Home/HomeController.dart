@@ -45,14 +45,15 @@ class HomeController extends GetxController {
   RxString searchQuery = "".obs;
   RxList<Deck> searchResults = <Deck>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    searchDecks();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   searchDecks();
+  // }
 
   Future<void> getAllDecks() async {
     final data = await supabase.from("decks").select();
+    allDecks.clear();
     for (var i = 0; i < data.length; i++) {
       final Deck newDeck = Deck(
           id: data[i]["id"],
@@ -251,32 +252,7 @@ class HomeController extends GetxController {
     }
   }
 
-  RxList<Deck> allDecks = <Deck>[
-    // Deck(
-    //   name: "First Deck",
-    //   desc: "First Deck Desc",
-    //   content: [],
-    //   id: 1,
-    // ),
-    // Deck(
-    //   name: "Second Deck",
-    //   desc: "Second Deck Desc",
-    //   content: [],
-    //   id: 2,
-    // ),
-    // Deck(
-    //   name: "Third Deck",
-    //   desc: "Third Deck Desc",
-    //   content: [],
-    //   id: 3,
-    // ),
-    // Deck(
-    //   name: "Fourth Deck",
-    //   desc: "Fourth Deck Desc",
-    //   content: [],
-    //   id: 4,
-    // ),
-  ].obs;
+  RxList<Deck> allDecks = <Deck>[].obs;
 }
 
 // Custom Create Flashcard Widget

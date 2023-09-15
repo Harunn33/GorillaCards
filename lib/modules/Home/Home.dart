@@ -58,7 +58,7 @@ class Home extends GetView<HomeController> {
               ),
             ),
             Expanded(
-              child: FutureBuilder(
+              child: FutureBuilder<void>(
                 future: controller.getAllDecks(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
