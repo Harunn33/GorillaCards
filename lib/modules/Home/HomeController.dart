@@ -44,6 +44,7 @@ class HomeController extends GetxController {
   RxBool buttonDisabled = false.obs;
   RxString searchQuery = "".obs;
   RxList<Deck> searchResults = <Deck>[].obs;
+  final String? id = supabase.auth.currentSession?.user.id;
 
   // @override
   // void onInit() {
@@ -52,14 +53,16 @@ class HomeController extends GetxController {
   // }
 
   Future<void> getAllDecks() async {
-    final data = await supabase.from("decks").select();
+    final data = await supabase.from("decks").select().filter("uid", "eq", id);
     allDecks.clear();
     for (var i = 0; i < data.length; i++) {
       final Deck newDeck = Deck(
-          id: data[i]["id"],
-          name: data[i]["name"],
-          desc: data[i]["desc"],
-          content: <Content>[]);
+        id: data[i]["id"],
+        name: data[i]["name"],
+        desc: data[i]["desc"],
+        content: <Content>[],
+        uid: data[i]["uid"],
+      );
       for (var j = 0; j < data[i]["content"].length; j++) {
         newDeck.content.add(
           Content(
@@ -144,10 +147,10 @@ class HomeController extends GetxController {
       deckNameController: deckNameController,
       deckDescriptionController: deckDescriptionController,
       onTap: () => _handleCreateDeck(formKey, deckNameController,
-          deckDescriptionController, allDecks, searchDecks),
+          deckDescriptionController, allDecks, searchDecks, id),
       submit: (p0) {
         _handleCreateDeck(formKey, deckNameController,
-            deckDescriptionController, allDecks, searchDecks);
+            deckDescriptionController, allDecks, searchDecks, id);
         return null;
       },
     );
@@ -217,6 +220,7 @@ class HomeController extends GetxController {
                 onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
                 homeController: this,
                 index: index,
+                uid: id,
               ),
               back: _CustomCreateFlashCard(
                 focusNode: backCardFocusNode,
@@ -228,6 +232,7 @@ class HomeController extends GetxController {
                 onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
                 homeController: this,
                 index: index,
+                uid: id,
               ),
             ),
           ),
@@ -267,6 +272,7 @@ class _CustomCreateFlashCard extends StatelessWidget {
     required this.onTapOutside,
     required this.homeController,
     required this.index,
+    required this.uid,
   });
 
   final FocusNode focusNode;
@@ -278,6 +284,7 @@ class _CustomCreateFlashCard extends StatelessWidget {
   final void Function(PointerDownEvent)? onTapOutside;
   final HomeController homeController;
   final int index;
+  final String? uid;
 
   @override
   Widget build(BuildContext context) {
@@ -297,7 +304,7 @@ class _CustomCreateFlashCard extends StatelessWidget {
               if (cardKey.currentState!.isFront) {
                 cardKey.currentState?.toggleCard();
               } else {
-                _addCard(homeController, index);
+                _addCard(homeController, index, uid);
               }
               return null;
             },
@@ -317,7 +324,7 @@ class _CustomCreateFlashCard extends StatelessWidget {
                 textColor: AppColors.white,
               ),
               CustomButton(
-                onTap: () => _addCard(homeController, index),
+                onTap: () => _addCard(homeController, index, uid),
                 text: AppStrings.ok,
                 bg: AppColors.primary,
                 textColor: AppColors.white,
@@ -331,14 +338,26 @@ class _CustomCreateFlashCard extends StatelessWidget {
 }
 
 // Add Flashcard
-void _addCard(HomeController homeController, int index) {
+Future<void> _addCard(
+    HomeController homeController, int index, String? uid) async {
   if (homeController.frontCardController.text.isNotEmpty ||
       homeController.backCardController.text.isNotEmpty) {
     final Content flashCard = Content(
-      id: 1,
+      id: homeController.allDecks[index].content.length + 1,
       front: homeController.frontCardController.text,
       back: homeController.backCardController.text,
     );
+    List<dynamic> list = await supabase
+        .from("decks")
+        .select("content")
+        .eq("uid", uid)
+        .eq("id", homeController.allDecks.length);
+    list[0]["content"].add(flashCard.toJson());
+    await supabase
+        .from("decks")
+        .update(list[0])
+        .eq("uid", uid)
+        .eq("id", homeController.allDecks.length);
     homeController.allDecks[index].content.add(flashCard);
     Get.back();
     CustomSnackbar(
@@ -370,19 +389,21 @@ void _handleEditDeck(
   }
 }
 
-void _handleCreateDeck(
-  GlobalKey<FormState> formKey,
-  TextEditingController deckNameController,
-  TextEditingController deckDescriptionController,
-  RxList<Deck> allDecks,
-  Function searchDecks,
-) {
+Future<void> _handleCreateDeck(
+    GlobalKey<FormState> formKey,
+    TextEditingController deckNameController,
+    TextEditingController deckDescriptionController,
+    RxList<Deck> allDecks,
+    Function searchDecks,
+    String? uid) async {
   if (formKey.currentState!.validate()) {
     final Deck newDeck = Deck(
-        id: 4,
+        id: allDecks.length + 1,
         name: deckNameController.text,
         desc: deckDescriptionController.text,
-        content: []);
+        content: [],
+        uid: uid);
+    await supabase.from("decks").insert(newDeck.toJson());
     allDecks.add(newDeck);
     searchDecks();
     Get.back();

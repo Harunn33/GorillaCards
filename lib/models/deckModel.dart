@@ -23,6 +23,7 @@ String deckToJson(Deck data) => json.encode(data.toJson());
 
 class Deck {
   int id;
+  String? uid;
   String name;
   String desc;
   List<Content> content;
@@ -32,21 +33,23 @@ class Deck {
     required this.name,
     required this.desc,
     required this.content,
+    required this.uid,
   });
 
   factory Deck.fromJson(Map<String, dynamic> json) => Deck(
-        id: json["id"],
-        name: json["name"],
-        desc: json["desc"],
-        content:
-            List<Content>.from(json["content"].map((x) => Content.fromJson(x))),
-      );
+      id: json["id"],
+      name: json["name"],
+      desc: json["desc"],
+      content:
+          List<Content>.from(json["content"].map((x) => Content.fromJson(x))),
+      uid: json["uid"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "desc": desc,
         "content": List<dynamic>.from(content.map((x) => x.toJson())),
+        "uid": uid,
       };
 }
 

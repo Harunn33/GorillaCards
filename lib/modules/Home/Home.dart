@@ -78,13 +78,17 @@ class Home extends GetView<HomeController> {
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     return Obx(
-                      () => ListView.builder(
-                        itemCount: controller.searchResults.length,
-                        padding: EdgeInsets.only(top: 2.h),
-                        itemBuilder: (context, index) {
-                          return _CustomDeckCardItem(
-                              index: index, context: context);
-                        },
+                      () => RefreshIndicator(
+                        color: AppColors.primary,
+                        onRefresh: () async => controller.getAllDecks(),
+                        child: ListView.builder(
+                          itemCount: controller.searchResults.length,
+                          padding: EdgeInsets.only(top: 2.h),
+                          itemBuilder: (context, index) {
+                            return _CustomDeckCardItem(
+                                index: index, context: context);
+                          },
+                        ),
                       ),
                     );
                   }
