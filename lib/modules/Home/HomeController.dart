@@ -35,6 +35,7 @@ class HomeController extends GetxController {
   RxString searchQuery = "".obs;
   RxList<Deck> searchResults = <Deck>[].obs;
   RxList<Deck> allDecks = <Deck>[].obs;
+
   final String? uid = supabase.auth.currentSession?.user.id;
 
   Future<void> getAllDecks() async {

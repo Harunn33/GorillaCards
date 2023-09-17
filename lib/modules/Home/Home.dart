@@ -31,32 +31,7 @@ class Home extends GetView<HomeController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppSpacer.h2,
-            TextFormField(
-              style: Theme.of(context).textTheme.titleMedium,
-              onTapOutside: (event) => controller.searchFocusNode.unfocus(),
-              cursorColor: AppColors.black,
-              cursorHeight: 2.h,
-              focusNode: controller.searchFocusNode,
-              controller: controller.searchController,
-              onChanged: (value) {
-                controller.searchController.addListener(() {
-                  controller.searchQuery.value =
-                      controller.searchController.text;
-                  controller.searchDecks();
-                });
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(
-                  Icons.search_outlined,
-                  color: AppColors.santasGrey,
-                ),
-                hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: AppColors.santasGrey,
-                    ),
-                hintText: AppStrings.searchFieldHint,
-                contentPadding: AppPaddings.h3v1Padding,
-              ),
-            ),
+            _SearchInput(controller: controller),
             Expanded(
               child: FutureBuilder<void>(
                 future: controller.getAllDecks(),
@@ -212,6 +187,43 @@ class Home extends GetView<HomeController> {
   }
 }
 
+class _SearchInput extends StatelessWidget {
+  const _SearchInput({
+    required this.controller,
+  });
+
+  final HomeController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      style: Theme.of(context).textTheme.titleMedium,
+      onTapOutside: (event) => controller.searchFocusNode.unfocus(),
+      cursorColor: AppColors.black,
+      cursorHeight: 2.h,
+      focusNode: controller.searchFocusNode,
+      controller: controller.searchController,
+      onChanged: (value) {
+        controller.searchController.addListener(() {
+          controller.searchQuery.value = controller.searchController.text;
+          controller.searchDecks();
+        });
+      },
+      decoration: InputDecoration(
+        prefixIcon: Icon(
+          Icons.search_outlined,
+          color: AppColors.santasGrey,
+        ),
+        hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: AppColors.santasGrey,
+            ),
+        hintText: AppStrings.searchFieldHint,
+        contentPadding: AppPaddings.h3v1Padding,
+      ),
+    );
+  }
+}
+
 class _CustomFAB extends StatelessWidget {
   final void Function() onTap;
   const _CustomFAB({required this.onTap});
@@ -235,9 +247,7 @@ class _CustomFAB extends StatelessWidget {
       label: Text(
         AppStrings.addDeck,
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: AppColors.white,
-            ),
+        style: Theme.of(context).textTheme.labelMedium,
       ),
     );
   }
