@@ -59,6 +59,13 @@ class Signin extends GetView<SigninController> {
                 AppSpacer.h2,
                 Obx(
                   () => CustomTextFormField(
+                    onSubmit: (p0) {
+                      controller.allFocusNodeUnfocus();
+                      if (controller.formKey.currentState!.validate()) {
+                        controller.handleLogin();
+                      }
+                      return null;
+                    },
                     onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
                     hintText: AppStrings.passwordHint,
                     prefixIcon: Icons.lock_outlined,
@@ -66,9 +73,7 @@ class Signin extends GetView<SigninController> {
                     controller: controller.passwordController,
                     isPassword: true,
                     isObscure: controller.passwordObscure.value,
-                    onTap: () {
-                      controller.passwordObscure.toggle();
-                    },
+                    onTap: () => controller.passwordObscure.toggle(),
                     validator: (value) {
                       if (value == null) {
                         return null;
@@ -90,7 +95,7 @@ class Signin extends GetView<SigninController> {
                         : () async {
                             controller.allFocusNodeUnfocus();
                             if (controller.formKey.currentState!.validate()) {
-                              await controller.handleLogin();
+                              controller.handleLogin();
                             }
                           },
                     text: AppStrings.signin,

@@ -96,50 +96,12 @@ class Home extends GetView<HomeController> {
                 },
               ),
             ),
-            // Expanded(
-            //   child: controller.allDecks.isEmpty
-            //       ? Container(
-            //           alignment: Alignment.center,
-            //           child: Text(
-            //             AppStrings.noDecksYet,
-            //             style: Theme.of(context).textTheme.bodyMedium,
-            //           ),
-            //         )
-            //       : Obx(
-            //           () => ListView.builder(
-            //             itemCount: controller.searchResults.length,
-            //             padding: EdgeInsets.only(top: 2.h),
-            //             itemBuilder: (context, index) {
-            //               return _CustomDeckCardItem(
-            //                   index: index, context: context);
-            //             },
-            //           ),
-            //         ),
-            // ),
           ],
         ),
       ),
       floatingActionButton: _CustomFAB(
         onTap: () async {
-          // await supabase.from("deneme").insert({
-          //   "name": "Deneme",
-          //   "surname": "deneme soyisim",
-          // });
-          // final Deck deck = Deck(
-          //     id: 1,
-          //     name: "First Deck",
-          //     desc: "First Deck Desc",
-          //     content: [
-          //       Content(id: 1, front: "Ön", back: "Arka"),
-          //       Content(id: 2, front: "Ön2", back: "Arka2"),
-          //       Content(id: 3, front: "Ön3", back: "Arka3"),
-          //     ]);
-          // final data = await supabase.from("deck").insert(deck);
-          // final data = await supabase.from("deck").select();
-          // final dataa = Deck.fromJson(data[0]);
-          // print(dataa.name);
-          controller.allRemoveText();
-          controller.createDeck(context);
+          controller.createDeckBottomSheet(context);
         },
       ),
     );
@@ -178,7 +140,7 @@ class Home extends GetView<HomeController> {
                   controller.searchResults[index].name;
               controller.deckDescriptionController.text =
                   controller.searchResults[index].desc;
-              controller.editDeck(context, index);
+              controller.editDeckBottomSheet(context, index);
             },
             color: AppColors.santasGrey,
           ),

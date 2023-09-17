@@ -83,35 +83,4 @@ class SignupController extends GetxController {
       );
     }
   }
-
-  // Future<void> handleSignup() async {
-  //   buttonDisabled.value = true;
-  //   await Get.closeCurrentSnackbar();
-  //   CustomLoadingDialog();
-  //   final SignupModel signupModel = SignupModel(
-  //     email: emailController.text,
-  //     password: passwordController.text,
-  //     repassword: passwordAgainController.text,
-  //   );
-  //   try {
-  //     final response = await _signupApi.postSignup(data: signupModel.toJson());
-  //     if (response.statusCode == 201) {
-  //       buttonDisabled.value = false;
-  //       box.write("token", response.data["token"]);
-  //       CustomSnackbar(
-  //         message: AppStrings.successRegistered,
-  //         title: AppStrings.success,
-  //         type: SnackbarType.success,
-  //       );
-  //       Get.offAllNamed(Routes.HOME);
-  //     }
-  //   } catch (e) {
-  //     buttonDisabled.value = false;
-  //     Get.back();
-  //     CustomSnackbar(
-  //       message: AppStrings.emailAlreadyExists,
-  //       title: AppStrings.error,
-  //     );
-  //   }
-  // }
 }

@@ -18,6 +18,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(PointerDownEvent)? onTapOutside;
   final TextInputAction? actionType;
+  final String? Function(String)? onSubmit;
   const CustomTextFormField({
     super.key,
     required this.hintText,
@@ -30,11 +31,13 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.onTapOutside,
     this.actionType,
+    this.onSubmit,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: onSubmit,
       style: Theme.of(context).textTheme.titleMedium,
       onTapOutside: onTapOutside,
       cursorColor: AppColors.black,

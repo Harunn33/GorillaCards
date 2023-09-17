@@ -3,27 +3,17 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gorillacards/data/model/CreateDeckModel.dart';
-import 'package:gorillacards/data/network/api/CreateDeckApi.dart';
 import 'package:gorillacards/models/deckModel.dart';
-import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
-import 'package:gorillacards/shared/methods/CustomLoadingDialog.dart';
 import 'package:gorillacards/shared/methods/CustomModalBottomSheet.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
-import 'package:gorillacards/shared/widgets/CustomButton.dart';
-import 'package:gorillacards/shared/widgets/CustomFlashCard.dart';
-import 'package:gorillacards/shared/widgets/CustomModalBottomSheetTextFormField.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../di.dart';
-import '../../shared/constants/spacer.dart';
-import '../../shared/widgets/CustomInputLabel.dart';
+import '../../shared/widgets/CustomCreateFlashCardWidget.dart';
 import '../Signin/SigninController.dart';
 
 class HomeController extends GetxController {
-  final CreateDeckApi _createDeckApi = CreateDeckApi();
-
   FocusNode deckNameFocusNode = FocusNode();
   FocusNode deckDescriptionFocuNode = FocusNode();
   FocusNode searchFocusNode = FocusNode();
@@ -44,16 +34,11 @@ class HomeController extends GetxController {
   RxBool buttonDisabled = false.obs;
   RxString searchQuery = "".obs;
   RxList<Deck> searchResults = <Deck>[].obs;
-  final String? id = supabase.auth.currentSession?.user.id;
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   searchDecks();
-  // }
+  RxList<Deck> allDecks = <Deck>[].obs;
+  final String? uid = supabase.auth.currentSession?.user.id;
 
   Future<void> getAllDecks() async {
-    final data = await supabase.from("decks").select().filter("uid", "eq", id);
+    final data = await supabase.from("decks").select().filter("uid", "eq", uid);
     allDecks.clear();
     for (var i = 0; i < data.length; i++) {
       final Deck newDeck = Deck(
@@ -75,6 +60,16 @@ class HomeController extends GetxController {
       allDecks.add(newDeck);
       searchDecks();
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    deckNameController.dispose();
+    deckDescriptionController.dispose();
+    searchController.dispose();
+    frontCardController.dispose();
+    backCardController.dispose();
   }
 
 // FLASH CARD INPUT TEXT REMOVE
@@ -101,43 +96,43 @@ class HomeController extends GetxController {
     deckDescriptionController.clear();
   }
 
-// CREATE DECK REQUEST
-  void handleCreateDeck() async {
-    buttonDisabled.value = true;
-    await Get.closeCurrentSnackbar();
-    CustomLoadingDialog();
-    final CreateDeckModel createDeckModel = CreateDeckModel(
-      name: deckNameController.text,
-      description: deckDescriptionController.text,
-    );
-    try {
-      final response = await _createDeckApi.postCreateDeck(
-        data: createDeckModel.toJson(),
-        token: "Bearer ${signinController.box.read("token").toString()}",
+// CREATE DECK
+  Future<void> handleCreateDeck(
+    GlobalKey<FormState> formKey,
+    TextEditingController deckNameController,
+    TextEditingController deckDescriptionController,
+    RxList<Deck> allDecks,
+    Function searchDecks,
+  ) async {
+    if (formKey.currentState!.validate()) {
+      final lastId = await supabase
+          .from("decks")
+          .select("id")
+          .order("id", ascending: false)
+          .limit(1);
+      final Deck newDeck = Deck(
+        id: lastId[0]["id"] + 1,
+        name: deckNameController.text,
+        desc: deckDescriptionController.text,
+        content: [],
+        uid: uid,
       );
-      if (response.statusCode == 201) {
-        buttonDisabled.value = false;
-        Get.close(2);
-        allRemoveText();
-        CustomSnackbar(
-          title: AppStrings.success,
-          message: AppStrings.createdDeckSuccessMessage,
-          type: SnackbarType.success,
-        );
-      }
-    } catch (e) {
-      buttonDisabled.value = false;
+      await supabase.from("decks").insert(newDeck.toJson());
+      allDecks.add(newDeck);
+      searchDecks();
       Get.back();
       CustomSnackbar(
-        title: AppStrings.error,
-        message: AppStrings.createdDeckErrorMessage,
+        title: AppStrings.success,
+        message: AppStrings.successCreateDeck,
+        type: SnackbarType.success,
       );
     }
   }
 
 // CREATE DECK BOTTOM SHEET
-  void createDeck(BuildContext context) {
+  void createDeckBottomSheet(BuildContext context) {
     Get.closeCurrentSnackbar();
+    allRemoveText();
     CustomModalBottomSheet(
       context: context,
       formKey: formKey,
@@ -146,18 +141,48 @@ class HomeController extends GetxController {
       deckDescriptionFocuNode: deckDescriptionFocuNode,
       deckNameController: deckNameController,
       deckDescriptionController: deckDescriptionController,
-      onTap: () => _handleCreateDeck(formKey, deckNameController,
-          deckDescriptionController, allDecks, searchDecks, id),
+      onTap: () => handleCreateDeck(formKey, deckNameController,
+          deckDescriptionController, allDecks, searchDecks),
       submit: (p0) {
-        _handleCreateDeck(formKey, deckNameController,
-            deckDescriptionController, allDecks, searchDecks, id);
+        handleCreateDeck(formKey, deckNameController, deckDescriptionController,
+            allDecks, searchDecks);
         return null;
       },
     );
   }
 
 // EDIT DECK
-  void editDeck(BuildContext context, int index) {
+  Future<void> handleEditDeck(
+    GlobalKey<FormState> formKey,
+    RxList<Deck> searchResults,
+    int index,
+    TextEditingController deckNameController,
+    TextEditingController deckDescriptionController,
+    Function searchDecks,
+  ) async {
+    if (formKey.currentState!.validate()) {
+      searchResults[index].name = deckNameController.text;
+      searchResults[index].desc = deckDescriptionController.text;
+      await supabase
+          .from("decks")
+          .update({
+            "name": deckNameController.text,
+            "desc": deckDescriptionController.text
+          })
+          .eq("id", searchResults[index].id)
+          .eq("uid", uid);
+      searchDecks();
+      Get.back();
+      CustomSnackbar(
+        title: AppStrings.success,
+        message: AppStrings.successEditDeck,
+        type: SnackbarType.success,
+      );
+    }
+  }
+
+// EDIT DECK BOTTOM SHEET
+  void editDeckBottomSheet(BuildContext context, int index) {
     Get.closeCurrentSnackbar();
     CustomModalBottomSheet(
       context: context,
@@ -168,10 +193,10 @@ class HomeController extends GetxController {
       deckNameController: deckNameController,
       deckDescriptionController: deckDescriptionController,
       isEditButton: true,
-      onTap: () => _handleEditDeck(formKey, searchResults, index,
+      onTap: () => handleEditDeck(formKey, searchResults, index,
           deckNameController, deckDescriptionController, searchDecks),
       submit: (p0) {
-        _handleEditDeck(formKey, searchResults, index, deckNameController,
+        handleEditDeck(formKey, searchResults, index, deckNameController,
             deckDescriptionController, searchDecks);
         return null;
       },
@@ -179,10 +204,16 @@ class HomeController extends GetxController {
   }
 
 // DELETE DECK
-  void deleteDeck(int index) {
+  Future<void> deleteDeck(int index) async {
     Get.closeCurrentSnackbar();
+    await supabase
+        .from("decks")
+        .delete()
+        .eq("id", searchResults[index].id)
+        .eq("uid", uid);
     searchResults.removeAt(index);
     allDecks.removeAt(index);
+
     CustomSnackbar(
       title: AppStrings.success,
       message: AppStrings.successDeleteDeck,
@@ -210,7 +241,7 @@ class HomeController extends GetxController {
               fill: Fill.fillBack,
               direction: FlipDirection.HORIZONTAL,
               side: CardSide.FRONT,
-              front: _CustomCreateFlashCard(
+              front: CustomCreateFlashCard(
                 label: "Front Card",
                 btnText: "Turn the back",
                 hint: "Front Card Text",
@@ -220,9 +251,9 @@ class HomeController extends GetxController {
                 onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
                 homeController: this,
                 index: index,
-                uid: id,
+                uid: uid,
               ),
-              back: _CustomCreateFlashCard(
+              back: CustomCreateFlashCard(
                 focusNode: backCardFocusNode,
                 controller: backCardController,
                 cardKey: cardKey,
@@ -232,7 +263,7 @@ class HomeController extends GetxController {
                 onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
                 homeController: this,
                 index: index,
-                uid: id,
+                uid: uid,
               ),
             ),
           ),
@@ -255,162 +286,5 @@ class HomeController extends GetxController {
         searchResults.add(deck);
       }
     }
-  }
-
-  RxList<Deck> allDecks = <Deck>[].obs;
-}
-
-// Custom Create Flashcard Widget
-class _CustomCreateFlashCard extends StatelessWidget {
-  const _CustomCreateFlashCard({
-    required this.focusNode,
-    required this.controller,
-    required this.cardKey,
-    required this.label,
-    required this.btnText,
-    required this.hint,
-    required this.onTapOutside,
-    required this.homeController,
-    required this.index,
-    required this.uid,
-  });
-
-  final FocusNode focusNode;
-  final TextEditingController controller;
-  final GlobalKey<FlipCardState> cardKey;
-  final String label;
-  final String btnText;
-  final String hint;
-  final void Function(PointerDownEvent)? onTapOutside;
-  final HomeController homeController;
-  final int index;
-  final String? uid;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomFlashCard(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomInputLabel(label: label),
-          AppSpacer.h1,
-          CustomModalBottomSheetTextFormField(
-            autoFocus: true,
-            actionType: cardKey.currentState!.isFront
-                ? TextInputAction.next
-                : TextInputAction.done,
-            submit: (p0) {
-              if (cardKey.currentState!.isFront) {
-                cardKey.currentState?.toggleCard();
-              } else {
-                _addCard(homeController, index, uid);
-              }
-              return null;
-            },
-            onTapOutside: onTapOutside,
-            hintText: hint,
-            focusNode: focusNode,
-            controller: controller,
-          ),
-          AppSpacer.h3,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomButton(
-                onTap: () => cardKey.currentState?.toggleCard(),
-                text: btnText,
-                bg: AppColors.primary,
-                textColor: AppColors.white,
-              ),
-              CustomButton(
-                onTap: () => _addCard(homeController, index, uid),
-                text: AppStrings.ok,
-                bg: AppColors.primary,
-                textColor: AppColors.white,
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-// Add Flashcard
-Future<void> _addCard(
-    HomeController homeController, int index, String? uid) async {
-  if (homeController.frontCardController.text.isNotEmpty ||
-      homeController.backCardController.text.isNotEmpty) {
-    final Content flashCard = Content(
-      id: homeController.allDecks[index].content.length + 1,
-      front: homeController.frontCardController.text,
-      back: homeController.backCardController.text,
-    );
-    List<dynamic> list = await supabase
-        .from("decks")
-        .select("content")
-        .eq("uid", uid)
-        .eq("id", homeController.allDecks.length);
-    list[0]["content"].add(flashCard.toJson());
-    await supabase
-        .from("decks")
-        .update(list[0])
-        .eq("uid", uid)
-        .eq("id", homeController.allDecks.length);
-    homeController.allDecks[index].content.add(flashCard);
-    Get.back();
-    CustomSnackbar(
-      title: AppStrings.success,
-      message: AppStrings.successAddFlashCard,
-      type: SnackbarType.success,
-    );
-  }
-}
-
-void _handleEditDeck(
-  GlobalKey<FormState> formKey,
-  RxList<Deck> searchResults,
-  int index,
-  TextEditingController deckNameController,
-  TextEditingController deckDescriptionController,
-  Function searchDecks,
-) {
-  if (formKey.currentState!.validate()) {
-    searchResults[index].name = deckNameController.text;
-    searchResults[index].desc = deckDescriptionController.text;
-    searchDecks();
-    Get.back();
-    CustomSnackbar(
-      title: AppStrings.success,
-      message: AppStrings.successEditDeck,
-      type: SnackbarType.success,
-    );
-  }
-}
-
-Future<void> _handleCreateDeck(
-    GlobalKey<FormState> formKey,
-    TextEditingController deckNameController,
-    TextEditingController deckDescriptionController,
-    RxList<Deck> allDecks,
-    Function searchDecks,
-    String? uid) async {
-  if (formKey.currentState!.validate()) {
-    final Deck newDeck = Deck(
-        id: allDecks.length + 1,
-        name: deckNameController.text,
-        desc: deckDescriptionController.text,
-        content: [],
-        uid: uid);
-    await supabase.from("decks").insert(newDeck.toJson());
-    allDecks.add(newDeck);
-    searchDecks();
-    Get.back();
-    CustomSnackbar(
-      title: AppStrings.success,
-      message: AppStrings.successCreateDeck,
-      type: SnackbarType.success,
-    );
   }
 }
