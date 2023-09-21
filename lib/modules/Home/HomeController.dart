@@ -38,6 +38,7 @@ class HomeController extends GetxController {
 
   final String? uid = supabase.auth.currentSession?.user.id;
 
+  // GET ALL DECKS FOR USERS
   Future<void> getAllDecks() async {
     final data = await supabase.from("decks").select().filter("uid", "eq", uid);
     allDecks.clear();
@@ -130,28 +131,6 @@ class HomeController extends GetxController {
     }
   }
 
-// CREATE DECK BOTTOM SHEET
-  void createDeckBottomSheet(BuildContext context) {
-    Get.closeCurrentSnackbar();
-    allRemoveText();
-    CustomModalBottomSheet(
-      context: context,
-      formKey: formKey,
-      onTapOutside: (p0) => allFocusNodeUnfocus(),
-      deckNameFocusNode: deckNameFocusNode,
-      deckDescriptionFocuNode: deckDescriptionFocuNode,
-      deckNameController: deckNameController,
-      deckDescriptionController: deckDescriptionController,
-      onTap: () => handleCreateDeck(formKey, deckNameController,
-          deckDescriptionController, allDecks, searchDecks),
-      submit: (p0) {
-        handleCreateDeck(formKey, deckNameController, deckDescriptionController,
-            allDecks, searchDecks);
-        return null;
-      },
-    );
-  }
-
 // EDIT DECK
   Future<void> handleEditDeck(
     GlobalKey<FormState> formKey,
@@ -182,9 +161,13 @@ class HomeController extends GetxController {
     }
   }
 
-// EDIT DECK BOTTOM SHEET
-  void editDeckBottomSheet(BuildContext context, int index) {
+// CREATE/EDIT DECK BOTTOM SHEET
+  void createBottomSheet(
+      {required BuildContext context,
+      int? index,
+      BottomSheetType bottomSheetType = BottomSheetType.create}) {
     Get.closeCurrentSnackbar();
+    bottomSheetType == BottomSheetType.create ? allRemoveText() : null;
     CustomModalBottomSheet(
       context: context,
       formKey: formKey,
@@ -193,12 +176,20 @@ class HomeController extends GetxController {
       deckDescriptionFocuNode: deckDescriptionFocuNode,
       deckNameController: deckNameController,
       deckDescriptionController: deckDescriptionController,
-      isEditButton: true,
-      onTap: () => handleEditDeck(formKey, searchResults, index,
-          deckNameController, deckDescriptionController, searchDecks),
+      isEditButton: bottomSheetType == BottomSheetType.edit ? true : false,
+      onTap: () {
+        bottomSheetType == BottomSheetType.create
+            ? handleCreateDeck(formKey, deckNameController,
+                deckDescriptionController, allDecks, searchDecks)
+            : handleEditDeck(formKey, searchResults, index ?? 0,
+                deckNameController, deckDescriptionController, searchDecks);
+      },
       submit: (p0) {
-        handleEditDeck(formKey, searchResults, index, deckNameController,
-            deckDescriptionController, searchDecks);
+        bottomSheetType == BottomSheetType.create
+            ? handleCreateDeck(formKey, deckNameController,
+                deckDescriptionController, allDecks, searchDecks)
+            : handleEditDeck(formKey, searchResults, index ?? 0,
+                deckNameController, deckDescriptionController, searchDecks);
         return null;
       },
     );
@@ -289,3 +280,5 @@ class HomeController extends GetxController {
     }
   }
 }
+
+enum BottomSheetType { create, edit }

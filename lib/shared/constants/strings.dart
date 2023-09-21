@@ -53,4 +53,5 @@ class AppStrings {
   static const successEditDeck = "Deck successfully edited";
   static const successCreateDeck = "Deck successfully created";
   static const ok = "OK";
+  static const noFlashCard = "No flash cards in the deck";
 }
