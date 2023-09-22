@@ -9,4 +9,5 @@ abstract class Routes {
   static const SIGNIN = "/signin";
   static const HOME = "/home";
   static const FLASHCARDPAGE = "/flashcardpage";
+  static const SETTINGS = "/settings";
 }

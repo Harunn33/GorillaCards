@@ -17,6 +17,7 @@ class SplashController extends GetxController {
       const Duration(seconds: 1),
     );
     final session = supabase.auth.currentSession;
+    print("SESSION: $session");
     if (session != null) {
       Get.offAllNamed(Routes.HOME);
     } else {
