@@ -10,13 +10,15 @@ import '../constants/paddings.dart';
 
 class CustomFlashCard extends StatelessWidget {
   final Widget child;
-  const CustomFlashCard({super.key, required this.child});
+  final double? height;
+  const CustomFlashCard({super.key, required this.child, this.height});
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
       child: Container(
-        height: 30.h,
+        height: height,
         padding: AppPaddings.generalPadding.copyWith(
           top: 2.h,
           bottom: 2.h,

@@ -3,17 +3,17 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/modules/FlashCardPage/FlashCardPageController.dart';
-import 'package:gorillacards/shared/constants/borderRadius.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
+import 'package:gorillacards/shared/enums/images.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:gorillacards/shared/widgets/CustomButton.dart';
 import 'package:gorillacards/shared/widgets/CustomFlashCard.dart';
+import 'package:gorillacards/shared/widgets/CustomModalBottomSheetTextFormField.dart';
 import 'package:sizer/sizer.dart';
 
 class FlashCardPage extends GetView<FlashCardPageController> {
@@ -22,133 +22,139 @@ class FlashCardPage extends GetView<FlashCardPageController> {
   @override
   Widget build(BuildContext context) {
     List<Content> flashCards = Get.arguments[0];
+    flashCards.shuffle();
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: 100.h,
-          width: 100.w,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Swiper(
-                  itemCount: flashCards.length,
-                  layout: SwiperLayout.TINDER,
-                  loop: false,
-                  itemWidth: 100.w,
-                  itemHeight: 100.h,
-                  onIndexChanged: (value) {
-                    controller.isSelectedIndex.value = -1;
-                    controller.selectedChoice.value = "";
-                  },
-                  itemBuilder: (context, index) {
-                    return FlipCard(
-                      flipOnTouch: false,
-                      controller: controller.flipCardController,
-                      front: CustomFlashCard(
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 50.h,
-                          child: Text(
-                            flashCards[index].front,
-                            style: Theme.of(context).textTheme.headlineLarge,
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        height: 100.h,
+        width: 100.w,
+        padding: AppPaddings.generalPadding,
+        child: Form(
+          key: controller.formKey,
+          child: Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppSpacer.h1,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _CustomIconAndTextRow(
+                        icon: Images.correct,
+                        title: controller.correctAnswers.value.toString()),
+                    _CustomIconAndTextRow(
+                        icon: Images.question_mark,
+                        title: controller.emptyAnswers.value.toString()),
+                    _CustomIconAndTextRow(
+                        icon: Images.wrong,
+                        title: controller.wrongAnswers.value.toString()),
+                  ],
+                ),
+                AppSpacer.h1,
+                SizedBox(
+                  height: 30.h,
+                  child: Swiper(
+                    itemCount: flashCards.length,
+                    layout: SwiperLayout.DEFAULT,
+                    loop: false,
+                    controller: controller.swiperController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    onIndexChanged: (value) {
+                      controller.index.value = value;
+                      controller.answerController.clear();
+                    },
+                    itemBuilder: (context, index) {
+                      return FlipCard(
+                        flipOnTouch: false,
+                        controller: controller.flipCardController,
+                        front: CustomFlashCard(
+                          height: 30.h,
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 50.h,
+                            child: Text(
+                              flashCards[index].front,
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
-                      ),
-                      back: CustomFlashCard(
-                        child: Container(
-                          height: 50.h,
-                          alignment: Alignment.center,
-                          child: Text(
-                            flashCards[index].back,
-                            style: Theme.of(context).textTheme.headlineLarge,
+                        back: CustomFlashCard(
+                          height: 30.h,
+                          child: Container(
+                            height: 50.h,
+                            alignment: Alignment.center,
+                            child: Text(
+                              flashCards[index].back,
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-              AppSpacer.h1,
-              Padding(
-                padding: AppPaddings.generalPadding,
-                child: Text(
-                  "Karşılığı nedir?",
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: AppColors.black,
-                      ),
-                ),
-              ),
-              AppSpacer.h3,
-              const TextField(),
-              Expanded(
-                child: Padding(
-                  padding: AppPaddings.generalPadding,
-                  child: Row(
+                AppSpacer.h2,
+                Expanded(
+                  flex: 5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: CustomButton(
-                          onTap: () {},
-                          text: "Back",
-                          bg: AppColors.dreamyCloud,
-                          textColor: AppColors.black,
-                          isWide: true,
-                        ),
+                      Text(
+                        "What is the Turkish equivalent?",
+                        style:
+                            Theme.of(context).textTheme.labelMedium?.copyWith(
+                                  color: AppColors.black,
+                                ),
                       ),
-                      AppSpacer.w1,
-                      Expanded(
-                        child: CustomButton(
-                          onTap: () {
-                            controller.flipCardController.state?.toggleCard();
-                          },
-                          text: "Rotate",
-                          bg: AppColors.approvalGreen,
-                          isWide: true,
-                          textColor: AppColors.white,
-                        ),
+                      AppSpacer.h3,
+                      CustomModalBottomSheetTextFormField(
+                        hintText: "Answer the question",
+                        focusNode: controller.answerFocusNode,
+                        controller: controller.answerController,
+                        onTapOutside: (p0) =>
+                            controller.answerFocusNode.unfocus(),
+                        submit: (p0) {
+                          controller.checkAnswer(flashCards);
+                          return null;
+                        },
                       ),
-                      AppSpacer.w1,
-                      Expanded(
-                        child: CustomButton(
-                          onTap: () {},
-                          text: "Next",
-                          bg: AppColors.primary,
-                          textColor: AppColors.white,
-                          isWide: true,
-                        ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomButton(
+                              onTap: () {
+                                controller.flipCardController.state
+                                    ?.toggleCard();
+                              },
+                              text: "Rotate",
+                              bg: AppColors.approvalGreen,
+                              isWide: true,
+                              textColor: AppColors.white,
+                            ),
+                          ),
+                          AppSpacer.w1,
+                          Expanded(
+                            child: CustomButton(
+                              onTap: () => controller.checkAnswer(flashCards),
+                              text: controller.index.value ==
+                                      flashCards.length - 1
+                                  ? "Done"
+                                  : "Next",
+                              bg: AppColors.primary,
+                              textColor: AppColors.white,
+                              isWide: true,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-              ),
-              // Expanded(
-              //   flex: 3,
-              //   child: GridView.builder(
-              //     padding: AppPaddings.generalPadding,
-              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //       crossAxisCount: 2,
-              //       mainAxisSpacing: 2.h,
-              //       crossAxisSpacing: 4.w,
-              //       childAspectRatio: 2.2.sp,
-              //     ),
-              //     itemCount: 4,
-              //     itemBuilder: (context, index) {
-              //       return _Choice(
-              //         onTap: () {
-              //           controller.isSelectedIndex.value = index;
-              //           controller.selectedChoice.value =
-              //               "Seçenek ${index + 1}";
-              //         },
-              //         title: "Seçenek ${index + 1}",
-              //         isSelectedIndex: controller.isSelectedIndex,
-              //         index: index,
-              //       );
-              //     },
-              //   ),
-              // ),
-              const Spacer()
-            ],
+                const Spacer(),
+              ],
+            ),
           ),
         ),
       ),
@@ -156,46 +162,32 @@ class FlashCardPage extends GetView<FlashCardPageController> {
   }
 }
 
-class _Choice extends StatelessWidget {
-  final String title;
-  final RxInt isSelectedIndex;
-  final int index;
-  final void Function()? onTap;
-  const _Choice({
+class _CustomIconAndTextRow extends StatelessWidget {
+  const _CustomIconAndTextRow({
+    required this.icon,
     required this.title,
-    required this.isSelectedIndex,
-    required this.onTap,
-    required this.index,
   });
+
+  final Images icon;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Bounceable(
-        onTap: onTap,
-        child: Container(
-          alignment: Alignment.center,
-          padding: AppPaddings.h3v1Padding,
-          decoration: BoxDecoration(
-            color: isSelectedIndex.value == index
-                ? AppColors.primary
-                : AppColors.drWhite,
-            borderRadius: AppBorderRadius.generalRadius,
-            border: Border.all(
-              width: .3.w,
-              color: AppColors.bellflowerBlue,
-            ),
-          ),
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: isSelectedIndex.value == index
-                      ? AppColors.white
-                      : AppColors.black,
-                ),
-          ),
+    return Row(
+      children: [
+        SizedBox(
+          width: 2.5.h,
+          height: 2.5.h,
+          child: icon.png,
         ),
-      ),
+        AppSpacer.w1,
+        Text(
+          title,
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: AppColors.black,
+              ),
+        ),
+      ],
     );
   }
 }

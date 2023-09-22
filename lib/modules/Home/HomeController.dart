@@ -223,7 +223,7 @@ class HomeController extends GetxController {
         return Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 10.w,
-            vertical: 30.h,
+            vertical: 35.h,
           ),
           child: Material(
             color: Colors.transparent,
