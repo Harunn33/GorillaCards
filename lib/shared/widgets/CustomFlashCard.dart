@@ -16,6 +16,7 @@ class CustomFlashCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
+        height: 30.h,
         padding: AppPaddings.generalPadding.copyWith(
           top: 2.h,
           bottom: 2.h,

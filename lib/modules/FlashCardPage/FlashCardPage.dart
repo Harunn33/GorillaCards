@@ -12,6 +12,7 @@ import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
+import 'package:gorillacards/shared/widgets/CustomButton.dart';
 import 'package:gorillacards/shared/widgets/CustomFlashCard.dart';
 import 'package:sizer/sizer.dart';
 
@@ -20,8 +21,7 @@ class FlashCardPage extends GetView<FlashCardPageController> {
 
   @override
   Widget build(BuildContext context) {
-    var arguments = Get.arguments;
-    List<Content> flashCards = arguments[0];
+    List<Content> flashCards = Get.arguments[0];
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
@@ -32,7 +32,6 @@ class FlashCardPage extends GetView<FlashCardPageController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 6,
                 child: Swiper(
                   itemCount: flashCards.length,
                   layout: SwiperLayout.TINDER,
@@ -45,6 +44,8 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                   },
                   itemBuilder: (context, index) {
                     return FlipCard(
+                      flipOnTouch: false,
+                      controller: controller.flipCardController,
                       front: CustomFlashCard(
                         child: Container(
                           alignment: Alignment.center,
@@ -80,31 +81,72 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                 ),
               ),
               AppSpacer.h3,
+              const TextField(),
               Expanded(
-                flex: 3,
-                child: GridView.builder(
+                child: Padding(
                   padding: AppPaddings.generalPadding,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 2.h,
-                    crossAxisSpacing: 4.w,
-                    childAspectRatio: 2.2.sp,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CustomButton(
+                          onTap: () {},
+                          text: "Back",
+                          bg: AppColors.dreamyCloud,
+                          textColor: AppColors.black,
+                          isWide: true,
+                        ),
+                      ),
+                      AppSpacer.w1,
+                      Expanded(
+                        child: CustomButton(
+                          onTap: () {
+                            controller.flipCardController.state?.toggleCard();
+                          },
+                          text: "Rotate",
+                          bg: AppColors.approvalGreen,
+                          isWide: true,
+                          textColor: AppColors.white,
+                        ),
+                      ),
+                      AppSpacer.w1,
+                      Expanded(
+                        child: CustomButton(
+                          onTap: () {},
+                          text: "Next",
+                          bg: AppColors.primary,
+                          textColor: AppColors.white,
+                          isWide: true,
+                        ),
+                      ),
+                    ],
                   ),
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return _Choice(
-                      onTap: () {
-                        controller.isSelectedIndex.value = index;
-                        controller.selectedChoice.value =
-                            "Seçenek ${index + 1}";
-                      },
-                      title: "Seçenek ${index + 1}",
-                      isSelectedIndex: controller.isSelectedIndex,
-                      index: index,
-                    );
-                  },
                 ),
               ),
+              // Expanded(
+              //   flex: 3,
+              //   child: GridView.builder(
+              //     padding: AppPaddings.generalPadding,
+              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 2,
+              //       mainAxisSpacing: 2.h,
+              //       crossAxisSpacing: 4.w,
+              //       childAspectRatio: 2.2.sp,
+              //     ),
+              //     itemCount: 4,
+              //     itemBuilder: (context, index) {
+              //       return _Choice(
+              //         onTap: () {
+              //           controller.isSelectedIndex.value = index;
+              //           controller.selectedChoice.value =
+              //               "Seçenek ${index + 1}";
+              //         },
+              //         title: "Seçenek ${index + 1}",
+              //         isSelectedIndex: controller.isSelectedIndex,
+              //         index: index,
+              //       );
+              //     },
+              //   ),
+              // ),
               const Spacer()
             ],
           ),
