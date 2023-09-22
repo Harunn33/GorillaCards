@@ -5,6 +5,8 @@ import 'package:gorillacards/modules/FlashCardPage/FlashCardPage.dart';
 import 'package:gorillacards/modules/FlashCardPage/FlashCardPageBinding.dart';
 import 'package:gorillacards/modules/Home/Home.dart';
 import 'package:gorillacards/modules/Home/HomeBinding.dart';
+import 'package:gorillacards/modules/Result/Result.dart';
+import 'package:gorillacards/modules/Result/ResultBinding.dart';
 import 'package:gorillacards/modules/Settings/Settings.dart';
 import 'package:gorillacards/modules/Settings/SettingsBinding.dart';
 import 'package:gorillacards/modules/Signin/Signin.dart';
@@ -56,5 +58,10 @@ class AppPages {
       page: () => const Settings(),
       binding: SettingsBinding(),
     ),
+    GetPage(
+      name: Routes.RESULT,
+      page: () => const Result(),
+      binding: ResultBinding(),
+    )
   ];
 }

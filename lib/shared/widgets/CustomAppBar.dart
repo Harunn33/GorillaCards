@@ -10,27 +10,52 @@ import '../constants/paddings.dart';
 import '../enums/images.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final bool hasChevronLeftIcon;
+  final void Function()? backFunc;
   const CustomAppBar({
     super.key,
+    this.hasChevronLeftIcon = true,
+    this.backFunc,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       leadingWidth: double.infinity,
-      leading: Padding(
-        padding: AppPaddings.generalPadding,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Images.appLogo.png,
-            Bounceable(
-              onTap: () => Get.toNamed(Routes.SETTINGS),
-              child: Images.settings.svg,
+      leading: hasChevronLeftIcon
+          ? Container(
+              padding: AppPaddings.generalPadding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Bounceable(
+                    onTap: backFunc ?? () => Get.back(),
+                    child: Icon(
+                      Icons.chevron_left_outlined,
+                      size: 20.sp,
+                    ),
+                  ),
+                  Expanded(child: Images.appLogo.png),
+                  Bounceable(
+                    onTap: () => Get.toNamed(Routes.SETTINGS),
+                    child: Images.settings.svg,
+                  ),
+                ],
+              ),
             )
-          ],
-        ),
-      ),
+          : Padding(
+              padding: AppPaddings.generalPadding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Images.appLogo.png,
+                  Bounceable(
+                    onTap: () => Get.toNamed(Routes.SETTINGS),
+                    child: Images.settings.svg,
+                  )
+                ],
+              ),
+            ),
     );
   }
 

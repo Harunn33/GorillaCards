@@ -59,4 +59,21 @@ class AppStrings {
   static const settings = "Settings";
   static const signOut = "Sign Out";
   static const deleteAccount = "Delete Account";
+
+  // FLASHCARD PAGE
+  static const question = "What is the Turkish equivalent?";
+  static const rotate = "Rotate";
+  static const done = "Done";
+  static const next = "Next";
+
+  // RESULT
+  static const testReportsModalBottomSheetTitle = "Test Reports";
+  static const testReportsModalBottomSheetCardInfo =
+      "Tap the card to see the answer";
+  static const numberOfCorrect = "Number of Correct";
+  static const numberOfWrong = "Number of Wrong";
+  static const numberOfEmpty = "Number of Empty";
+  static const showTestReportsBtnTitle = "Show test reports";
+  static const congratulationsMessage =
+      "Congratulations on knowing all the questions";
 }

@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/AuthStateListen.dart';
@@ -33,8 +32,6 @@ class SignupController extends GetxController {
   RxBool buttonDisabled = false.obs;
 
   late final StreamSubscription<AuthState> authSubscription;
-
-  final GetStorage box = GetStorage();
 
   @override
   void onInit() {

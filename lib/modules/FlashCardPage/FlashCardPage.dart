@@ -4,11 +4,11 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/modules/FlashCardPage/FlashCardPageController.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
+import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/enums/images.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:gorillacards/shared/widgets/CustomButton.dart';
@@ -21,8 +21,6 @@ class FlashCardPage extends GetView<FlashCardPageController> {
 
   @override
   Widget build(BuildContext context) {
-    List<Content> flashCards = Get.arguments[0];
-    flashCards.shuffle();
     return Scaffold(
       appBar: const CustomAppBar(),
       resizeToAvoidBottomInset: false,
@@ -36,7 +34,7 @@ class FlashCardPage extends GetView<FlashCardPageController> {
             () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppSpacer.h1,
+                AppSpacer.h2,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -53,9 +51,9 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                 ),
                 AppSpacer.h1,
                 SizedBox(
-                  height: 30.h,
+                  height: 25.h,
                   child: Swiper(
-                    itemCount: flashCards.length,
+                    itemCount: controller.flashCards.length,
                     layout: SwiperLayout.DEFAULT,
                     loop: false,
                     controller: controller.swiperController,
@@ -69,23 +67,21 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                         flipOnTouch: false,
                         controller: controller.flipCardController,
                         front: CustomFlashCard(
-                          height: 30.h,
-                          child: Container(
+                          height: 25.h,
+                          child: Align(
                             alignment: Alignment.center,
-                            height: 50.h,
                             child: Text(
-                              flashCards[index].front,
+                              controller.flashCards[index].front,
                               style: Theme.of(context).textTheme.headlineLarge,
                             ),
                           ),
                         ),
                         back: CustomFlashCard(
-                          height: 30.h,
-                          child: Container(
-                            height: 50.h,
+                          height: 25.h,
+                          child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              flashCards[index].back,
+                              controller.flashCards[index].back,
                               style: Theme.of(context).textTheme.headlineLarge,
                             ),
                           ),
@@ -101,7 +97,7 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "What is the Turkish equivalent?",
+                        AppStrings.question,
                         style:
                             Theme.of(context).textTheme.labelMedium?.copyWith(
                                   color: AppColors.black,
@@ -115,7 +111,7 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                         onTapOutside: (p0) =>
                             controller.answerFocusNode.unfocus(),
                         submit: (p0) {
-                          controller.checkAnswer(flashCards);
+                          controller.checkAnswer(controller.flashCards);
                           return null;
                         },
                       ),
@@ -128,7 +124,7 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                                 controller.flipCardController.state
                                     ?.toggleCard();
                               },
-                              text: "Rotate",
+                              text: AppStrings.rotate,
                               bg: AppColors.approvalGreen,
                               isWide: true,
                               textColor: AppColors.white,
@@ -137,11 +133,12 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                           AppSpacer.w1,
                           Expanded(
                             child: CustomButton(
-                              onTap: () => controller.checkAnswer(flashCards),
+                              onTap: () =>
+                                  controller.checkAnswer(controller.flashCards),
                               text: controller.index.value ==
-                                      flashCards.length - 1
-                                  ? "Done"
-                                  : "Next",
+                                      controller.flashCards.length - 1
+                                  ? AppStrings.done
+                                  : AppStrings.next,
                               bg: AppColors.primary,
                               textColor: AppColors.white,
                               isWide: true,

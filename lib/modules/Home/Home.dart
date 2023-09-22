@@ -20,7 +20,9 @@ class Home extends GetView<HomeController> {
     Get.put(HomeController());
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(
+        hasChevronLeftIcon: false,
+      ),
       body: Padding(
         padding: AppPaddings.generalPadding,
         child: Column(

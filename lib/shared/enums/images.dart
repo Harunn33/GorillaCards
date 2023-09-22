@@ -9,7 +9,8 @@ enum Images {
   settings("settings"),
   correct("correct"),
   wrong("wrong"),
-  question_mark("question_mark");
+  question_mark("question_mark"),
+  left_arrow("left_arrow");
 
   final String value;
   const Images(this.value);
