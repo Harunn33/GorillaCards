@@ -39,8 +39,8 @@ class FlashCardPageController extends GetxController {
   void checkAnswer(List<Content> flashCards) {
     final GetStorage box = GetStorage();
     final currentFlashCard = flashCards[index.value];
-    final userAnswer = answerController.text.toLowerCase();
-    final correctAnswer = currentFlashCard.back.toLowerCase();
+    final userAnswer = answerController.text.toLowerCase().trim();
+    final correctAnswer = currentFlashCard.back.toLowerCase().trim();
     if (userAnswer.isEmpty) {
       emptyAnswers.value += 1;
       reports.add(currentFlashCard);

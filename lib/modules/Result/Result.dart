@@ -25,42 +25,48 @@ class Result extends GetView<ResultController> {
       appBar: CustomAppBar(
         backFunc: () => Get.close(2),
       ),
-      body: Padding(
-        padding: AppPaddings.generalPadding,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Obx(
-              () => SizedBox(
-                height: 17.5.h,
-                child: ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.results.length,
-                  itemBuilder: (context, index) {
-                    return _CustomLinearPercentIndicator(
-                        flashCardPageController: flashCardPageController,
-                        value: controller.results[index]["value"],
-                        color: controller.results[index]["color"],
-                        title: controller.results[index]["title"]);
-                  },
-                  separatorBuilder: (context, index) => AppSpacer.h1,
+      body: WillPopScope(
+        onWillPop: () async {
+          Get.close(2);
+          return true;
+        },
+        child: Padding(
+          padding: AppPaddings.generalPadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Obx(
+                () => SizedBox(
+                  height: 17.5.h,
+                  child: ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: controller.results.length,
+                    itemBuilder: (context, index) {
+                      return _CustomLinearPercentIndicator(
+                          flashCardPageController: flashCardPageController,
+                          value: controller.results[index]["value"],
+                          color: controller.results[index]["color"],
+                          title: controller.results[index]["title"]);
+                    },
+                    separatorBuilder: (context, index) => AppSpacer.h1,
+                  ),
                 ),
               ),
-            ),
-            AppSpacer.h3,
-            Bounceable(
-              onTap: () async {
-                CustomReportsModalBottomSheet(context, controller);
-              },
-              child: Text(
-                AppStrings.showTestReportsBtnTitle,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppColors.primary,
-                    ),
+              AppSpacer.h3,
+              Bounceable(
+                onTap: () async {
+                  CustomReportsModalBottomSheet(context, controller);
+                },
+                child: Text(
+                  AppStrings.showTestReportsBtnTitle,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: AppColors.primary,
+                      ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
