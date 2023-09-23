@@ -62,7 +62,7 @@ class Signin extends GetView<SigninController> {
                     onSubmit: (p0) {
                       controller.allFocusNodeUnfocus();
                       if (controller.formKey.currentState!.validate()) {
-                        controller.handleLogin();
+                        controller.handleSignin();
                       }
                       return null;
                     },
@@ -95,7 +95,7 @@ class Signin extends GetView<SigninController> {
                         : () async {
                             controller.allFocusNodeUnfocus();
                             if (controller.formKey.currentState!.validate()) {
-                              controller.handleLogin();
+                              controller.handleSignin();
                             }
                           },
                     text: AppStrings.signin,

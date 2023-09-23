@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gorillacards/models/SigninModel.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
@@ -45,14 +46,17 @@ class SigninController extends GetxController {
     passwordFocusNode.unfocus();
   }
 
-  Future<void> handleLogin() async {
+  Future<void> handleSignin() async {
     buttonDisabled.value = true;
     await Get.closeCurrentSnackbar();
     CustomLoadingDialog();
+    final SigninModel signinModel = SigninModel(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim());
     try {
       await supabase.auth.signInWithPassword(
-        password: passwordController.text.trim(),
-        email: emailController.text.trim(),
+        password: signinModel.password,
+        email: signinModel.email,
       );
       buttonDisabled.value = false;
       Get.offAllNamed(Routes.HOME);

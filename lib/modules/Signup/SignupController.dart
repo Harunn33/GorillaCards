@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gorillacards/models/SignupModel.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/AuthStateListen.dart';
@@ -58,10 +59,13 @@ class SignupController extends GetxController {
     buttonDisabled.value = true;
     await Get.closeCurrentSnackbar();
     CustomLoadingDialog();
+    final SignupModel signupModel = SignupModel(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim());
     try {
       await supabase.auth.signUp(
-        password: passwordController.text.trim(),
-        email: emailController.text.trim(),
+        password: signupModel.password,
+        email: signupModel.email,
       );
       Get.offAllNamed(Routes.HOME);
     } on AuthException catch (error) {
