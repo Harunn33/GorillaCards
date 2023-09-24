@@ -5,6 +5,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/modules/Home/HomeController.dart';
+import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
 import 'package:sizer/sizer.dart';
 
@@ -61,17 +62,36 @@ class CustomDeckCardItem extends StatelessWidget {
             borderRadius: AppBorderRadius.generalRadius,
           ),
           padding: AppPaddings.h3v1Padding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                controller.searchResults[index].name,
-                style: Theme.of(context).textTheme.titleMedium,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    controller.searchResults[index].name,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    controller.searchResults[index].desc,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ],
               ),
-              Text(
-                controller.searchResults[index].desc,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.arrow_back_outlined,
+                    color: AppColors.santasGrey,
+                    size: 8.sp,
+                  ),
+                  AppSpacer.w1,
+                  Text(
+                    AppStrings.slide,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ],
+              )
             ],
           ),
         ),
