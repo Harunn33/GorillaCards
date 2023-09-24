@@ -7,6 +7,6 @@ class AppBorderRadius {
   AppBorderRadius._();
 
   static final BorderRadius generalRadius = BorderRadius.circular(
-    5.sp,
+    5.sp, // 8 e çekince release APK daki hata gidiyor
   );
 }

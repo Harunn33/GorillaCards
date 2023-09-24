@@ -40,31 +40,30 @@ class Home extends GetView<HomeController> {
                         color: AppColors.primary,
                       ),
                     );
-                  } else if (snapshot.connectionState == ConnectionState.done &&
-                      controller.allDecks.isEmpty) {
-                    return Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        AppStrings.noDecksYet,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    );
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     return Obx(
-                      () => RefreshIndicator(
-                        color: AppColors.primary,
-                        onRefresh: () async => controller.getAllDecks(),
-                        child: ListView.builder(
-                          itemCount: controller.searchResults.length,
-                          padding: EdgeInsets.only(top: 2.h),
-                          itemBuilder: (context, index) {
-                            return CustomDeckCardItem(
-                              index: index,
-                              controller: controller,
-                            );
-                          },
-                        ),
-                      ),
+                      () => controller.allDecks.isEmpty
+                          ? Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                AppStrings.noDecksYet,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            )
+                          : RefreshIndicator(
+                              color: AppColors.primary,
+                              onRefresh: () async => controller.getAllDecks(),
+                              child: ListView.builder(
+                                itemCount: controller.searchResults.length,
+                                padding: EdgeInsets.only(top: 2.h),
+                                itemBuilder: (context, index) {
+                                  return CustomDeckCardItem(
+                                    index: index,
+                                    controller: controller,
+                                  );
+                                },
+                              ),
+                            ),
                     );
                   }
                   return const Text("404 Not Found");
