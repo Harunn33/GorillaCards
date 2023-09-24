@@ -25,7 +25,7 @@ class CustomDeckCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Bounceable(
-      onTap: _redirectToFlashCardPage,
+      onTap: () => _redirectToFlashCardPage(context),
       child: SwipeActionCell(
         backgroundColor: Colors.transparent,
         key: ValueKey(controller.searchResults[index].id),
@@ -99,13 +99,18 @@ class CustomDeckCardItem extends StatelessWidget {
     );
   }
 
-  void _redirectToFlashCardPage() {
+  void _redirectToFlashCardPage(BuildContext context) {
     Get.closeCurrentSnackbar();
     if (controller.allDecks[index].content.isEmpty) {
       CustomSnackbar(
-          title: AppStrings.error,
-          message: AppStrings.noFlashCard,
-          type: SnackbarType.error);
+        title: AppStrings.error,
+        message: AppStrings.noFlashCard,
+        type: SnackbarType.error,
+        onTap: (p0) {
+          controller.flashCardRemoveText();
+          controller.addCardToDeck(context, index);
+        },
+      );
       return;
     }
     Get.toNamed(

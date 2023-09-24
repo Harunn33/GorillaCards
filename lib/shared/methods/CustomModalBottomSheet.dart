@@ -48,6 +48,7 @@ Future<dynamic> CustomModalBottomSheet({
                   hintText: AppStrings.deckNameHint,
                   focusNode: deckNameFocusNode,
                   controller: deckNameController,
+                  autoFocus: true,
                   validator: (value) {
                     if (value == null) {
                       return null;

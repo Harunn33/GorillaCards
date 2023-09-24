@@ -218,7 +218,6 @@ class HomeController extends GetxController {
     Get.closeCurrentSnackbar();
     showDialog(
       context: context,
-      // barrierDismissible: false,
       builder: (context) {
         return Padding(
           padding: EdgeInsets.symmetric(

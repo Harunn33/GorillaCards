@@ -14,6 +14,7 @@ SnackbarController CustomSnackbar({
   required String title,
   required String message,
   SnackbarType? type,
+  void Function(GetSnackBar)? onTap,
 }) {
   Color? bg;
   switch (type) {
@@ -28,6 +29,7 @@ SnackbarController CustomSnackbar({
     title,
     message,
     backgroundColor: bg,
+    onTap: onTap,
     colorText: AppColors.white,
   );
 }

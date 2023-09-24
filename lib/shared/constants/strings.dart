@@ -53,7 +53,7 @@ class AppStrings {
   static const successEditDeck = "Deck successfully edited";
   static const successCreateDeck = "Deck successfully created";
   static const ok = "OK";
-  static const noFlashCard = "No flash cards in the deck";
+  static const noFlashCard = "No flash cards in the deck. Tap for add card.";
   static const slide = "Slide";
 
   // SETTINGS

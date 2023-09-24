@@ -1,5 +1,6 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/modules/FlashCardPage/FlashCardPageController.dart';
 import 'package:gorillacards/modules/Result/ResultController.dart';
@@ -9,6 +10,7 @@ import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:gorillacards/shared/widgets/CustomInputLabel.dart';
+import 'package:gorillacards/shared/widgets/CustomTextButton.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:sizer/sizer.dart';
 
@@ -54,16 +56,9 @@ class Result extends GetView<ResultController> {
                 ),
               ),
               AppSpacer.h3,
-              Bounceable(
-                onTap: () async {
-                  CustomReportsModalBottomSheet(context, controller);
-                },
-                child: Text(
-                  AppStrings.showTestReportsBtnTitle,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: AppColors.primary,
-                      ),
-                ),
+              CustomTextButton(
+                onTap: () => CustomReportsModalBottomSheet(context, controller),
+                title: AppStrings.showTestReportsBtnTitle,
               ),
             ],
           ),

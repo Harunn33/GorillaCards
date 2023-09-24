@@ -95,6 +95,26 @@ Future<void> _addCard(
     HomeController homeController, int index, String? uid) async {
   if (homeController.frontCardController.text.isNotEmpty ||
       homeController.backCardController.text.isNotEmpty) {
+    // List<Map<String, dynamic>> convertedData = [];
+    // final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    // if (result == null) return;
+    // String? filePath = result.files.first.path;
+    // if (filePath == null) return;
+    // final input = File(filePath).openRead();
+    // final fields = await input
+    //     .transform(utf8.decoder)
+    //     .transform(const CsvToListConverter())
+    //     .toList();
+    // List<String> headers = fields[0][0].split(';');
+    // for (int i = 1; i < fields.length; i++) {
+    //   List<String> row = fields[i][0].split(';');
+    //   Map<String, dynamic> rowData = {};
+    //   for (int j = 0; j < headers.length; j++) {
+    //     rowData[headers[j]] = row[j];
+    //   }
+    //   convertedData.add(rowData);
+    // }
+    // print(convertedData);
     final Content flashCard = Content(
       id: homeController.allDecks[index].content.length + 1,
       front: homeController.frontCardController.text,
