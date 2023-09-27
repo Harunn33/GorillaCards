@@ -8,6 +8,7 @@ import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
+import 'package:gorillacards/shared/enums/lottie.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:gorillacards/shared/widgets/CustomInputLabel.dart';
 import 'package:gorillacards/shared/widgets/CustomTextButton.dart';
@@ -38,28 +39,38 @@ class Result extends GetView<ResultController> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Obx(
-                () => SizedBox(
-                  height: 17.5.h,
-                  child: ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: controller.results.length,
-                    itemBuilder: (context, index) {
-                      return _CustomLinearPercentIndicator(
-                          flashCardPageController: flashCardPageController,
-                          value: controller.results[index]["value"],
-                          color: controller.results[index]["color"],
-                          title: controller.results[index]["title"]);
-                    },
-                    separatorBuilder: (context, index) => AppSpacer.h1,
-                  ),
+              CustomLottie.cup.lottieAsset,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(
+                      () => SizedBox(
+                        height: 17.5.h,
+                        child: ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.results.length,
+                          itemBuilder: (context, index) {
+                            return _CustomLinearPercentIndicator(
+                                flashCardPageController:
+                                    flashCardPageController,
+                                value: controller.results[index]["value"],
+                                color: controller.results[index]["color"],
+                                title: controller.results[index]["title"]);
+                          },
+                          separatorBuilder: (context, index) => AppSpacer.h1,
+                        ),
+                      ),
+                    ),
+                    AppSpacer.h3,
+                    CustomTextButton(
+                      onTap: () =>
+                          CustomReportsModalBottomSheet(context, controller),
+                      title: AppStrings.showTestReportsBtnTitle,
+                    ),
+                  ],
                 ),
-              ),
-              AppSpacer.h3,
-              CustomTextButton(
-                onTap: () => CustomReportsModalBottomSheet(context, controller),
-                title: AppStrings.showTestReportsBtnTitle,
-              ),
+              )
             ],
           ),
         ),

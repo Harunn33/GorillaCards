@@ -71,9 +71,9 @@ class AppStrings {
   static const testReportsModalBottomSheetTitle = "Test Reports";
   static const testReportsModalBottomSheetCardInfo =
       "Tap the card to see the answer";
-  static const numberOfCorrect = "Number of Correct";
-  static const numberOfWrong = "Number of Wrong";
-  static const numberOfEmpty = "Number of Empty";
+  static const numberOfCorrect = "Correct";
+  static const numberOfWrong = "Wrong";
+  static const numberOfEmpty = "Empty";
   static const showTestReportsBtnTitle = "Show test reports";
   static const congratulationsMessage =
       "Congratulations on knowing all the questions";

@@ -2,7 +2,8 @@ import 'package:lottie/lottie.dart';
 
 enum CustomLottie {
   loading("gorilla"),
-  congrats("congrats");
+  congrats("congrats"),
+  cup("cup");
 
   final String value;
   const CustomLottie(this.value);
