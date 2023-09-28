@@ -78,23 +78,28 @@ class CustomCreateFlashCard extends StatelessWidget {
             ],
           ),
           AppSpacer.h1,
-          CustomModalBottomSheetTextFormField(
-            autoFocus: true,
-            actionType: cardKey.currentState!.isFront
-                ? TextInputAction.next
-                : TextInputAction.done,
-            submit: (p0) {
-              if (cardKey.currentState!.isFront) {
-                cardKey.currentState?.toggleCard();
-              } else {
-                _addCard(homeController, index, uid);
-              }
-              return null;
-            },
-            onTapOutside: onTapOutside,
-            hintText: hint,
-            focusNode: focusNode,
-            controller: controller,
+          Obx(
+            () => CustomModalBottomSheetTextFormField(
+              autoFocus: true,
+              actionType: cardKey.currentState!.isFront
+                  ? TextInputAction.next
+                  : TextInputAction.done,
+              submit: isLoading.value
+                  ? null
+                  : (p0) {
+                      if (cardKey.currentState!.isFront) {
+                        cardKey.currentState?.toggleCard();
+                      } else {
+                        isLoading.toggle();
+                        _addCard(homeController, index, uid);
+                      }
+                      return null;
+                    },
+              onTapOutside: onTapOutside,
+              hintText: hint,
+              focusNode: focusNode,
+              controller: controller,
+            ),
           ),
           AppSpacer.h3,
           Row(
