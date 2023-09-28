@@ -91,7 +91,7 @@ class CustomCreateFlashCard extends StatelessWidget {
                         cardKey.currentState?.toggleCard();
                       } else {
                         isLoading.toggle();
-                        _addCard(homeController, index, uid);
+                        _addCard(homeController, index, uid, isLoading);
                       }
                       return null;
                     },
@@ -118,7 +118,7 @@ class CustomCreateFlashCard extends StatelessWidget {
                       ? null
                       : () {
                           isLoading.toggle();
-                          _addCard(homeController, index, uid);
+                          _addCard(homeController, index, uid, isLoading);
                         },
                   text: AppStrings.ok,
                   bg: AppColors.primary,
@@ -203,8 +203,8 @@ Future<void> _addCardFromCsvFile(
   );
 }
 
-Future<void> _addCard(
-    HomeController homeController, int index, String? uid) async {
+Future<void> _addCard(HomeController homeController, int index, String? uid,
+    RxBool? isLoading) async {
   if (homeController.frontCardController.text.isNotEmpty ||
       homeController.backCardController.text.isNotEmpty) {
     final Content flashCard = Content(
@@ -232,6 +232,7 @@ Future<void> _addCard(
         type: SnackbarType.success,
       );
     } catch (e) {
+      isLoading?.toggle();
       CustomSnackbar(
         title: AppStrings.error,
         message: e.toString(),
@@ -239,4 +240,5 @@ Future<void> _addCard(
       );
     }
   }
+  isLoading?.toggle();
 }

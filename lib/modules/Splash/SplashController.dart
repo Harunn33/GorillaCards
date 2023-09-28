@@ -1,7 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:get/get.dart';
-import 'package:gorillacards/shared/methods/AuthStateListen.dart';
+import 'package:gorillacards/di.dart';
+import 'package:gorillacards/routes/app_pages.dart';
 
 class SplashController extends GetxController {
   @override
@@ -16,6 +17,11 @@ class SplashController extends GetxController {
         seconds: 1,
       ),
     );
-    AuthStateListen.authStateListen();
+    final session = supabase.auth.currentSession;
+    if (session != null) {
+      Get.offAllNamed(Routes.HOME);
+    } else {
+      Get.toNamed(Routes.WELCOME);
+    }
   }
 }

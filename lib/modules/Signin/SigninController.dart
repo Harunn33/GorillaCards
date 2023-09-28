@@ -47,11 +47,13 @@ class SigninController extends GetxController {
       );
       Get.offAllNamed(Routes.HOME);
     } on AuthException catch (error) {
+      isLoading.toggle();
       CustomSnackbar(
         title: AppStrings.error,
         message: error.message,
       );
     } catch (e) {
+      isLoading.toggle();
       CustomSnackbar(
         title: AppStrings.error,
         message: AppStrings.invalidEmailOrPassword,

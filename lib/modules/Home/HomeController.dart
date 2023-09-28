@@ -20,6 +20,8 @@ class HomeController extends GetxController {
   FocusNode frontCardFocusNode = FocusNode();
   FocusNode backCardFocusNode = FocusNode();
 
+  RxBool isLoading = false.obs;
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
 
@@ -105,30 +107,41 @@ class HomeController extends GetxController {
     TextEditingController deckDescriptionController,
     RxList<Deck> allDecks,
     Function searchDecks,
+    RxBool isLoading,
   ) async {
     if (formKey.currentState!.validate()) {
-      final lastId = await supabase
-          .from("decks")
-          .select("id")
-          .order("id", ascending: false)
-          .limit(1);
-      final Deck newDeck = Deck(
-        id: lastId[0]["id"] + 1,
-        name: deckNameController.text,
-        desc: deckDescriptionController.text,
-        content: [],
-        uid: uid,
-      );
-      await supabase.from("decks").insert(newDeck.toJson());
-      allDecks.add(newDeck);
-      searchDecks();
-      Get.back();
-      CustomSnackbar(
-        title: AppStrings.success,
-        message: AppStrings.successCreateDeck,
-        type: SnackbarType.success,
-      );
+      try {
+        final lastId = await supabase
+            .from("decks")
+            .select("id")
+            .order("id", ascending: false)
+            .limit(1);
+        final Deck newDeck = Deck(
+          id: lastId[0]["id"] + 1,
+          name: deckNameController.text,
+          desc: deckDescriptionController.text,
+          content: [],
+          uid: uid,
+        );
+        await supabase.from("decks").insert(newDeck.toJson());
+        allDecks.add(newDeck);
+        searchDecks();
+        Get.back();
+        CustomSnackbar(
+          title: AppStrings.success,
+          message: AppStrings.successCreateDeck,
+          type: SnackbarType.success,
+        );
+      } catch (e) {
+        isLoading.toggle();
+        CustomSnackbar(
+          title: AppStrings.error,
+          message: e.toString(),
+          type: SnackbarType.error,
+        );
+      }
     }
+    isLoading.toggle();
   }
 
 // EDIT DECK
@@ -139,26 +152,36 @@ class HomeController extends GetxController {
     TextEditingController deckNameController,
     TextEditingController deckDescriptionController,
     Function searchDecks,
+    RxBool isLoading,
   ) async {
     if (formKey.currentState!.validate()) {
-      searchResults[index].name = deckNameController.text;
-      searchResults[index].desc = deckDescriptionController.text;
-      await supabase
-          .from("decks")
-          .update({
-            "name": deckNameController.text,
-            "desc": deckDescriptionController.text
-          })
-          .eq("id", searchResults[index].id)
-          .eq("uid", uid);
-      searchDecks();
-      Get.back();
-      CustomSnackbar(
-        title: AppStrings.success,
-        message: AppStrings.successEditDeck,
-        type: SnackbarType.success,
-      );
+      try {
+        searchResults[index].name = deckNameController.text;
+        searchResults[index].desc = deckDescriptionController.text;
+        await supabase
+            .from("decks")
+            .update({
+              "name": deckNameController.text,
+              "desc": deckDescriptionController.text
+            })
+            .eq("id", searchResults[index].id)
+            .eq("uid", uid);
+        searchDecks();
+        Get.back();
+        CustomSnackbar(
+          title: AppStrings.success,
+          message: AppStrings.successEditDeck,
+          type: SnackbarType.success,
+        );
+      } catch (e) {
+        CustomSnackbar(
+          title: AppStrings.error,
+          message: e.toString(),
+          type: SnackbarType.error,
+        );
+      }
     }
+    isLoading.toggle();
   }
 
 // CREATE/EDIT DECK BOTTOM SHEET
@@ -176,20 +199,33 @@ class HomeController extends GetxController {
       deckDescriptionFocuNode: deckDescriptionFocuNode,
       deckNameController: deckNameController,
       deckDescriptionController: deckDescriptionController,
+      isLoading: isLoading,
       isEditButton: bottomSheetType == BottomSheetType.edit ? true : false,
       onTap: () {
         bottomSheetType == BottomSheetType.create
             ? handleCreateDeck(formKey, deckNameController,
-                deckDescriptionController, allDecks, searchDecks)
-            : handleEditDeck(formKey, searchResults, index ?? 0,
-                deckNameController, deckDescriptionController, searchDecks);
+                deckDescriptionController, allDecks, searchDecks, isLoading)
+            : handleEditDeck(
+                formKey,
+                searchResults,
+                index ?? 0,
+                deckNameController,
+                deckDescriptionController,
+                searchDecks,
+                isLoading);
       },
       submit: (p0) {
         bottomSheetType == BottomSheetType.create
             ? handleCreateDeck(formKey, deckNameController,
-                deckDescriptionController, allDecks, searchDecks)
-            : handleEditDeck(formKey, searchResults, index ?? 0,
-                deckNameController, deckDescriptionController, searchDecks);
+                deckDescriptionController, allDecks, searchDecks, isLoading)
+            : handleEditDeck(
+                formKey,
+                searchResults,
+                index ?? 0,
+                deckNameController,
+                deckDescriptionController,
+                searchDecks,
+                isLoading);
         return null;
       },
     );

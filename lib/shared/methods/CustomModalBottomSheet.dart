@@ -23,8 +23,9 @@ Future<dynamic> CustomModalBottomSheet({
   required void Function() onTap,
   required String? Function(String)? submit,
   bool isEditButton = false,
+  RxBool? isLoading,
 }) {
-  RxBool isLoading = false.obs;
+  // RxBool isLoading = false.obs;
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -72,7 +73,7 @@ Future<dynamic> CustomModalBottomSheet({
                   focusNode: deckDescriptionFocuNode,
                   controller: deckDescriptionController,
                   isDescription: true,
-                  submit: isLoading.value
+                  submit: isLoading!.value
                       ? null
                       : (p0) {
                           isLoading.toggle();
@@ -88,7 +89,11 @@ Future<dynamic> CustomModalBottomSheet({
                         ? null
                         : () {
                             isLoading.toggle();
-                            onTap();
+                            try {
+                              onTap();
+                            } catch (e) {
+                              isLoading.toggle();
+                            }
                           },
                     text: isEditButton
                         ? AppStrings.editDeckButtonTitle

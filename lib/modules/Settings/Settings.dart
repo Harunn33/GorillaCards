@@ -8,11 +8,6 @@ import 'package:gorillacards/shared/constants/fonts.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../di.dart';
-import '../../routes/app_pages.dart';
-import '../../shared/methods/CustomSnackbar.dart';
 import '../../shared/widgets/CustomSettingsItem.dart';
 
 class Settings extends GetView<SettingsController> {
@@ -39,7 +34,7 @@ class Settings extends GetView<SettingsController> {
               icon: Icons.logout_outlined,
               onTap: () {
                 controller.isLoading.toggle();
-                handleSignOut();
+                controller.handleSignOut();
               },
               title: AppStrings.signOut,
               isLoading: controller.isLoading,
@@ -56,19 +51,6 @@ class Settings extends GetView<SettingsController> {
           ],
         ),
       ),
-    );
-  }
-}
-
-Future<void> handleSignOut() async {
-  try {
-    await Get.closeCurrentSnackbar();
-    await supabase.auth.signOut();
-    Get.offAllNamed(Routes.WELCOME);
-  } on AuthException catch (error) {
-    CustomSnackbar(
-      title: AppStrings.error,
-      message: error.message,
     );
   }
 }
