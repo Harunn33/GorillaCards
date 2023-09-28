@@ -164,24 +164,31 @@ Future<void> _addCardFromCsvFile(
     for (int j = 0; j < headers.length; j++) {
       rowData[headers[j]] = row[j];
     }
-
-    final Content flashCard = Content(
-        id: homeController.allDecks[index].content.length + 1,
-        back: rowData["back"],
-        front: rowData["front"]);
-    List<dynamic> list = await supabase
-        .from("decks")
-        .select("content")
-        .eq("uid", uid)
-        .eq("id", homeController.searchResults[index].id);
-    list[0]["content"].add(flashCard.toJson());
-    await supabase
-        .from("decks")
-        .update(list[0])
-        .eq("uid", uid)
-        .eq("id", homeController.searchResults[index].id);
-    homeController.allDecks[index].content.add(flashCard);
-    convertedData.add(rowData);
+    try {
+      final Content flashCard = Content(
+          id: homeController.allDecks[index].content.length + 1,
+          back: rowData["back"],
+          front: rowData["front"]);
+      List<dynamic> list = await supabase
+          .from("decks")
+          .select("content")
+          .eq("uid", uid)
+          .eq("id", homeController.searchResults[index].id);
+      list[0]["content"].add(flashCard.toJson());
+      await supabase
+          .from("decks")
+          .update(list[0])
+          .eq("uid", uid)
+          .eq("id", homeController.searchResults[index].id);
+      homeController.allDecks[index].content.add(flashCard);
+      convertedData.add(rowData);
+    } catch (e) {
+      CustomSnackbar(
+        title: AppStrings.error,
+        message: e.toString(),
+        type: SnackbarType.error,
+      );
+    }
   }
   Get.back();
   CustomSnackbar(
@@ -200,23 +207,31 @@ Future<void> _addCard(
       front: homeController.frontCardController.text,
       back: homeController.backCardController.text,
     );
-    List<dynamic> list = await supabase
-        .from("decks")
-        .select("content")
-        .eq("uid", uid)
-        .eq("id", homeController.searchResults[index].id);
-    list[0]["content"].add(flashCard.toJson());
-    await supabase
-        .from("decks")
-        .update(list[0])
-        .eq("uid", uid)
-        .eq("id", homeController.searchResults[index].id);
-    homeController.allDecks[index].content.add(flashCard);
-    Get.back();
-    CustomSnackbar(
-      title: AppStrings.success,
-      message: AppStrings.successAddFlashCard,
-      type: SnackbarType.success,
-    );
+    try {
+      List<dynamic> list = await supabase
+          .from("decks")
+          .select("content")
+          .eq("uid", uid)
+          .eq("id", homeController.searchResults[index].id);
+      list[0]["content"].add(flashCard.toJson());
+      await supabase
+          .from("decks")
+          .update(list[0])
+          .eq("uid", uid)
+          .eq("id", homeController.searchResults[index].id);
+      homeController.allDecks[index].content.add(flashCard);
+      Get.back();
+      CustomSnackbar(
+        title: AppStrings.success,
+        message: AppStrings.successAddFlashCard,
+        type: SnackbarType.success,
+      );
+    } catch (e) {
+      CustomSnackbar(
+        title: AppStrings.error,
+        message: e.toString(),
+        type: SnackbarType.error,
+      );
+    }
   }
 }

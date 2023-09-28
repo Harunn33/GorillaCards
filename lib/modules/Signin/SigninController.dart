@@ -10,7 +10,6 @@ import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../di.dart';
-import '../../shared/methods/AuthStateListen.dart';
 
 class SigninController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -24,18 +23,9 @@ class SigninController extends GetxController {
   RxBool passwordObscure = false.obs;
   RxBool isLoading = false.obs;
 
-  late final StreamSubscription<AuthState> authSubscription;
-
   @override
-  void onInit() {
-    super.onInit();
-    authSubscription = AuthStateListen.authStateListen();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    authSubscription.cancel();
+  void onClose() {
+    super.onClose();
     emailController.dispose();
     passwordController.dispose();
   }
@@ -57,13 +47,11 @@ class SigninController extends GetxController {
       );
       Get.offAllNamed(Routes.HOME);
     } on AuthException catch (error) {
-      Get.back();
       CustomSnackbar(
         title: AppStrings.error,
         message: error.message,
       );
     } catch (e) {
-      Get.back();
       CustomSnackbar(
         title: AppStrings.error,
         message: AppStrings.invalidEmailOrPassword,

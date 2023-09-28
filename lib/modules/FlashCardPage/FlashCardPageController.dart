@@ -29,8 +29,8 @@ class FlashCardPageController extends GetxController {
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  void onClose() {
+    super.onClose();
     flipCardController.state?.dispose();
     swiperController.dispose();
     answerController.dispose();

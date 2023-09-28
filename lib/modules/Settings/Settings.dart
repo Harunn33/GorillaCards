@@ -66,7 +66,6 @@ Future<void> handleSignOut() async {
     await supabase.auth.signOut();
     Get.offAllNamed(Routes.WELCOME);
   } on AuthException catch (error) {
-    Get.back();
     CustomSnackbar(
       title: AppStrings.error,
       message: error.message,

@@ -65,8 +65,8 @@ class HomeController extends GetxController {
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  void onClose() {
+    super.onClose();
     deckNameController.dispose();
     deckDescriptionController.dispose();
     searchController.dispose();

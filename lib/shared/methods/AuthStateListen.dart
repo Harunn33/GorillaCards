@@ -10,6 +10,8 @@ class AuthStateListen {
       final session = event.session;
       if (session != null) {
         Get.offAllNamed(Routes.HOME);
+      } else {
+        Get.toNamed(Routes.WELCOME);
       }
     });
   }
