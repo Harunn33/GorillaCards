@@ -90,11 +90,13 @@ class Signin extends GetView<SigninController> {
                 AppSpacer.h3,
                 Obx(
                   () => CustomButton(
-                    onTap: controller.buttonDisabled.value
+                    isLoading: controller.isLoading,
+                    onTap: controller.isLoading.value
                         ? null
                         : () async {
                             controller.allFocusNodeUnfocus();
                             if (controller.formKey.currentState!.validate()) {
+                              controller.isLoading.toggle();
                               controller.handleSignin();
                             }
                           },

@@ -1,9 +1,11 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:get/get.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomButton extends StatelessWidget {
@@ -14,7 +16,8 @@ class CustomButton extends StatelessWidget {
   final bool isWide;
   final bool hasIcon;
   final IconData icon;
-  const CustomButton({
+  RxBool? isLoading;
+  CustomButton({
     super.key,
     required this.onTap,
     required this.text,
@@ -23,6 +26,7 @@ class CustomButton extends StatelessWidget {
     this.isWide = false,
     this.hasIcon = false,
     this.icon = Icons.add,
+    this.isLoading,
   });
 
   @override
@@ -60,14 +64,32 @@ class CustomButton extends StatelessWidget {
                   ),
                 ],
               )
-            : Text(
-                text,
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .labelMedium
-                    ?.copyWith(color: textColor),
-              ),
+            : isLoading != null
+                ? Obx(
+                    () => isLoading?.value == true
+                        ? Center(
+                            child: LoadingAnimationWidget.staggeredDotsWave(
+                              color: AppColors.white,
+                              size: 16.sp,
+                            ),
+                          )
+                        : Text(
+                            text,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(color: textColor),
+                          ),
+                  )
+                : Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelMedium
+                        ?.copyWith(color: textColor),
+                  ),
       ),
     );
   }

@@ -51,6 +51,7 @@ dependencies:
   flip_card: ^0.7.0
   card_swiper: ^3.0.1
   percent_indicator: ^4.2.3
+  loading_animation_widget: ^1.2.0+4
 
   # Local Storage
   get_storage: ^2.1.1

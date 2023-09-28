@@ -30,7 +30,7 @@ class SignupController extends GetxController {
 
   RxBool passwordObscure = false.obs;
   RxBool passwordAgainObscure = false.obs;
-  RxBool buttonDisabled = false.obs;
+  RxBool isLoading = false.obs;
 
   late final StreamSubscription<AuthState> authSubscription;
 
@@ -56,7 +56,6 @@ class SignupController extends GetxController {
   }
 
   Future<void> handleSignUp() async {
-    buttonDisabled.value = true;
     await Get.closeCurrentSnackbar();
     CustomLoadingDialog();
     final SignupModel signupModel = SignupModel(
@@ -69,14 +68,12 @@ class SignupController extends GetxController {
       );
       Get.offAllNamed(Routes.HOME);
     } on AuthException catch (error) {
-      buttonDisabled.value = false;
       Get.back();
       CustomSnackbar(
         title: AppStrings.error,
         message: error.message,
       );
     } catch (e) {
-      buttonDisabled.value = false;
       Get.back();
       CustomSnackbar(
         title: AppStrings.error,

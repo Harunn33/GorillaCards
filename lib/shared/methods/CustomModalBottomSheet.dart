@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gorillacards/shared/widgets/CustomInputLabel.dart';
 import 'package:sizer/sizer.dart';
 
@@ -23,6 +24,7 @@ Future<dynamic> CustomModalBottomSheet({
   required String? Function(String)? submit,
   bool isEditButton = false,
 }) {
+  RxBool isLoading = false.obs;
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -73,15 +75,23 @@ Future<dynamic> CustomModalBottomSheet({
                   submit: submit,
                 ),
                 AppSpacer.h3,
-                CustomButton(
-                  onTap: onTap,
-                  text: isEditButton
-                      ? AppStrings.editDeckButtonTitle
-                      : AppStrings.createDeckButtonTitle,
-                  bg: AppColors.primary,
-                  textColor: AppColors.white,
-                  hasIcon: false,
-                  isWide: true,
+                Obx(
+                  () => CustomButton(
+                    isLoading: isLoading,
+                    onTap: isLoading.value
+                        ? null
+                        : () {
+                            isLoading.toggle();
+                            onTap();
+                          },
+                    text: isEditButton
+                        ? AppStrings.editDeckButtonTitle
+                        : AppStrings.createDeckButtonTitle,
+                    bg: AppColors.primary,
+                    textColor: AppColors.white,
+                    hasIcon: false,
+                    isWide: true,
+                  ),
                 ),
               ],
             ),

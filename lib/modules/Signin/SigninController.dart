@@ -23,7 +23,7 @@ class SigninController extends GetxController {
   TextEditingController passwordController = TextEditingController();
 
   RxBool passwordObscure = false.obs;
-  RxBool buttonDisabled = false.obs;
+  RxBool isLoading = false.obs;
 
   late final StreamSubscription<AuthState> authSubscription;
 
@@ -47,7 +47,6 @@ class SigninController extends GetxController {
   }
 
   Future<void> handleSignin() async {
-    buttonDisabled.value = true;
     await Get.closeCurrentSnackbar();
     CustomLoadingDialog();
     final SigninModel signinModel = SigninModel(
@@ -58,17 +57,14 @@ class SigninController extends GetxController {
         password: signinModel.password,
         email: signinModel.email,
       );
-      buttonDisabled.value = false;
       Get.offAllNamed(Routes.HOME);
     } on AuthException catch (error) {
-      buttonDisabled.value = false;
       Get.back();
       CustomSnackbar(
         title: AppStrings.error,
         message: error.message,
       );
     } catch (e) {
-      buttonDisabled.value = false;
       Get.back();
       CustomSnackbar(
         title: AppStrings.error,

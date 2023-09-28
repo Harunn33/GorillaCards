@@ -48,6 +48,7 @@ class CustomCreateFlashCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RxBool isLoading = false.obs;
     return CustomFlashCard(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -105,11 +106,19 @@ class CustomCreateFlashCard extends StatelessWidget {
                 bg: AppColors.primary,
                 textColor: AppColors.white,
               ),
-              CustomButton(
-                onTap: () => _addCard(homeController, index, uid),
-                text: AppStrings.ok,
-                bg: AppColors.primary,
-                textColor: AppColors.white,
+              Obx(
+                () => CustomButton(
+                  isLoading: isLoading,
+                  onTap: isLoading.value
+                      ? null
+                      : () {
+                          isLoading.toggle();
+                          _addCard(homeController, index, uid);
+                        },
+                  text: AppStrings.ok,
+                  bg: AppColors.primary,
+                  textColor: AppColors.white,
+                ),
               ),
             ],
           )

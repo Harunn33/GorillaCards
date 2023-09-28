@@ -9,6 +9,7 @@ import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
 import '../../shared/widgets/CustomAppBar.dart';
 
@@ -36,8 +37,9 @@ class Home extends GetView<HomeController> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: CircularProgressIndicator(
+                      child: LoadingAnimationWidget.staggeredDotsWave(
                         color: AppColors.primary,
+                        size: 25.sp,
                       ),
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {

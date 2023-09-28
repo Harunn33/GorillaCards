@@ -117,11 +117,13 @@ class Signup extends GetView<SignupController> {
                 AppSpacer.h3,
                 Obx(
                   () => CustomButton(
-                    onTap: controller.buttonDisabled.value
+                    isLoading: controller.isLoading,
+                    onTap: controller.isLoading.value
                         ? null
                         : () {
                             controller.allFocusNodeUnfocus();
                             if (controller.formKey.currentState!.validate()) {
+                              controller.isLoading.toggle();
                               controller.handleSignUp();
                             }
                           },

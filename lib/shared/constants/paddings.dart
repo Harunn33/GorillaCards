@@ -4,8 +4,9 @@ import 'package:sizer/sizer.dart';
 class AppPaddings {
   AppPaddings._();
 
-  static final EdgeInsets generalPadding = EdgeInsets.symmetric(
-    horizontal: 5.w, // 20 ye çekince release APK daki hata gidiyor
+  static const EdgeInsets generalPadding = EdgeInsets.symmetric(
+    horizontal:
+        20, // 20 ye çekince release APK daki hata gidiyor---------------------5.w
   );
   static final EdgeInsets h3v1Padding = EdgeInsets.symmetric(
     horizontal: 3.w,
