@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:get/route_manager.dart';
+import 'package:gorillacards/modules/DeckDetail/DeckDetail.dart';
+import 'package:gorillacards/modules/DeckDetail/DeckDetailBinding.dart';
 import 'package:gorillacards/modules/FlashCardPage/FlashCardPage.dart';
 import 'package:gorillacards/modules/FlashCardPage/FlashCardPageBinding.dart';
 import 'package:gorillacards/modules/Home/Home.dart';
@@ -62,6 +64,11 @@ class AppPages {
       name: Routes.RESULT,
       page: () => const Result(),
       binding: ResultBinding(),
+    ),
+    GetPage(
+      name: Routes.DECKDETAIL,
+      page: () => const DeckDetail(),
+      binding: DeckDetailBinding(),
     )
   ];
 }

@@ -101,24 +101,28 @@ class CustomDeckCardItem extends StatelessWidget {
 
   void _redirectToFlashCardPage(BuildContext context) {
     Get.closeCurrentSnackbar();
-    if (controller.allDecks[index].content.isEmpty) {
-      CustomSnackbar(
-        title: AppStrings.error,
-        message: AppStrings.noFlashCard,
-        type: SnackbarType.error,
-        onTap: (p0) {
-          controller.flashCardRemoveText();
-          controller.addCardToDeck(context, index);
-        },
-      );
-      return;
-    }
-    Get.toNamed(
-      Routes.FLASHCARDPAGE,
-      arguments: [
-        controller.allDecks[index].content,
-      ],
-    );
+    Get.toNamed(Routes.DECKDETAIL, arguments: [
+      controller.allDecks[index].content,
+      controller.searchResults[index].id
+    ]);
+    // if (controller.allDecks[index].content.isEmpty) {
+    //   CustomSnackbar(
+    //     title: AppStrings.error,
+    //     message: AppStrings.noFlashCard,
+    //     type: SnackbarType.error,
+    //     onTap: (p0) {
+    //       controller.flashCardRemoveText();
+    //       controller.addCardToDeck(context, index);
+    //     },
+    //   );
+    //   return;
+    // }
+    // Get.toNamed(
+    //   Routes.FLASHCARDPAGE,
+    //   arguments: [
+    //     controller.allDecks[index].content,
+    //   ],
+    // );
   }
 
   void _editFunc(BuildContext context) {

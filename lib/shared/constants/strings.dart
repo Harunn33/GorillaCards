@@ -77,4 +77,9 @@ class AppStrings {
   static const showTestReportsBtnTitle = "Show test reports";
   static const congratulationsMessage =
       "Congratulations on knowing all the questions";
+
+  // DECK DETAIL
+  static const deckDetailFlashCardFrontInfo = "Tap the card to see the back";
+  static const successDeleteFlashCard = "Card successfully deleted";
+  static const noCardsYet = "There is no card yet.";
 }

@@ -11,4 +11,5 @@ abstract class Routes {
   static const FLASHCARDPAGE = "/flashcardpage";
   static const SETTINGS = "/settings";
   static const RESULT = "/result";
+  static const DECKDETAIL = "/deckDetail";
 }
