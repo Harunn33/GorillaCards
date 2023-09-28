@@ -87,13 +87,16 @@ class Signup extends GetView<SignupController> {
                 // Password Again
                 Obx(
                   () => CustomTextFormField(
-                    onSubmit: (p0) {
-                      controller.allFocusNodeUnfocus();
-                      if (controller.formKey.currentState!.validate()) {
-                        controller.handleSignUp();
-                      }
-                      return null;
-                    },
+                    onSubmit: controller.isLoading.value
+                        ? null
+                        : (p0) {
+                            controller.allFocusNodeUnfocus();
+                            if (controller.formKey.currentState!.validate()) {
+                              controller.isLoading.toggle();
+                              controller.handleSignUp();
+                            }
+                            return null;
+                          },
                     onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
                     controller: controller.passwordAgainController,
                     focusNode: controller.passwordAgainFocusNode,

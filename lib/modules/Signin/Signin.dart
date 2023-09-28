@@ -59,13 +59,16 @@ class Signin extends GetView<SigninController> {
                 AppSpacer.h2,
                 Obx(
                   () => CustomTextFormField(
-                    onSubmit: (p0) {
-                      controller.allFocusNodeUnfocus();
-                      if (controller.formKey.currentState!.validate()) {
-                        controller.handleSignin();
-                      }
-                      return null;
-                    },
+                    onSubmit: controller.isLoading.value
+                        ? null
+                        : (p0) {
+                            controller.allFocusNodeUnfocus();
+                            if (controller.formKey.currentState!.validate()) {
+                              controller.isLoading.toggle();
+                              controller.handleSignin();
+                            }
+                            return null;
+                          },
                     onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
                     hintText: AppStrings.passwordHint,
                     prefixIcon: Icons.lock_outlined,

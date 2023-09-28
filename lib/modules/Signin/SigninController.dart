@@ -11,7 +11,6 @@ import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../di.dart';
 import '../../shared/methods/AuthStateListen.dart';
-import '../../shared/methods/CustomLoadingDialog.dart';
 
 class SigninController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -48,7 +47,6 @@ class SigninController extends GetxController {
 
   Future<void> handleSignin() async {
     await Get.closeCurrentSnackbar();
-    CustomLoadingDialog();
     final SigninModel signinModel = SigninModel(
         email: emailController.text.trim(),
         password: passwordController.text.trim());

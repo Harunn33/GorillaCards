@@ -1,6 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:get/get.dart';
 import 'package:gorillacards/shared/constants/fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:sizer/sizer.dart';
 
 import '../constants/borderRadius.dart';
 import '../constants/colors.dart';
@@ -13,7 +18,8 @@ class CustomSettingsItem extends StatelessWidget {
   final Color? color;
   final Color? icColor;
   final Color? textColor;
-  const CustomSettingsItem({
+  RxBool? isLoading;
+  CustomSettingsItem({
     super.key,
     required this.onTap,
     required this.title,
@@ -21,6 +27,7 @@ class CustomSettingsItem extends StatelessWidget {
     this.color,
     this.icColor,
     this.textColor,
+    this.isLoading,
   });
 
   @override
@@ -33,21 +40,47 @@ class CustomSettingsItem extends StatelessWidget {
           borderRadius: AppBorderRadius.generalRadius,
           color: color ?? AppColors.dreamyCloud,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontFamily: AppFonts.medium,
-                  color: textColor ?? AppColors.black),
-            ),
-            Icon(
-              icon,
-              color: icColor ?? AppColors.black,
-            )
-          ],
-        ),
+        child: isLoading == null
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontFamily: AppFonts.medium,
+                        color: textColor ?? AppColors.black),
+                  ),
+                  Icon(
+                    icon,
+                    color: icColor ?? AppColors.black,
+                  )
+                ],
+              )
+            : Obx(
+                () => isLoading?.value == true
+                    ? Center(
+                        child: LoadingAnimationWidget.staggeredDotsWave(
+                            color: AppColors.primary, size: 15.sp),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            title,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    fontFamily: AppFonts.medium,
+                                    color: textColor ?? AppColors.black),
+                          ),
+                          Icon(
+                            icon,
+                            color: icColor ?? AppColors.black,
+                          )
+                        ],
+                      ),
+              ),
       ),
     );
   }

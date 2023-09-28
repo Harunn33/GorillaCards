@@ -72,7 +72,13 @@ Future<dynamic> CustomModalBottomSheet({
                   focusNode: deckDescriptionFocuNode,
                   controller: deckDescriptionController,
                   isDescription: true,
-                  submit: submit,
+                  submit: isLoading.value
+                      ? null
+                      : (p0) {
+                          isLoading.toggle();
+                          submit!(p0);
+                          return null;
+                        },
                 ),
                 AppSpacer.h3,
                 Obx(

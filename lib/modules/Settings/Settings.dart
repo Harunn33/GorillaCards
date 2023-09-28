@@ -12,7 +12,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../di.dart';
 import '../../routes/app_pages.dart';
-import '../../shared/methods/CustomLoadingDialog.dart';
 import '../../shared/methods/CustomSnackbar.dart';
 import '../../shared/widgets/CustomSettingsItem.dart';
 
@@ -36,10 +35,14 @@ class Settings extends GetView<SettingsController> {
         child: Column(
           children: [
             AppSpacer.h3,
-            const CustomSettingsItem(
+            CustomSettingsItem(
               icon: Icons.logout_outlined,
-              onTap: handleSignOut,
+              onTap: () {
+                controller.isLoading.toggle();
+                handleSignOut();
+              },
               title: AppStrings.signOut,
+              isLoading: controller.isLoading,
             ),
             AppSpacer.h1,
             CustomSettingsItem(
@@ -60,7 +63,6 @@ class Settings extends GetView<SettingsController> {
 Future<void> handleSignOut() async {
   try {
     await Get.closeCurrentSnackbar();
-    CustomLoadingDialog();
     await supabase.auth.signOut();
     Get.offAllNamed(Routes.WELCOME);
   } on AuthException catch (error) {
