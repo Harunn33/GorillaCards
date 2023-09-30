@@ -62,7 +62,7 @@ class CustomCreateFlashCard extends StatelessWidget {
                 message:
                     "You can upload a csv file with headers named 'id, back, front'",
                 child: Bounceable(
-                  onTap: () => _addCardFromCsvFile(homeController, index, uid),
+                  onTap: () => addCardFromCsvFile(homeController, index, uid),
                   child: Icon(
                     Icons.upload_file_outlined,
                     color: AppColors.black,
@@ -133,7 +133,7 @@ class CustomCreateFlashCard extends StatelessWidget {
   }
 }
 
-Future<void> _addCardFromCsvFile(
+Future<void> addCardFromCsvFile(
     HomeController homeController, int index, String? uid) async {
   const List<String> acceptedHeaders = ["id", "front", "back"];
   List<Map<String, dynamic>> convertedData = [];

@@ -1,8 +1,14 @@
 // ignore_for_file: file_names
 
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/di.dart';
 import 'package:gorillacards/models/deckModel.dart';
@@ -292,6 +298,76 @@ class DeckDetailController extends GetxController {
     );
   }
 
+  void addCardFromCsv() async {
+    const List<String> acceptedHeaders = ["id", "front", "back"];
+    List<Map<String, dynamic>> convertedData = [];
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      allowedExtensions: ["csv"],
+      type: FileType.custom,
+    );
+    if (result == null) return;
+    String? filePath = result.files.first.path;
+    if (filePath == null) return;
+    final input = File(filePath).openRead();
+    final fields = await input
+        .transform(utf8.decoder)
+        .transform(const CsvToListConverter())
+        .toList();
+    List<String> headers = fields[0][0].split(';');
+    // Kabul edilen başlıkları içeriyor mu kontrol et
+    bool hasAcceptedHeaders = acceptedHeaders.every((acceptedHeader) {
+      return headers.contains(acceptedHeader);
+    });
+
+    if (!hasAcceptedHeaders) {
+      // Kabul edilmeyen başlıkları içeren dosyaları reddet
+      // veya kullanıcıya hata mesajı gösterin
+      CustomSnackbar(
+          title: "Error", message: "The content of the file is not suitable");
+      return;
+    }
+    for (int i = 1; i < fields.length; i++) {
+      List<String> row = fields[i][0].split(';');
+      Map<String, dynamic> rowData = {};
+      for (int j = 0; j < headers.length; j++) {
+        rowData[headers[j]] = row[j];
+      }
+      try {
+        int maxId = 0;
+
+        for (var data in flashCards) {
+          int currentId = data.id;
+          if (currentId > maxId) {
+            maxId = currentId;
+          }
+        }
+        final Content flashCard = Content(
+            id: maxId + 1, back: rowData["back"], front: rowData["front"]);
+        contentListFromSupabase[0]["content"].add(flashCard.toJson());
+        await supabase
+            .from("decks")
+            .update(contentListFromSupabase[0])
+            .eq("uid", homeController.uid)
+            .eq("id", deckId);
+        flashCards.add(flashCard);
+        convertedData.add(rowData);
+      } catch (e) {
+        CustomSnackbar(
+          title: AppStrings.error,
+          message: e.toString(),
+          type: SnackbarType.error,
+        );
+      }
+    }
+    Get.back();
+    CustomSnackbar(
+      title: AppStrings.success,
+      message: AppStrings.successAddFlashCard,
+      type: SnackbarType.success,
+    );
+  }
+
   void editDeck(BuildContext context) {
     homeController.deckNameController.text =
         homeController.searchResults[deckIndex].name;
@@ -346,15 +422,34 @@ class _CustomFlashCardSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DeckDetailController deckDetailController = Get.find();
     return CustomFlashCard(
       height: 21.h,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: CustomInputLabel(
-              label: label,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(child: CustomInputLabel(label: label)),
+              Tooltip(
+                message:
+                    "You can upload a csv file with headers named 'id, back, front'",
+                child: Bounceable(
+                  onTap: () => deckDetailController.addCardFromCsv(),
+                  child: Icon(
+                    Icons.upload_file_outlined,
+                    color: AppColors.black,
+                  ),
+                ),
+              ),
+              Text(
+                ".csv",
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: AppColors.black,
+                    ),
+              ),
+            ],
           ),
           AppSpacer.h1,
           Obx(
