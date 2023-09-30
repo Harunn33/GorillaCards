@@ -9,8 +9,8 @@ import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 
 class FlashCardPageController extends GetxController {
-  List<Content> flashCards = Get.arguments[0];
-  List<Content> reports = <Content>[];
+  RxList<Content> flashCards = Get.arguments[0];
+  RxList<Content> reports = <Content>[].obs;
   RxInt index = 0.obs;
   RxInt correctAnswers = 0.obs;
   RxInt wrongAnswers = 0.obs;
@@ -23,20 +23,13 @@ class FlashCardPageController extends GetxController {
   final FocusNode answerFocusNode = FocusNode();
 
   @override
-  void onInit() {
-    super.onInit();
-    flashCards.shuffle();
-  }
-
-  @override
   void onClose() {
     super.onClose();
-    flipCardController.state?.dispose();
     swiperController.dispose();
     answerController.dispose();
   }
 
-  void checkAnswer(List<Content> flashCards) {
+  void checkAnswer(RxList<Content> flashCards) {
     final GetStorage box = GetStorage();
     final currentFlashCard = flashCards[index.value];
     final userAnswer = answerController.text.toLowerCase().trim();

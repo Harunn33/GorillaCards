@@ -82,4 +82,8 @@ class AppStrings {
   static const deckDetailFlashCardFrontInfo = "Tap the card to see the back";
   static const successDeleteFlashCard = "Card successfully deleted";
   static const noCardsYet = "There is no card yet.";
+  static const cardCount = "Card Count";
+  static const study = "Study";
+  static const editDeck = "Edit Deck";
+  static const deleteDeck = "Delete Deck";
 }

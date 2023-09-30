@@ -9,7 +9,7 @@ class SettingsController extends GetxController {
   RxBool isLoading = false.obs;
   Future<void> handleSignOut() async {
     try {
-      await Get.closeCurrentSnackbar();
+      Get.closeAllSnackbars();
       await supabase.auth.signOut();
       Get.offAllNamed(Routes.WELCOME);
     } on AuthException catch (error) {

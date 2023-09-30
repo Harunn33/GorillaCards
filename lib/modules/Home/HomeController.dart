@@ -189,7 +189,7 @@ class HomeController extends GetxController {
       {required BuildContext context,
       int? index,
       BottomSheetType bottomSheetType = BottomSheetType.create}) {
-    Get.closeCurrentSnackbar();
+    Get.closeAllSnackbars();
     bottomSheetType == BottomSheetType.create ? allRemoveText() : null;
     CustomModalBottomSheet(
       context: context,
@@ -233,7 +233,7 @@ class HomeController extends GetxController {
 
 // DELETE DECK
   Future<void> deleteDeck(int index) async {
-    Get.closeCurrentSnackbar();
+    Get.closeAllSnackbars();
     await supabase
         .from("decks")
         .delete()
@@ -251,14 +251,14 @@ class HomeController extends GetxController {
 
 // ADD CARD TO DECK
   void addCardToDeck(BuildContext context, int index) {
-    Get.closeCurrentSnackbar();
+    Get.closeAllSnackbars();
     showDialog(
       context: context,
       builder: (context) {
         return Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 10.w,
-            vertical: 35.h,
+            vertical: 30.h,
           ),
           child: Material(
             color: Colors.transparent,

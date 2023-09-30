@@ -6,11 +6,16 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/modules/DeckDetail/DeckDetailController.dart';
 import 'package:gorillacards/modules/Home/HomeController.dart';
+import 'package:gorillacards/modules/Home/widgets/CustomFAB.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
+import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
+import 'package:gorillacards/shared/widgets/CustomButton.dart';
 import 'package:gorillacards/shared/widgets/CustomFlashCard.dart';
+import 'package:gorillacards/shared/widgets/CustomInputLabel.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class DeckDetail extends GetView<DeckDetailController> {
@@ -18,125 +23,200 @@ class DeckDetail extends GetView<DeckDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    final args = Get.arguments;
     final HomeController homeController = Get.find();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const CustomAppBar(),
       body: Obx(
         () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppSpacer.h1,
-            controller.flashCards.isEmpty
+            controller.isLoading.value
                 ? Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        AppStrings.noCardsYet,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                    child: Center(
+                      child: LoadingAnimationWidget.staggeredDotsWave(
+                        color: AppColors.primary,
+                        size: 25.sp,
                       ),
                     ),
                   )
-                : Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.flashCards.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 70.w,
-                          margin: EdgeInsets.symmetric(horizontal: 3.w),
-                          child: FlipCard(
-                            controller: controller.flipCardController,
-                            front: CustomFlashCard(
-                              height: 25.h,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const SizedBox.shrink(),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        controller.flashCards[index].front,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge,
-                                      ),
-                                      Text(
-                                        AppStrings.deckDetailFlashCardFrontInfo,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall,
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Bounceable(
-                                        onTap: () async {
-                                          controller.editFlashCard(
-                                              context, index, args[1]);
-                                        },
-                                        child: const Icon(
-                                          Icons.edit_outlined,
-                                        ),
-                                      ),
-                                      AppSpacer.h1,
-                                      Bounceable(
-                                        onTap: () async {
-                                          controller.deleteCard(index, args[1],
-                                              homeController.uid);
-                                        },
-                                        child: Icon(
-                                          Icons.delete_outline_outlined,
-                                          color: AppColors.red,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            back: CustomFlashCard(
-                              height: 25.h,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const SizedBox.shrink(),
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      controller.flashCards[index].back,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineLarge,
-                                    ),
-                                  ),
-                                  Bounceable(
-                                    onTap: () {
-                                      print(controller.flashCards[index].back);
-                                    },
-                                    child: const Icon(
-                                      Icons.edit_outlined,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                : controller.flashCards.isEmpty
+                    ? Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            AppStrings.noCardsYet,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.flashCards.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: 70.w,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.symmetric(horizontal: 3.w),
+                              child: FlipCard(
+                                controller: controller.flipCardController,
+                                front: _CustomCardSide(
+                                  controller: controller,
+                                  index: index,
+                                  homeController: homeController,
+                                  isFront: true,
+                                ),
+                                back: _CustomCardSide(
+                                  controller: controller,
+                                  homeController: homeController,
+                                  index: index,
+                                  isFront: false,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+            Expanded(
+              child: Padding(
+                padding: AppPaddings.generalPadding,
+                child: Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomInputLabel(
+                        label:
+                            "${AppStrings.deckName}: ${homeController.searchResults[controller.deckIndex].name}",
+                      ),
+                      AppSpacer.h1,
+                      CustomInputLabel(
+                        label:
+                            "${AppStrings.cardCount}: ${controller.flashCards.length}",
+                      ),
+                      AppSpacer.h1,
+                      const Spacer(),
+                      CustomButton(
+                        hasIcon: true,
+                        icon: Icons.work_outline_outlined,
+                        onTap: () =>
+                            controller.redirectToFlashCardPage(context),
+                        text: AppStrings.study,
+                        bg: AppColors.primary,
+                        textColor: AppColors.white,
+                        isWide: true,
+                      ),
+                      AppSpacer.h1,
+                      CustomButton(
+                        hasIcon: true,
+                        icon: Icons.edit_outlined,
+                        onTap: () => controller.editDeck(context),
+                        text: AppStrings.editDeck,
+                        bg: AppColors.santasGrey,
+                        textColor: AppColors.white,
+                        isWide: true,
+                      ),
+                      AppSpacer.h1,
+                      CustomButton(
+                        hasIcon: true,
+                        icon: Icons.delete_outline_outlined,
+                        onTap: () {
+                          Get.closeAllSnackbars();
+                          Get.back();
+                          homeController.deleteDeck(controller.deckIndex);
+                        },
+                        text: AppStrings.deleteDeck,
+                        bg: AppColors.red,
+                        textColor: AppColors.white,
+                        isWide: true,
+                      ),
+                    ],
                   ),
-            const Spacer(
-              flex: 2,
+                ),
+              ),
             ),
+            const Spacer(),
           ],
         ),
+      ),
+      floatingActionButton: CustomFAB(
+        title: AppStrings.addCard,
+        bg: AppColors.approvalGreen,
+        onTap: () => controller.addFlashCard(context),
+      ),
+    );
+  }
+}
+
+class _CustomCardSide extends StatelessWidget {
+  const _CustomCardSide({
+    required this.controller,
+    required this.homeController,
+    required this.index,
+    required this.isFront,
+  });
+
+  final DeckDetailController controller;
+  final HomeController homeController;
+  final int index;
+  final bool isFront;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomFlashCard(
+      height: 25.h,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const SizedBox.shrink(),
+          isFront
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      controller.flashCards[index].front,
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    Text(
+                      AppStrings.deckDetailFlashCardFrontInfo,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ],
+                )
+              : Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    controller.flashCards[index].back,
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                ),
+          Column(
+            children: [
+              Bounceable(
+                onTap: () async {
+                  controller.editFlashCard(
+                    context,
+                    index,
+                  );
+                },
+                child: const Icon(
+                  Icons.edit_outlined,
+                ),
+              ),
+              AppSpacer.h1,
+              Bounceable(
+                onTap: () async {
+                  controller.deleteCard(index, homeController.uid);
+                },
+                child: Icon(
+                  Icons.delete_outline_outlined,
+                  color: AppColors.red,
+                ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

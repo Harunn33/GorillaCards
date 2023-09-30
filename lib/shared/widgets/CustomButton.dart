@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
-import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -51,7 +50,6 @@ class CustomButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(icon, color: AppColors.white),
-                  AppSpacer.w2,
                   Expanded(
                     child: Text(
                       text,

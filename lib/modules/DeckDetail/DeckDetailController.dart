@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 import 'package:gorillacards/di.dart';
 import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/modules/Home/HomeController.dart';
+import 'package:gorillacards/routes/app_pages.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
 import 'package:gorillacards/shared/widgets/CustomButton.dart';
-import 'package:gorillacards/shared/widgets/CustomCreateFlashCardWidget.dart';
 import 'package:gorillacards/shared/widgets/CustomFlashCard.dart';
 import 'package:gorillacards/shared/widgets/CustomInputLabel.dart';
 import 'package:gorillacards/shared/widgets/CustomModalBottomSheetTextFormField.dart';
@@ -34,14 +34,45 @@ class DeckDetailController extends GetxController {
 
   RxList<Content> flashCards = <Content>[].obs;
 
+  final int deckId = Get.arguments[0];
+
+  List<dynamic> contentListFromSupabase = [];
+
+  int deckIndex = Get.arguments[1];
+
   @override
   void onInit() {
     super.onInit();
-    flashCards.addAll(Get.arguments[0]);
+    getCardList();
   }
 
-  void editFlashCard(BuildContext context, int index, int deckId) {
-    Get.closeCurrentSnackbar();
+  @override
+  void onClose() {
+    super.onClose();
+    frontCardController.dispose();
+    backCardController.dispose();
+    frontCardFocusNode.dispose();
+    backCardFocusNode.dispose();
+  }
+
+  Future<void> getCardList() async {
+    isLoading.value = true;
+    contentListFromSupabase = await supabase
+        .from("decks")
+        .select("content")
+        .eq("uid", homeController.uid)
+        .eq("id", deckId);
+    for (var card in contentListFromSupabase[0]["content"]) {
+      final Content cardModel =
+          Content(id: card["id"], front: card["front"], back: card["back"]);
+      flashCards.add(cardModel);
+    }
+    isLoading.value = false;
+  }
+
+  void editFlashCard(BuildContext context, int index) {
+    Get.closeAllSnackbars();
+
     frontCardController.text = flashCards[index].front;
     backCardController.text = flashCards[index].back;
     showDialog(
@@ -50,7 +81,7 @@ class DeckDetailController extends GetxController {
         return Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 10.w,
-            vertical: 35.h,
+            vertical: 30.h,
           ),
           child: Material(
             color: Colors.transparent,
@@ -68,9 +99,9 @@ class DeckDetailController extends GetxController {
                 label: "Front Card",
                 hintText: "Front Card Text",
                 btnText: "Turn the back",
-                onTap: () => _editCard(
+                onTap: () => handleEditCard(
                     homeController, index, deckId, homeController.uid),
-                submit: (p0) => _editCard(
+                submit: (p0) => handleEditCard(
                     homeController, index, deckId, homeController.uid),
               ),
               back: _CustomFlashCardSide(
@@ -81,9 +112,9 @@ class DeckDetailController extends GetxController {
                 label: "Back Card",
                 hintText: "Back Card Text",
                 btnText: "Turn the front",
-                onTap: () => _editCard(
+                onTap: () => handleEditCard(
                     homeController, index, deckId, homeController.uid),
-                submit: (p0) => _editCard(
+                submit: (p0) => handleEditCard(
                     homeController, index, deckId, homeController.uid),
               ),
             ),
@@ -93,17 +124,13 @@ class DeckDetailController extends GetxController {
     );
   }
 
-  Future<void> deleteCard(int index, int deckId, String? uid) async {
+  Future<void> deleteCard(int index, String? uid) async {
+    Get.closeAllSnackbars();
     try {
-      List<dynamic> list = await supabase
-          .from("decks")
-          .select("content")
-          .eq("uid", uid)
-          .eq("id", deckId);
-      list[0]["content"].removeAt(index);
+      contentListFromSupabase[0]["content"].removeAt(index);
       await supabase
           .from("decks")
-          .update(list[0])
+          .update(contentListFromSupabase[0])
           .eq("uid", uid)
           .eq("id", deckId);
       flashCards.removeAt(index);
@@ -122,12 +149,13 @@ class DeckDetailController extends GetxController {
     }
   }
 
-  Future<void> _editCard(
+  Future<void> handleEditCard(
     HomeController homeController,
     int index,
     int deckId,
     String? uid,
   ) async {
+    Get.closeAllSnackbars();
     if (frontCardController.text.isNotEmpty ||
         backCardController.text.isNotEmpty) {
       final Content flashCard = Content(
@@ -136,18 +164,14 @@ class DeckDetailController extends GetxController {
         back: backCardController.text,
       );
       try {
-        List<dynamic> list = await supabase
-            .from("decks")
-            .select("content")
-            .eq("uid", uid)
-            .eq("id", deckId);
-        list[0]["content"].removeAt(index);
-        list[0]["content"].add(flashCard.toJson());
-        list[0]["content"].sort((a, b) => int.parse(a["id"].toString())
-            .compareTo(int.parse(b["id"].toString())));
+        contentListFromSupabase[0]["content"].removeAt(index);
+        contentListFromSupabase[0]["content"].add(flashCard.toJson());
+        contentListFromSupabase[0]["content"].sort((a, b) =>
+            int.parse(a["id"].toString())
+                .compareTo(int.parse(b["id"].toString())));
         await supabase
             .from("decks")
-            .update(list[0])
+            .update(contentListFromSupabase[0])
             .eq("uid", uid)
             .eq("id", deckId);
         flashCards.removeAt(index);
@@ -171,6 +195,129 @@ class DeckDetailController extends GetxController {
       }
     }
     isLoading.toggle();
+  }
+
+  void handleAddCard(
+    int deckId,
+    String? uid,
+  ) async {
+    Get.closeAllSnackbars();
+    if (frontCardController.text.isNotEmpty ||
+        backCardController.text.isNotEmpty) {
+      int maxId = 0;
+
+      for (var data in flashCards) {
+        int currentId = data.id;
+        if (currentId > maxId) {
+          maxId = currentId;
+        }
+      }
+      final Content flashCard = Content(
+        id: maxId + 1,
+        front: frontCardController.text,
+        back: backCardController.text,
+      );
+      try {
+        contentListFromSupabase[0]["content"].add(flashCard.toJson());
+        await supabase
+            .from("decks")
+            .update(contentListFromSupabase[0])
+            .eq("uid", uid)
+            .eq("id", deckId);
+        flashCards.add(flashCard);
+        Get.back();
+        CustomSnackbar(
+          title: AppStrings.success,
+          message: AppStrings.successAddFlashCard,
+          type: SnackbarType.success,
+        );
+      } catch (e) {
+        isLoading.toggle();
+        CustomSnackbar(
+          title: AppStrings.error,
+          message: e.toString(),
+          type: SnackbarType.error,
+        );
+      }
+    }
+    isLoading.toggle();
+  }
+
+  void addFlashCard(BuildContext context) {
+    Get.closeAllSnackbars();
+    frontCardController.clear();
+    backCardController.clear();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 10.w,
+            vertical: 30.h,
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: FlipCard(
+              key: cardKey,
+              flipOnTouch: false,
+              fill: Fill.fillBack,
+              direction: FlipDirection.HORIZONTAL,
+              side: CardSide.FRONT,
+              front: _CustomFlashCardSide(
+                cardKey: cardKey,
+                isLoading: isLoading,
+                focusNode: frontCardFocusNode,
+                textEditingController: frontCardController,
+                label: "Front Card",
+                hintText: "Front Card Text",
+                btnText: "Turn the back",
+                onTap: () => handleAddCard(deckId, homeController.uid),
+                submit: (p0) => handleAddCard(deckId, homeController.uid),
+              ),
+              back: _CustomFlashCardSide(
+                cardKey: cardKey,
+                isLoading: isLoading,
+                focusNode: backCardFocusNode,
+                textEditingController: backCardController,
+                label: "Back Card",
+                hintText: "Back Card Text",
+                btnText: "Turn the front",
+                onTap: () => handleAddCard(deckId, homeController.uid),
+                submit: (p0) => handleAddCard(deckId, homeController.uid),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void editDeck(BuildContext context) {
+    homeController.deckNameController.text =
+        homeController.searchResults[deckIndex].name;
+    homeController.deckDescriptionController.text =
+        homeController.searchResults[deckIndex].desc;
+    homeController.createBottomSheet(
+      context: context,
+      bottomSheetType: BottomSheetType.edit,
+      index: deckIndex,
+    );
+  }
+
+  void redirectToFlashCardPage(BuildContext context) {
+    if (flashCards.isEmpty) {
+      CustomSnackbar(
+        title: AppStrings.error,
+        message: AppStrings.noFlashCard,
+        type: SnackbarType.error,
+        onTap: (p0) => addFlashCard(context),
+      );
+      return;
+    }
+    Get.toNamed(
+      Routes.FLASHCARDPAGE,
+      arguments: [flashCards],
+    );
   }
 }
 

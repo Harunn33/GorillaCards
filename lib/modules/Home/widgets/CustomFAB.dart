@@ -5,11 +5,13 @@ import 'package:sizer/sizer.dart';
 
 import '../../../shared/constants/borderRadius.dart';
 import '../../../shared/constants/colors.dart';
-import '../../../shared/constants/strings.dart';
 
 class CustomFAB extends StatelessWidget {
   final void Function() onTap;
-  const CustomFAB({super.key, required this.onTap});
+  final String title;
+  final Color? bg;
+  const CustomFAB(
+      {super.key, required this.onTap, required this.title, this.bg});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +23,14 @@ class CustomFAB extends StatelessWidget {
       extendedPadding: EdgeInsets.symmetric(
         horizontal: 2.w,
       ),
-      backgroundColor: AppColors.primary,
+      backgroundColor: bg ?? AppColors.primary,
       splashColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: AppBorderRadius.generalRadius,
       ),
       onPressed: onTap,
       label: Text(
-        AppStrings.addDeck,
+        title,
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.labelMedium,
       ),

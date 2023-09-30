@@ -45,7 +45,7 @@ class SignupController extends GetxController {
   }
 
   Future<void> handleSignUp() async {
-    await Get.closeCurrentSnackbar();
+    Get.closeAllSnackbars();
     final SignupModel signupModel = SignupModel(
         email: emailController.text.trim(),
         password: passwordController.text.trim());

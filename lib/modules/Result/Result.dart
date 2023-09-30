@@ -26,7 +26,7 @@ class Result extends GetView<ResultController> {
     Get.put(ResultController());
     return Scaffold(
       appBar: CustomAppBar(
-        backFunc: () => Get.close(2),
+        backFunc: () => Get.close(3),
       ),
       body: WillPopScope(
         onWillPop: () async {

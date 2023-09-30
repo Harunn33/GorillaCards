@@ -6,7 +6,6 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/modules/Home/HomeController.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
-import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../routes/app_pages.dart';
@@ -100,11 +99,9 @@ class CustomDeckCardItem extends StatelessWidget {
   }
 
   void _redirectToFlashCardPage(BuildContext context) {
-    Get.closeCurrentSnackbar();
-    Get.toNamed(Routes.DECKDETAIL, arguments: [
-      controller.allDecks[index].content,
-      controller.searchResults[index].id
-    ]);
+    Get.closeAllSnackbars();
+    Get.toNamed(Routes.DECKDETAIL,
+        arguments: [controller.searchResults[index].id, index]);
     // if (controller.allDecks[index].content.isEmpty) {
     //   CustomSnackbar(
     //     title: AppStrings.error,

@@ -76,6 +76,7 @@ class Home extends GetView<HomeController> {
         ),
       ),
       floatingActionButton: CustomFAB(
+        title: AppStrings.addDeck,
         onTap: () async {
           controller.createBottomSheet(context: context);
         },
