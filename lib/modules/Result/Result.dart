@@ -66,7 +66,7 @@ class Result extends GetView<ResultController> {
                     CustomTextButton(
                       onTap: () =>
                           CustomReportsModalBottomSheet(context, controller),
-                      title: AppStrings.showTestReportsBtnTitle,
+                      title: AppStrings.showTestReportsBtnTitle.tr,
                     ),
                   ],
                 ),

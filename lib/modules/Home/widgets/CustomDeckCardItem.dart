@@ -30,19 +30,19 @@ class CustomDeckCardItem extends StatelessWidget {
         key: ValueKey(controller.searchResults[index].id),
         trailingActions: <SwipeAction>[
           CustomSwipeAction(
-            title: AppStrings.delete,
+            title: AppStrings.delete.tr,
             icon: Icons.delete_outlined,
             onTap: () => controller.deleteDeck(index),
           ),
           CustomSwipeAction(
             hasHandler: true,
-            title: AppStrings.edit,
+            title: AppStrings.edit.tr,
             icon: Icons.edit_outlined,
             onTap: () => _editFunc(context),
             color: AppColors.santasGrey,
           ),
           CustomSwipeAction(
-            title: AppStrings.addCard,
+            title: AppStrings.addCard.tr,
             icon: Icons.add,
             onTap: () {
               controller.flashCardRemoveText();
@@ -86,7 +86,7 @@ class CustomDeckCardItem extends StatelessWidget {
                   ),
                   AppSpacer.w1,
                   Text(
-                    AppStrings.slide,
+                    AppStrings.slide.tr,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
@@ -102,24 +102,6 @@ class CustomDeckCardItem extends StatelessWidget {
     Get.closeAllSnackbars();
     Get.toNamed(Routes.DECKDETAIL,
         arguments: [controller.searchResults[index].id, index]);
-    // if (controller.allDecks[index].content.isEmpty) {
-    //   CustomSnackbar(
-    //     title: AppStrings.error,
-    //     message: AppStrings.noFlashCard,
-    //     type: SnackbarType.error,
-    //     onTap: (p0) {
-    //       controller.flashCardRemoveText();
-    //       controller.addCardToDeck(context, index);
-    //     },
-    //   );
-    //   return;
-    // }
-    // Get.toNamed(
-    //   Routes.FLASHCARDPAGE,
-    //   arguments: [
-    //     controller.allDecks[index].content,
-    //   ],
-    // );
   }
 
   void _editFunc(BuildContext context) {

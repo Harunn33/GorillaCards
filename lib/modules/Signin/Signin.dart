@@ -33,14 +33,14 @@ class Signin extends GetView<SigninController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppStrings.signinTitle,
+                  AppStrings.signinTitle.tr,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 AppSpacer.h3,
                 CustomTextFormField(
                   actionType: TextInputAction.next,
                   onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
-                  hintText: AppStrings.emailHint,
+                  hintText: AppStrings.emailHint.tr,
                   prefixIcon: Icons.email_outlined,
                   focusNode: controller.emailFocusNode,
                   controller: controller.emailController,
@@ -49,9 +49,9 @@ class Signin extends GetView<SigninController> {
                       return null;
                     }
                     if (value.isEmpty) {
-                      return "* ${AppStrings.emailBlankError}";
+                      return "* ${AppStrings.emailBlankError.tr}";
                     } else if (!signupController.emailRegex.hasMatch(value)) {
-                      return "* ${AppStrings.emailNotValid}";
+                      return "* ${AppStrings.emailNotValid.tr}";
                     }
                     return null;
                   },
@@ -70,7 +70,7 @@ class Signin extends GetView<SigninController> {
                             return null;
                           },
                     onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
-                    hintText: AppStrings.passwordHint,
+                    hintText: AppStrings.passwordHint.tr,
                     prefixIcon: Icons.lock_outlined,
                     focusNode: controller.passwordFocusNode,
                     controller: controller.passwordController,
@@ -82,9 +82,9 @@ class Signin extends GetView<SigninController> {
                         return null;
                       }
                       if (value.isEmpty) {
-                        return "* ${AppStrings.passwordBlankError}";
+                        return "* ${AppStrings.passwordBlankError.tr}";
                       } else if (value.length < 6) {
-                        return "* ${AppStrings.passwordNotValid}";
+                        return "* ${AppStrings.passwordNotValid.tr}";
                       }
                       return null;
                     },
@@ -103,7 +103,7 @@ class Signin extends GetView<SigninController> {
                               controller.handleSignin();
                             }
                           },
-                    text: AppStrings.signin,
+                    text: AppStrings.signin.tr,
                     isWide: true,
                     bg: AppColors.primary,
                     textColor: AppColors.white,
@@ -111,8 +111,8 @@ class Signin extends GetView<SigninController> {
                 ),
                 AppSpacer.h2,
                 CustomRichText(
-                  firstText: AppStrings.dontHaveAccount,
-                  secondText: AppStrings.signup,
+                  firstText: AppStrings.dontHaveAccount.tr,
+                  secondText: AppStrings.signup.tr,
                   secondTextOnTap: () => Get.offNamed(Routes.SIGNUP),
                 )
               ],

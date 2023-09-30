@@ -2,88 +2,84 @@ class AppStrings {
   AppStrings._();
   // GENERAL
   static const appName = "Gorilla Cards";
-  static const String error = "Error";
-  static const String success = "Success";
-  static const String successRegistered = "You have successfully registered.";
-  static const String invalidEmailOrPassword = "Email or password is wrong";
-  static const String emailAlreadyExists = "Email already exists";
+  static const String error = "error";
+  static const String success = "success";
+  static const String successRegistered = "successRegistered";
+  static const String invalidEmailOrPassword = "invalidEmailOrPassword";
+  static const String emailAlreadyExists = "emailAlreadyExists";
 
   // WELCOME
-  static const welcomeTitle = "Welcome\nto Gorilla Cards";
-  static const welcomeDescription =
-      "Gorilla Cards is the new way to create, organize, and study flash cards. Its main functionality is based on Anki but with a modern touch.";
-  static const welcomeDescription2 =
-      "From our perspective, education and learning should be fun. In that viewpoint, we are creating modern version of flashcard apps with gamification elements. It's now in the kitchen and cooking...";
+  static const welcomeTitle = "welcomeTitle";
+  static const welcomeDescription = "welcomeDescription";
+  static const welcomeDescription2 = "welcomeDescription2";
   // SIGN IN
-  static const signin = "Sign In";
-  static const signinTitle = "Welcome back Gorilla 🦍";
-  static const dontHaveAccount = "Don't have an account ? ";
+  static const signin = "signin";
+  static const signinTitle = "signinTitle";
+  static const dontHaveAccount = "dontHaveAccount";
   // SIGN UP
-  static const signup = "Sign Up";
-  static const signupTitle = "Be a Gorilla 🦍";
-  static const emailHint = "* Email";
-  static const passwordHint = "* Password";
-  static const passwordAgainHint = "* Password again";
-  static const emailNotValid = "Email is not valid";
-  static const emailBlankError = "Email cannot be blank";
-  static const passwordBlankError = "Password cannot be blank";
-  static const passwordNotValid = "Your password must be at least 6 characters";
-  static const passwordAgainBlankError = "Password again cannot be blank";
-  static const passwordAgainNotMatch = "Passwords do not match";
-  static const hasAccount = "You already have an account ? ";
+  static const signup = "signup";
+  static const signupTitle = "signupTitle";
+  static const emailHint = "emailHint";
+  static const passwordHint = "passwordHint";
+  static const passwordAgainHint = "passwordAgainHint";
+  static const emailNotValid = "emailNotValid";
+  static const emailBlankError = "emailBlankError";
+  static const passwordBlankError = "passwordBlankError";
+  static const passwordNotValid = "passwordNotValid";
+  static const passwordAgainBlankError = "passwordAgainBlankError";
+  static const passwordAgainNotMatch = "passwordAgainNotMatch";
+  static const hasAccount = "hasAccount";
 
   // HOME
-  static const noDecksYet = "There is no deck yet.";
-  static const deckName = "Deck Name";
-  static const deckDescription = "Description (Optional)";
-  static const deckNameHint = "Enter your deck name";
-  static const deckNameInvalid = "Deck name can not be empty";
-  static const createDeckButtonTitle = "Create Deck";
-  static const editDeckButtonTitle = "Edit Deck";
-  static const createdDeckSuccessMessage = "Deck created";
-  static const createdDeckErrorMessage = "Deck does not created";
-  static const delete = "Delete";
-  static const edit = "Edit";
-  static const addDeck = "Add Deck";
-  static const addCard = "Add Card";
-  static const browse = "Browse";
-  static const searchFieldHint = "Search your decks...";
-  static const successDeleteDeck = "The deck was successfully deleted";
-  static const successAddFlashCard = "Card successfully added";
-  static const successEditDeck = "Deck successfully edited";
-  static const successCreateDeck = "Deck successfully created";
-  static const ok = "OK";
-  static const noFlashCard = "No flash cards in the deck. Tap for add card.";
-  static const slide = "Slide";
+  static const noDecksYet = "noDecksYet";
+  static const deckName = "deckName";
+  static const deckDescription = "deckDescription";
+  static const deckNameHint = "deckNameHint";
+  static const deckNameInvalid = "deckNameInvalid";
+  static const createDeckButtonTitle = "createDeckButtonTitle";
+  static const editDeckButtonTitle = "editDeckButtonTitle";
+  static const delete = "delete";
+  static const edit = "edit";
+  static const addDeck = "addDeck";
+  static const addCard = "addCard";
+  static const searchFieldHint = "searchFieldHint";
+  static const successDeleteDeck = "successDeleteDeck";
+  static const successAddFlashCard = "successAddFlashCard";
+  static const successEditDeck = "successEditDeck";
+  static const successCreateDeck = "successCreateDeck";
+  static const ok = "ok";
+  static const noFlashCard = "noFlashCard";
+  static const slide = "slide";
 
   // SETTINGS
-  static const settings = "Settings";
-  static const signOut = "Sign Out";
-  static const deleteAccount = "Delete Account";
+  static const settings = "settings";
+  static const signOut = "signOut";
+  static const deleteAccount = "deleteAccount";
 
   // FLASHCARD PAGE
-  static const question = "What is the Turkish equivalent?";
-  static const rotate = "Rotate";
-  static const done = "Done";
-  static const next = "Next";
+  static const question = "question";
+  static const rotate = "rotate";
+  static const done = "done";
+  static const next = "next";
 
   // RESULT
-  static const testReportsModalBottomSheetTitle = "Test Reports";
+  static const testReportsModalBottomSheetTitle =
+      "testReportsModalBottomSheetTitle";
   static const testReportsModalBottomSheetCardInfo =
-      "Tap the card to see the answer";
-  static const numberOfCorrect = "Correct";
-  static const numberOfWrong = "Wrong";
-  static const numberOfEmpty = "Empty";
-  static const showTestReportsBtnTitle = "Show test reports";
-  static const congratulationsMessage =
-      "Congratulations on knowing all the questions";
+      "testReportsModalBottomSheetCardInfo";
+  static const numberOfCorrect = "numberOfCorrect";
+  static const numberOfWrong = "numberOfWrong";
+  static const numberOfEmpty = "numberOfEmpty";
+  static const showTestReportsBtnTitle = "showTestReportsBtnTitle";
+  static const congratulationsMessage = "congratulationsMessage";
 
   // DECK DETAIL
-  static const deckDetailFlashCardFrontInfo = "Tap the card to see the back";
-  static const successDeleteFlashCard = "Card successfully deleted";
-  static const noCardsYet = "There is no card yet.";
-  static const cardCount = "Card Count";
-  static const study = "Study";
-  static const editDeck = "Edit Deck";
-  static const deleteDeck = "Delete Deck";
+  static const deckDetailFlashCardFrontInfo = "deckDetailFlashCardFrontInfo";
+  static const successDeleteFlashCard = "successDeleteFlashCard";
+  static const noCardsYet = "noCardsYet";
+  static const cardCount = "cardCount";
+  static const study = "study";
+  static const editDeck = "editDeck";
+  static const deleteDeck = "deleteDeck";
+  static const csvTooltip = "csvTooltip";
 }

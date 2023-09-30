@@ -24,17 +24,21 @@ class Welcome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppStrings.welcomeTitle,
+                AppStrings.welcomeTitle.trParams({
+                  "appName": AppStrings.appName,
+                }),
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               AppSpacer.h1,
               Text(
-                AppStrings.welcomeDescription,
+                AppStrings.welcomeDescription.trParams({
+                  "appName": AppStrings.appName,
+                }),
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               AppSpacer.h1,
               Text(
-                AppStrings.welcomeDescription2,
+                AppStrings.welcomeDescription2.tr,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               AppSpacer.h3,
@@ -46,7 +50,7 @@ class Welcome extends StatelessWidget {
                     onTap: () {
                       Get.toNamed(Routes.SIGNIN);
                     },
-                    text: AppStrings.signin,
+                    text: AppStrings.signin.tr,
                     textColor: AppColors.white,
                   ),
                   CustomButton(
@@ -54,7 +58,7 @@ class Welcome extends StatelessWidget {
                     onTap: () {
                       Get.toNamed(Routes.SIGNUP);
                     },
-                    text: AppStrings.signup,
+                    text: AppStrings.signup.tr,
                     textColor: AppColors.black,
                   ),
                 ],

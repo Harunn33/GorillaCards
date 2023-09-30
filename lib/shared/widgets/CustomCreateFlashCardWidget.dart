@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -59,8 +61,7 @@ class CustomCreateFlashCard extends StatelessWidget {
             children: [
               Expanded(child: CustomInputLabel(label: label)),
               Tooltip(
-                message:
-                    "You can upload a csv file with headers named 'id, back, front'",
+                message: AppStrings.csvTooltip.tr,
                 child: Bounceable(
                   onTap: () => addCardFromCsvFile(homeController, index, uid),
                   child: Icon(
@@ -120,7 +121,7 @@ class CustomCreateFlashCard extends StatelessWidget {
                           isLoading.toggle();
                           _addCard(homeController, index, uid, isLoading);
                         },
-                  text: AppStrings.ok,
+                  text: AppStrings.ok.tr,
                   bg: AppColors.primary,
                   textColor: AppColors.white,
                 ),
@@ -189,7 +190,7 @@ Future<void> addCardFromCsvFile(
       convertedData.add(rowData);
     } catch (e) {
       CustomSnackbar(
-        title: AppStrings.error,
+        title: AppStrings.error.tr,
         message: e.toString(),
         type: SnackbarType.error,
       );
@@ -197,8 +198,8 @@ Future<void> addCardFromCsvFile(
   }
   Get.back();
   CustomSnackbar(
-    title: AppStrings.success,
-    message: AppStrings.successAddFlashCard,
+    title: AppStrings.success.tr,
+    message: AppStrings.successAddFlashCard.tr,
     type: SnackbarType.success,
   );
 }
@@ -227,14 +228,14 @@ Future<void> _addCard(HomeController homeController, int index, String? uid,
       homeController.allDecks[index].content.add(flashCard);
       Get.back();
       CustomSnackbar(
-        title: AppStrings.success,
-        message: AppStrings.successAddFlashCard,
+        title: AppStrings.success.tr,
+        message: AppStrings.successAddFlashCard.tr,
         type: SnackbarType.success,
       );
     } catch (e) {
       isLoading?.toggle();
       CustomSnackbar(
-        title: AppStrings.error,
+        title: AppStrings.error.tr,
         message: e.toString(),
         type: SnackbarType.error,
       );

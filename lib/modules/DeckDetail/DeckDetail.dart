@@ -45,7 +45,7 @@ class DeckDetail extends GetView<DeckDetailController> {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            AppStrings.noCardsYet,
+                            AppStrings.noCardsYet.tr,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
@@ -87,12 +87,12 @@ class DeckDetail extends GetView<DeckDetailController> {
                     children: [
                       CustomInputLabel(
                         label:
-                            "${AppStrings.deckName}: ${homeController.searchResults[controller.deckIndex].name}",
+                            "${AppStrings.deckName.tr}: ${homeController.searchResults[controller.deckIndex].name}",
                       ),
                       AppSpacer.h1,
                       CustomInputLabel(
                         label:
-                            "${AppStrings.cardCount}: ${controller.flashCards.length}",
+                            "${AppStrings.cardCount.tr}: ${controller.flashCards.length}",
                       ),
                       AppSpacer.h1,
                       const Spacer(),
@@ -101,7 +101,7 @@ class DeckDetail extends GetView<DeckDetailController> {
                         icon: Icons.work_outline_outlined,
                         onTap: () =>
                             controller.redirectToFlashCardPage(context),
-                        text: AppStrings.study,
+                        text: AppStrings.study.tr,
                         bg: AppColors.primary,
                         textColor: AppColors.white,
                         isWide: true,
@@ -111,7 +111,7 @@ class DeckDetail extends GetView<DeckDetailController> {
                         hasIcon: true,
                         icon: Icons.edit_outlined,
                         onTap: () => controller.editDeck(context),
-                        text: AppStrings.editDeck,
+                        text: AppStrings.editDeck.tr,
                         bg: AppColors.santasGrey,
                         textColor: AppColors.white,
                         isWide: true,
@@ -125,7 +125,7 @@ class DeckDetail extends GetView<DeckDetailController> {
                           Get.back();
                           homeController.deleteDeck(controller.deckIndex);
                         },
-                        text: AppStrings.deleteDeck,
+                        text: AppStrings.deleteDeck.tr,
                         bg: AppColors.red,
                         textColor: AppColors.white,
                         isWide: true,
@@ -140,7 +140,7 @@ class DeckDetail extends GetView<DeckDetailController> {
         ),
       ),
       floatingActionButton: CustomFAB(
-        title: AppStrings.addCard,
+        title: AppStrings.addCard.tr,
         bg: AppColors.approvalGreen,
         onTap: () => controller.addFlashCard(context),
       ),
@@ -179,7 +179,7 @@ class _CustomCardSide extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     Text(
-                      AppStrings.deckDetailFlashCardFrontInfo,
+                      AppStrings.deckDetailFlashCardFrontInfo.tr,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],

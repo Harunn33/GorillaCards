@@ -97,7 +97,7 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppStrings.question,
+                        AppStrings.question.tr,
                         style:
                             Theme.of(context).textTheme.labelMedium?.copyWith(
                                   color: AppColors.black,
@@ -124,7 +124,7 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                                 controller.flipCardController.state
                                     ?.toggleCard();
                               },
-                              text: AppStrings.rotate,
+                              text: AppStrings.rotate.tr,
                               bg: AppColors.approvalGreen,
                               isWide: true,
                               textColor: AppColors.white,
@@ -137,8 +137,8 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                                   controller.checkAnswer(controller.flashCards),
                               text: controller.index.value ==
                                       controller.flashCards.length - 1
-                                  ? AppStrings.done
-                                  : AppStrings.next,
+                                  ? AppStrings.done.tr
+                                  : AppStrings.next.tr,
                               bg: AppColors.primary,
                               textColor: AppColors.white,
                               isWide: true,

@@ -55,17 +55,22 @@ class SignupController extends GetxController {
         email: signupModel.email,
       );
       Get.offAllNamed(Routes.HOME);
+      CustomSnackbar(
+        title: AppStrings.success.tr,
+        message: AppStrings.successRegistered.tr,
+        type: SnackbarType.success,
+      );
     } on AuthException catch (error) {
       isLoading.toggle();
       CustomSnackbar(
-        title: AppStrings.error,
+        title: AppStrings.error.tr,
         message: error.message,
       );
     } catch (e) {
       isLoading.toggle();
       CustomSnackbar(
-        title: AppStrings.error,
-        message: AppStrings.invalidEmailOrPassword,
+        title: AppStrings.error.tr,
+        message: AppStrings.invalidEmailOrPassword.tr,
       );
     }
   }

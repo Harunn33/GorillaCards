@@ -31,17 +31,17 @@ class ResultController extends GetxController {
       {
         "value": flashCardPageController.correctAnswers.value.toDouble(),
         "color": AppColors.dustyGreen,
-        "title": AppStrings.numberOfCorrect,
+        "title": AppStrings.numberOfCorrect.tr,
       },
       {
         "value": flashCardPageController.wrongAnswers.value.toDouble(),
         "color": AppColors.red,
-        "title": AppStrings.numberOfWrong,
+        "title": AppStrings.numberOfWrong.tr,
       },
       {
         "value": flashCardPageController.emptyAnswers.value.toDouble(),
         "color": AppColors.santasGrey,
-        "title": AppStrings.numberOfEmpty,
+        "title": AppStrings.numberOfEmpty.tr,
       },
     ]);
     results.refresh();

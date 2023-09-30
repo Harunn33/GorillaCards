@@ -128,14 +128,14 @@ class HomeController extends GetxController {
         searchDecks();
         Get.back();
         CustomSnackbar(
-          title: AppStrings.success,
-          message: AppStrings.successCreateDeck,
+          title: AppStrings.success.tr,
+          message: AppStrings.successCreateDeck.tr,
           type: SnackbarType.success,
         );
       } catch (e) {
         isLoading.toggle();
         CustomSnackbar(
-          title: AppStrings.error,
+          title: AppStrings.error.tr,
           message: e.toString(),
           type: SnackbarType.error,
         );
@@ -169,13 +169,13 @@ class HomeController extends GetxController {
         searchDecks();
         Get.back();
         CustomSnackbar(
-          title: AppStrings.success,
-          message: AppStrings.successEditDeck,
+          title: AppStrings.success.tr,
+          message: AppStrings.successEditDeck.tr,
           type: SnackbarType.success,
         );
       } catch (e) {
         CustomSnackbar(
-          title: AppStrings.error,
+          title: AppStrings.error.tr,
           message: e.toString(),
           type: SnackbarType.error,
         );
@@ -243,8 +243,8 @@ class HomeController extends GetxController {
     allDecks.removeAt(index);
 
     CustomSnackbar(
-      title: AppStrings.success,
-      message: AppStrings.successDeleteDeck,
+      title: AppStrings.success.tr,
+      message: AppStrings.successDeleteDeck.tr,
       type: SnackbarType.success,
     );
   }

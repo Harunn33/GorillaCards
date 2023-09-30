@@ -141,14 +141,14 @@ class DeckDetailController extends GetxController {
           .eq("id", deckId);
       flashCards.removeAt(index);
       CustomSnackbar(
-        title: AppStrings.success,
-        message: AppStrings.successDeleteFlashCard,
+        title: AppStrings.success.tr,
+        message: AppStrings.successDeleteFlashCard.tr,
         type: SnackbarType.success,
       );
     } catch (e) {
       isLoading.toggle();
       CustomSnackbar(
-        title: AppStrings.error,
+        title: AppStrings.error.tr,
         message: e.toString(),
         type: SnackbarType.error,
       );
@@ -187,14 +187,14 @@ class DeckDetailController extends GetxController {
         );
         Get.back();
         CustomSnackbar(
-          title: AppStrings.success,
-          message: AppStrings.successAddFlashCard,
+          title: AppStrings.success.tr,
+          message: AppStrings.successAddFlashCard.tr,
           type: SnackbarType.success,
         );
       } catch (e) {
         isLoading.toggle();
         CustomSnackbar(
-          title: AppStrings.error,
+          title: AppStrings.error.tr,
           message: e.toString(),
           type: SnackbarType.error,
         );
@@ -233,14 +233,14 @@ class DeckDetailController extends GetxController {
         flashCards.add(flashCard);
         Get.back();
         CustomSnackbar(
-          title: AppStrings.success,
-          message: AppStrings.successAddFlashCard,
+          title: AppStrings.success.tr,
+          message: AppStrings.successAddFlashCard.tr,
           type: SnackbarType.success,
         );
       } catch (e) {
         isLoading.toggle();
         CustomSnackbar(
-          title: AppStrings.error,
+          title: AppStrings.error.tr,
           message: e.toString(),
           type: SnackbarType.error,
         );
@@ -354,7 +354,7 @@ class DeckDetailController extends GetxController {
         convertedData.add(rowData);
       } catch (e) {
         CustomSnackbar(
-          title: AppStrings.error,
+          title: AppStrings.error.tr,
           message: e.toString(),
           type: SnackbarType.error,
         );
@@ -362,8 +362,8 @@ class DeckDetailController extends GetxController {
     }
     Get.back();
     CustomSnackbar(
-      title: AppStrings.success,
-      message: AppStrings.successAddFlashCard,
+      title: AppStrings.success.tr,
+      message: AppStrings.successAddFlashCard.tr,
       type: SnackbarType.success,
     );
   }
@@ -383,8 +383,8 @@ class DeckDetailController extends GetxController {
   void redirectToFlashCardPage(BuildContext context) {
     if (flashCards.isEmpty) {
       CustomSnackbar(
-        title: AppStrings.error,
-        message: AppStrings.noFlashCard,
+        title: AppStrings.error.tr,
+        message: AppStrings.noFlashCard.tr,
         type: SnackbarType.error,
         onTap: (p0) => addFlashCard(context),
       );
@@ -433,8 +433,7 @@ class _CustomFlashCardSide extends StatelessWidget {
             children: [
               Expanded(child: CustomInputLabel(label: label)),
               Tooltip(
-                message:
-                    "You can upload a csv file with headers named 'id, back, front'",
+                message: AppStrings.csvTooltip.tr,
                 child: Bounceable(
                   onTap: () => deckDetailController.addCardFromCsv(),
                   child: Icon(
@@ -494,7 +493,7 @@ class _CustomFlashCardSide extends StatelessWidget {
                           isLoading.toggle();
                           onTap();
                         },
-                  text: AppStrings.ok,
+                  text: AppStrings.ok.tr,
                   bg: AppColors.primary,
                   textColor: AppColors.white,
                 ),

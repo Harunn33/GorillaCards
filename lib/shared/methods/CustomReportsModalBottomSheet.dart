@@ -1,7 +1,8 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, file_names
 
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gorillacards/modules/Result/ResultController.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/enums/lottie.dart';
@@ -27,7 +28,7 @@ Future<dynamic> CustomReportsModalBottomSheet(
         child: Column(
           children: [
             Text(
-              AppStrings.testReportsModalBottomSheetTitle,
+              AppStrings.testReportsModalBottomSheetTitle.tr,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontFamily: AppFonts.semibold,
                   ),
@@ -41,8 +42,8 @@ Future<dynamic> CustomReportsModalBottomSheet(
                           SizedBox(
                               height: 30.h,
                               child: CustomLottie.congrats.lottieAsset),
-                          const Text(
-                            AppStrings.congratulationsMessage,
+                          Text(
+                            AppStrings.congratulationsMessage.tr,
                           ),
                         ],
                       ),
@@ -74,7 +75,7 @@ Future<dynamic> CustomReportsModalBottomSheet(
                                   ),
                                   Text(
                                     AppStrings
-                                        .testReportsModalBottomSheetCardInfo,
+                                        .testReportsModalBottomSheetCardInfo.tr,
                                     style:
                                         Theme.of(context).textTheme.titleSmall,
                                   ),

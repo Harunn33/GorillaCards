@@ -43,12 +43,12 @@ Future<dynamic> CustomModalBottomSheet({
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomInputLabel(label: AppStrings.deckName),
+                CustomInputLabel(label: AppStrings.deckName.tr),
                 AppSpacer.h1,
                 CustomModalBottomSheetTextFormField(
                   onTapOutside: onTapOutside,
                   actionType: TextInputAction.next,
-                  hintText: AppStrings.deckNameHint,
+                  hintText: AppStrings.deckNameHint.tr,
                   focusNode: deckNameFocusNode,
                   controller: deckNameController,
                   autoFocus: true,
@@ -57,14 +57,14 @@ Future<dynamic> CustomModalBottomSheet({
                       return null;
                     }
                     if (value.isEmpty) {
-                      return "* ${AppStrings.deckNameInvalid}";
+                      return "* ${AppStrings.deckNameInvalid.tr}";
                     }
                     return null;
                   },
                 ),
                 AppSpacer.h3,
-                const CustomInputLabel(
-                  label: AppStrings.deckDescription,
+                CustomInputLabel(
+                  label: AppStrings.deckDescription.tr,
                 ),
                 AppSpacer.h1,
                 CustomModalBottomSheetTextFormField(
@@ -96,8 +96,8 @@ Future<dynamic> CustomModalBottomSheet({
                             }
                           },
                     text: isEditButton
-                        ? AppStrings.editDeckButtonTitle
-                        : AppStrings.createDeckButtonTitle,
+                        ? AppStrings.editDeckButtonTitle.tr
+                        : AppStrings.createDeckButtonTitle.tr,
                     bg: AppColors.primary,
                     textColor: AppColors.white,
                     hasIcon: false,

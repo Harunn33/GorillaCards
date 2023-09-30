@@ -31,7 +31,7 @@ class Signup extends GetView<SignupController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppStrings.signupTitle,
+                  AppStrings.signupTitle.tr,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 AppSpacer.h3,
@@ -41,16 +41,16 @@ class Signup extends GetView<SignupController> {
                   onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
                   controller: controller.emailController,
                   focusNode: controller.emailFocusNode,
-                  hintText: AppStrings.emailHint,
+                  hintText: AppStrings.emailHint.tr,
                   prefixIcon: Icons.email_outlined,
                   validator: (value) {
                     if (value == null) {
                       return null;
                     }
                     if (value.isEmpty) {
-                      return "* ${AppStrings.emailBlankError}";
+                      return "* ${AppStrings.emailBlankError.tr}";
                     } else if (!controller.emailRegex.hasMatch(value)) {
-                      return "* ${AppStrings.emailNotValid}";
+                      return "* ${AppStrings.emailNotValid.tr}";
                     }
                     return null;
                   },
@@ -63,7 +63,7 @@ class Signup extends GetView<SignupController> {
                     onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
                     controller: controller.passwordController,
                     focusNode: controller.passwordFocusNode,
-                    hintText: AppStrings.passwordHint,
+                    hintText: AppStrings.passwordHint.tr,
                     prefixIcon: Icons.lock_outlined,
                     isPassword: true,
                     isObscure: controller.passwordObscure.value,
@@ -75,9 +75,9 @@ class Signup extends GetView<SignupController> {
                         return null;
                       }
                       if (value.isEmpty) {
-                        return "* ${AppStrings.passwordBlankError}";
+                        return "* ${AppStrings.passwordBlankError.tr}";
                       } else if (value.length < 6) {
-                        return "* ${AppStrings.passwordNotValid}";
+                        return "* ${AppStrings.passwordNotValid.tr}";
                       }
                       return null;
                     },
@@ -100,7 +100,7 @@ class Signup extends GetView<SignupController> {
                     onTapOutside: (p0) => controller.allFocusNodeUnfocus(),
                     controller: controller.passwordAgainController,
                     focusNode: controller.passwordAgainFocusNode,
-                    hintText: AppStrings.passwordAgainHint,
+                    hintText: AppStrings.passwordAgainHint.tr,
                     prefixIcon: Icons.lock_outlined,
                     isPassword: true,
                     isObscure: controller.passwordAgainObscure.value,
@@ -109,9 +109,9 @@ class Signup extends GetView<SignupController> {
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "* ${AppStrings.passwordAgainBlankError}";
+                        return "* ${AppStrings.passwordAgainBlankError.tr}";
                       } else if (value != controller.passwordController.text) {
-                        return "* ${AppStrings.passwordAgainNotMatch}";
+                        return "* ${AppStrings.passwordAgainNotMatch.tr}";
                       }
                       return null;
                     },
@@ -130,7 +130,7 @@ class Signup extends GetView<SignupController> {
                               controller.handleSignUp();
                             }
                           },
-                    text: AppStrings.signup,
+                    text: AppStrings.signup.tr,
                     isWide: true,
                     bg: AppColors.primary,
                     textColor: AppColors.white,
@@ -138,8 +138,8 @@ class Signup extends GetView<SignupController> {
                 ),
                 AppSpacer.h2,
                 CustomRichText(
-                  firstText: AppStrings.hasAccount,
-                  secondText: AppStrings.signin,
+                  firstText: AppStrings.hasAccount.tr,
+                  secondText: AppStrings.signin.tr,
                   secondTextOnTap: () {
                     Get.offNamed(Routes.SIGNIN);
                   },

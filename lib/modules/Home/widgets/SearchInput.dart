@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../shared/constants/colors.dart';
@@ -39,7 +40,7 @@ class SearchInput extends StatelessWidget {
         hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: AppColors.santasGrey,
             ),
-        hintText: AppStrings.searchFieldHint,
+        hintText: AppStrings.searchFieldHint.tr,
         contentPadding: AppPaddings.h3v1Padding,
       ),
     );

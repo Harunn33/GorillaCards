@@ -48,7 +48,7 @@ class Home extends GetView<HomeController> {
                           ? Container(
                               alignment: Alignment.center,
                               child: Text(
-                                AppStrings.noDecksYet,
+                                AppStrings.noDecksYet.tr,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             )
@@ -76,7 +76,7 @@ class Home extends GetView<HomeController> {
         ),
       ),
       floatingActionButton: CustomFAB(
-        title: AppStrings.addDeck,
+        title: AppStrings.addDeck.tr,
         onTap: () async {
           controller.createBottomSheet(context: context);
         },
