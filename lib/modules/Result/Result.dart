@@ -30,7 +30,7 @@ class Result extends GetView<ResultController> {
       ),
       body: WillPopScope(
         onWillPop: () async {
-          Get.close(2);
+          Get.close(3);
           return true;
         },
         child: Padding(
