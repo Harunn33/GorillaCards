@@ -165,57 +165,65 @@ class _CustomCardSide extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomFlashCard(
       height: 25.h,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Stack(
         children: [
-          const SizedBox.shrink(),
-          isFront
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      controller.flashCards[index].front,
-                      style: Theme.of(context).textTheme.headlineLarge,
-                    ),
-                    Text(
-                      AppStrings.deckDetailFlashCardFrontInfo.tr,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ],
-                )
-              : Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    controller.flashCards[index].back,
-                    style: Theme.of(context).textTheme.headlineLarge,
+          Positioned(
+            right: 0,
+            child: Column(
+              children: [
+                Bounceable(
+                  onTap: () async {
+                    controller.editFlashCard(
+                      context,
+                      index,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.edit_outlined,
                   ),
                 ),
-          Column(
-            children: [
-              Bounceable(
-                onTap: () async {
-                  controller.editFlashCard(
-                    context,
-                    index,
-                  );
-                },
-                child: const Icon(
-                  Icons.edit_outlined,
+                AppSpacer.h1,
+                Bounceable(
+                  onTap: () async {
+                    controller.deleteCard(index, homeController.uid);
+                  },
+                  child: Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.red,
+                  ),
                 ),
-              ),
-              AppSpacer.h1,
-              Bounceable(
-                onTap: () async {
-                  controller.deleteCard(index, homeController.uid);
-                },
-                child: Icon(
-                  Icons.delete_outline_outlined,
-                  color: AppColors.red,
+              ],
+            ),
+          ),
+          isFront
+              ? Container(
+                  padding: EdgeInsets.only(right: 4.w),
+                  alignment: Alignment.center,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(
+                          controller.flashCards[index].front,
+                          style: Theme.of(context).textTheme.headlineLarge,
+                        ),
+                        Text(
+                          AppStrings.deckDetailFlashCardFrontInfo.tr,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(right: 4.w),
+                  child: SingleChildScrollView(
+                    child: Text(
+                      controller.flashCards[index].back,
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          )
         ],
       ),
     );
