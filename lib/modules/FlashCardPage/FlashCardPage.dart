@@ -105,7 +105,7 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                       ),
                       AppSpacer.h3,
                       CustomModalBottomSheetTextFormField(
-                        hintText: "Answer the question",
+                        hintText: AppStrings.inputHintText.tr,
                         focusNode: controller.answerFocusNode,
                         controller: controller.answerController,
                         onTapOutside: (p0) =>

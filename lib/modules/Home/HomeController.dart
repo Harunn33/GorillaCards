@@ -257,7 +257,7 @@ class HomeController extends GetxController {
       builder: (context) {
         return Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 10.w,
+            horizontal: 5.w,
             vertical: 30.h,
           ),
           child: Material(
@@ -269,9 +269,9 @@ class HomeController extends GetxController {
               direction: FlipDirection.HORIZONTAL,
               side: CardSide.FRONT,
               front: CustomCreateFlashCard(
-                label: "Front Card",
-                btnText: "Turn the back",
-                hint: "Front Card Text",
+                label: AppStrings.frontCard.tr,
+                btnText: AppStrings.turnTheBack.tr,
+                hint: AppStrings.frontCardText.tr,
                 focusNode: frontCardFocusNode,
                 controller: frontCardController,
                 cardKey: cardKey,
@@ -284,9 +284,9 @@ class HomeController extends GetxController {
                 focusNode: backCardFocusNode,
                 controller: backCardController,
                 cardKey: cardKey,
-                label: "Back Card",
-                btnText: "Turn the front",
-                hint: "Back Card Text",
+                label: AppStrings.backCard.tr,
+                btnText: AppStrings.turnTheFront.tr,
+                hint: AppStrings.backCardText.tr,
                 onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
                 homeController: this,
                 index: index,

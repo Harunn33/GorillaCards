@@ -50,6 +50,7 @@
   "rotate": "Rotate",
   "done": "Done",
   "next": "Next",
+  "inputHintText": "Answer the question",
 
   "testReportsModalBottomSheetTitle": "Test Reports",
   "testReportsModalBottomSheetCardInfo": "Tap the card to see the answer",
@@ -66,5 +67,11 @@
   "study": "Study",
   "editDeck": "Edit Deck",
   "deleteDeck": "Delete Deck",
-  "csvTooltip": "You can upload a csv file with headers named 'id, back, front'"
+  "csvTooltip": "You can upload a csv file with headers named 'id, back, front'",
+  "frontCard": "Front Card",
+  "frontCardText": "Front Card Text",
+  "backCard": "Back Card",
+  "backCardText": "Back Card Text",
+  "turnTheFront": "Turn the front",
+  "turnTheBack": "Turn the back"
 }

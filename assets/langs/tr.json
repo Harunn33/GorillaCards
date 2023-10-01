@@ -50,6 +50,7 @@
   "rotate": "Kartı Çevir",
   "done": "Bitir",
   "next": "İleri",
+  "inputHintText": "Soruyu cevapla",
 
   "testReportsModalBottomSheetTitle": "Test Raporu",
   "testReportsModalBottomSheetCardInfo": "Cevabı görmek için karta dokunun",
@@ -66,5 +67,11 @@
   "study": "Çalışma",
   "editDeck": "Desteyi Düzenle",
   "deleteDeck": "Desteyi Sil",
-  "csvTooltip": "'id, front, back' adlı başlıklarla bir CSV dosyası yükleyebilirsiniz"
+  "csvTooltip": "'id, front, back' adlı başlıklarla bir CSV dosyası yükleyebilirsiniz",
+  "frontCard": "Kartın Önü",
+  "frontCardText": "Kartın Önündeki Yazı",
+  "backCard": "Kartın Arkası",
+  "backCardText": "Kartın Arkasındaki Yazı",
+  "turnTheFront": "Kartın önünü çevir",
+  "turnTheBack": "Kartın arkasını çevir"
 }

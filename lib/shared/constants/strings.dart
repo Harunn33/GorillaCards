@@ -61,6 +61,7 @@ class AppStrings {
   static const rotate = "rotate";
   static const done = "done";
   static const next = "next";
+  static const inputHintText = "inputHintText";
 
   // RESULT
   static const testReportsModalBottomSheetTitle =
@@ -82,4 +83,10 @@ class AppStrings {
   static const editDeck = "editDeck";
   static const deleteDeck = "deleteDeck";
   static const csvTooltip = "csvTooltip";
+  static const frontCard = "frontCard";
+  static const frontCardText = "frontCardText";
+  static const backCard = "backCard";
+  static const backCardText = "backCardText";
+  static const turnTheFront = "turnTheFront";
+  static const turnTheBack = "turnTheBack";
 }

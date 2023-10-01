@@ -86,7 +86,7 @@ class DeckDetailController extends GetxController {
       builder: (context) {
         return Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 10.w,
+            horizontal: 5.w,
             vertical: 30.h,
           ),
           child: Material(
@@ -102,9 +102,9 @@ class DeckDetailController extends GetxController {
                 isLoading: isLoading,
                 focusNode: frontCardFocusNode,
                 textEditingController: frontCardController,
-                label: "Front Card",
-                hintText: "Front Card Text",
-                btnText: "Turn the back",
+                label: AppStrings.frontCard.tr,
+                hintText: AppStrings.frontCardText.tr,
+                btnText: AppStrings.turnTheBack.tr,
                 onTap: () => handleEditCard(
                     homeController, index, deckId, homeController.uid),
                 submit: (p0) => handleEditCard(
@@ -115,9 +115,9 @@ class DeckDetailController extends GetxController {
                 isLoading: isLoading,
                 focusNode: backCardFocusNode,
                 textEditingController: backCardController,
-                label: "Back Card",
-                hintText: "Back Card Text",
-                btnText: "Turn the front",
+                label: AppStrings.backCard.tr,
+                hintText: AppStrings.backCardText.tr,
+                btnText: AppStrings.turnTheFront.tr,
                 onTap: () => handleEditCard(
                     homeController, index, deckId, homeController.uid),
                 submit: (p0) => handleEditCard(
@@ -258,7 +258,7 @@ class DeckDetailController extends GetxController {
       builder: (context) {
         return Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 10.w,
+            horizontal: 5.w,
             vertical: 30.h,
           ),
           child: Material(
@@ -274,9 +274,9 @@ class DeckDetailController extends GetxController {
                 isLoading: isLoading,
                 focusNode: frontCardFocusNode,
                 textEditingController: frontCardController,
-                label: "Front Card",
-                hintText: "Front Card Text",
-                btnText: "Turn the back",
+                label: AppStrings.frontCard.tr,
+                hintText: AppStrings.frontCardText.tr,
+                btnText: AppStrings.turnTheBack.tr,
                 onTap: () => handleAddCard(deckId, homeController.uid),
                 submit: (p0) => handleAddCard(deckId, homeController.uid),
               ),
@@ -285,9 +285,9 @@ class DeckDetailController extends GetxController {
                 isLoading: isLoading,
                 focusNode: backCardFocusNode,
                 textEditingController: backCardController,
-                label: "Back Card",
-                hintText: "Back Card Text",
-                btnText: "Turn the front",
+                label: AppStrings.backCard.tr,
+                hintText: AppStrings.backCardText.tr,
+                btnText: AppStrings.turnTheFront.tr,
                 onTap: () => handleAddCard(deckId, homeController.uid),
                 submit: (p0) => handleAddCard(deckId, homeController.uid),
               ),
