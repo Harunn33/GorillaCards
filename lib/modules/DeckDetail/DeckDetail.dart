@@ -208,6 +208,7 @@ class _CustomCardSide extends StatelessWidget {
                         ),
                         Text(
                           AppStrings.deckDetailFlashCardFrontInfo.tr,
+                          textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ],
