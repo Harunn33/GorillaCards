@@ -57,7 +57,7 @@ class Home extends GetView<HomeController> {
                               onRefresh: () async => controller.getAllDecks(),
                               child: ListView.builder(
                                 itemCount: controller.searchResults.length,
-                                padding: EdgeInsets.only(top: 2.h),
+                                padding: EdgeInsets.symmetric(vertical: 2.h),
                                 itemBuilder: (context, index) {
                                   return CustomDeckCardItem(
                                     index: index,

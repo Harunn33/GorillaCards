@@ -132,19 +132,21 @@ class DeckDetailController extends GetxController {
 
   Future<void> deleteCard(int index, String? uid) async {
     Get.closeAllSnackbars();
+    isLoading.toggle();
     try {
+      flashCards.removeAt(index);
       contentListFromSupabase[0]["content"].removeAt(index);
       await supabase
           .from("decks")
           .update(contentListFromSupabase[0])
           .eq("uid", uid)
           .eq("id", deckId);
-      flashCards.removeAt(index);
       CustomSnackbar(
         title: AppStrings.success.tr,
         message: AppStrings.successDeleteFlashCard.tr,
         type: SnackbarType.success,
       );
+      isLoading.toggle();
     } catch (e) {
       isLoading.toggle();
       CustomSnackbar(

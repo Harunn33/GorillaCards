@@ -64,18 +64,21 @@ class CustomDeckCardItem extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    controller.searchResults[index].name,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Text(
-                    controller.searchResults[index].desc,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      controller.searchResults[index].name,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    AppSpacer.h1,
+                    Text(
+                      controller.searchResults[index].desc,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ],
+                ),
               ),
               Row(
                 children: [

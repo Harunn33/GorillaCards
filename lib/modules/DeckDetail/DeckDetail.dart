@@ -78,11 +78,12 @@ class DeckDetail extends GetView<DeckDetailController> {
                           },
                         ),
                       ),
-            Expanded(
-              child: Padding(
+            Obx(
+              () => Container(
+                constraints: BoxConstraints(maxHeight: 20.h),
                 padding: AppPaddings.generalPadding,
-                child: Obx(
-                  () => Column(
+                child: SingleChildScrollView(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomInputLabel(
@@ -94,45 +95,51 @@ class DeckDetail extends GetView<DeckDetailController> {
                         label:
                             "${AppStrings.cardCount.tr}: ${controller.flashCards.length}",
                       ),
-                      AppSpacer.h1,
-                      const Spacer(),
-                      CustomButton(
-                        hasIcon: true,
-                        icon: Icons.work_outline_outlined,
-                        onTap: () =>
-                            controller.redirectToFlashCardPage(context),
-                        text: AppStrings.study.tr,
-                        bg: AppColors.primary,
-                        textColor: AppColors.white,
-                        isWide: true,
-                      ),
-                      AppSpacer.h1,
-                      CustomButton(
-                        hasIcon: true,
-                        icon: Icons.edit_outlined,
-                        onTap: () => controller.editDeck(context),
-                        text: AppStrings.editDeck.tr,
-                        bg: AppColors.santasGrey,
-                        textColor: AppColors.white,
-                        isWide: true,
-                      ),
-                      AppSpacer.h1,
-                      CustomButton(
-                        hasIcon: true,
-                        icon: Icons.delete_outline_outlined,
-                        onTap: () {
-                          Get.closeAllSnackbars();
-                          Get.back();
-                          homeController.deleteDeck(controller.deckIndex);
-                        },
-                        text: AppStrings.deleteDeck.tr,
-                        bg: AppColors.red,
-                        textColor: AppColors.white,
-                        isWide: true,
-                      ),
                     ],
                   ),
                 ),
+              ),
+            ),
+            AppSpacer.h3,
+            Padding(
+              padding: AppPaddings.generalPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomButton(
+                    hasIcon: true,
+                    icon: Icons.work_outline_outlined,
+                    onTap: () => controller.redirectToFlashCardPage(context),
+                    text: AppStrings.study.tr,
+                    bg: AppColors.primary,
+                    textColor: AppColors.white,
+                    isWide: true,
+                  ),
+                  AppSpacer.h1,
+                  CustomButton(
+                    hasIcon: true,
+                    icon: Icons.edit_outlined,
+                    onTap: () => controller.editDeck(context),
+                    text: AppStrings.editDeck.tr,
+                    bg: AppColors.santasGrey,
+                    textColor: AppColors.white,
+                    isWide: true,
+                  ),
+                  AppSpacer.h1,
+                  CustomButton(
+                    hasIcon: true,
+                    icon: Icons.delete_outline_outlined,
+                    onTap: () {
+                      Get.closeAllSnackbars();
+                      Get.back();
+                      homeController.deleteDeck(controller.deckIndex);
+                    },
+                    text: AppStrings.deleteDeck.tr,
+                    bg: AppColors.red,
+                    textColor: AppColors.white,
+                    isWide: true,
+                  ),
+                ],
               ),
             ),
             const Spacer(),
@@ -183,13 +190,17 @@ class _CustomCardSide extends StatelessWidget {
                   ),
                 ),
                 AppSpacer.h1,
-                Bounceable(
-                  onTap: () async {
-                    controller.deleteCard(index, homeController.uid);
-                  },
-                  child: Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.red,
+                Obx(
+                  () => Bounceable(
+                    onTap: controller.isLoading.value
+                        ? null
+                        : () async {
+                            controller.deleteCard(index, homeController.uid);
+                          },
+                    child: Icon(
+                      Icons.delete_outline_outlined,
+                      color: AppColors.red,
+                    ),
                   ),
                 ),
               ],
