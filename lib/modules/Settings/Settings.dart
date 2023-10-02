@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/controllers/localizationController.dart';
 import 'package:gorillacards/modules/Settings/SettingsController.dart';
-import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/fonts.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
