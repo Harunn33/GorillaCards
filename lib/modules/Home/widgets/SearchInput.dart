@@ -7,7 +7,6 @@ import 'package:sizer/sizer.dart';
 import '../../../shared/constants/colors.dart';
 import '../../../shared/constants/paddings.dart';
 import '../../../shared/constants/strings.dart';
-import '../HomeController.dart';
 
 class SearchInput extends StatelessWidget {
   const SearchInput({
@@ -15,7 +14,7 @@ class SearchInput extends StatelessWidget {
     required this.controller,
   });
 
-  final HomeController controller;
+  final dynamic controller;
 
   @override
   Widget build(BuildContext context) {

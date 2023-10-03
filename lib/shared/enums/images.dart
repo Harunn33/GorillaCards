@@ -10,7 +10,8 @@ enum Images {
   correct("correct"),
   wrong("wrong"),
   question_mark("question_mark"),
-  left_arrow("left_arrow");
+  left_arrow("left_arrow"),
+  readyDecks("readyDecks");
 
   final String value;
   const Images(this.value);

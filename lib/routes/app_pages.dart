@@ -7,6 +7,10 @@ import 'package:gorillacards/modules/FlashCardPage/FlashCardPage.dart';
 import 'package:gorillacards/modules/FlashCardPage/FlashCardPageBinding.dart';
 import 'package:gorillacards/modules/Home/Home.dart';
 import 'package:gorillacards/modules/Home/HomeBinding.dart';
+import 'package:gorillacards/modules/ReadyDeck/ReadyDeck.dart';
+import 'package:gorillacards/modules/ReadyDeck/ReadyDeckBinding.dart';
+import 'package:gorillacards/modules/ReadyDeckViewer/ReadyDeckViewer.dart';
+import 'package:gorillacards/modules/ReadyDeckViewer/ReadyDeckViewerBinding.dart';
 import 'package:gorillacards/modules/Result/Result.dart';
 import 'package:gorillacards/modules/Result/ResultBinding.dart';
 import 'package:gorillacards/modules/Settings/Settings.dart';
@@ -69,6 +73,16 @@ class AppPages {
       name: Routes.DECKDETAIL,
       page: () => const DeckDetail(),
       binding: DeckDetailBinding(),
+    ),
+    GetPage(
+      name: Routes.READYDECK,
+      page: () => const ReadyDeck(),
+      binding: ReadyDeckBinding(),
+    ),
+    GetPage(
+      name: Routes.READYDECKVIEWER,
+      page: () => const ReadyDeckViewer(),
+      binding: ReadyDeckViewerBinding(),
     )
   ];
 }

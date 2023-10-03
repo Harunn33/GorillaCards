@@ -37,7 +37,6 @@ class HomeController extends GetxController {
   RxString searchQuery = "".obs;
   RxList<Deck> searchResults = <Deck>[].obs;
   RxList<Deck> allDecks = <Deck>[].obs;
-  RxList<Content> readyCardsList = <Content>[].obs;
 
   final String? uid = supabase.auth.currentSession?.user.id;
 
@@ -65,12 +64,6 @@ class HomeController extends GetxController {
       allDecks.add(newDeck);
       searchDecks();
     }
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    getReadyCards(ReadyCardType.marketing);
   }
 
   @override
@@ -321,35 +314,6 @@ class HomeController extends GetxController {
       }
     }
   }
-
-  void getReadyCards(ReadyCardType readyCardType) async {
-    final list = await supabase.from(readyCardType.type).select('*');
-    for (var card in list) {
-      final Content content = Content(
-        id: card["id"],
-        front: card["front"],
-        back: card["back"],
-      );
-      readyCardsList.add(content);
-    }
-    print("LIST: ${readyCardsList.length}");
-    print("Tipi: ${readyCardType.deckName.capitalizeFirst}");
-  }
 }
 
 enum BottomSheetType { create, edit }
-
-enum ReadyCardType {
-  business("BusinessReadyCards"),
-  classics("ClassicsReadyCards"),
-  history("HistoryReadyCards"),
-  humor("HumorReadyCards"),
-  marketing("MarketingReadyCards"),
-  romance("RomanceReadyCards");
-
-  final String value;
-  const ReadyCardType(this.value);
-
-  String get deckName => name;
-  String get type => value;
-}

@@ -12,4 +12,6 @@ abstract class Routes {
   static const SETTINGS = "/settings";
   static const RESULT = "/result";
   static const DECKDETAIL = "/deckDetail";
+  static const READYDECK = "/readyDeck";
+  static const READYDECKVIEWER = "/readyDeckViewer";
 }

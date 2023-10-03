@@ -89,4 +89,7 @@ class AppStrings {
   static const backCardText = "backCardText";
   static const turnTheFront = "turnTheFront";
   static const turnTheBack = "turnTheBack";
+
+  // READY DECK VIEWER
+  static const label = "label";
 }

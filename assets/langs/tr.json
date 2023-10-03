@@ -73,5 +73,7 @@
   "backCard": "Kartın Arkası",
   "backCardText": "Kartın Arkasındaki Yazı",
   "turnTheFront": "Kartın önünü çevir",
-  "turnTheBack": "Kartın arkasını çevir"
+  "turnTheBack": "Kartın arkasını çevir",
+
+  "label": "Her gün gel bir çok kartla vakit geçir."
 }
