@@ -1,7 +1,7 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/modules/ReadyDeckViewer/ReadyDeckViewerController.dart';
 import 'package:gorillacards/shared/constants/borderRadius.dart';
@@ -9,6 +9,7 @@ import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
+import 'package:gorillacards/shared/methods/CustomPageViewModalSheet.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:gorillacards/shared/widgets/CustomInputLabel.dart';
 import 'package:sizer/sizer.dart';
@@ -28,52 +29,83 @@ class ReadyDeckViewer extends GetView<ReadyDeckViewerController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomInputLabel(
-              label: AppStrings.label.tr,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomInputLabel(
+                    label:
+                        "${AppStrings.total.tr}: ${controller.flashCards.length}"),
+                Bounceable(
+                  onTap: () => controller.flashCards.shuffle(),
+                  child: const Icon(
+                    Icons.shuffle_outlined,
+                  ),
+                ),
+              ],
             ),
             AppSpacer.h1,
             Expanded(
-              child: MasonryGridView.builder(
-                gridDelegate:
-                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+              child: Obx(
+                () => ListView.separated(
+                  separatorBuilder: (context, index) => AppSpacer.h2,
+                  itemCount: controller.flashCards.length,
+                  itemBuilder: (context, index) {
+                    return _CustomCard(
+                      controller: controller,
+                      title: controller.flashCards[index].front,
+                      onTap: () {
+                        final PageController pageController =
+                            PageController(initialPage: index);
+                        controller.pageIndex.value = index;
+                        CustomPageViewModalSheet(
+                            context, controller, pageController);
+                      },
+                    );
+                  },
                 ),
-                mainAxisSpacing: 2.h,
-                crossAxisSpacing: 4.w,
-                itemCount: 16,
-                itemBuilder: (context, index) {
-                  return Container(
-                    alignment: Alignment.center,
-                    padding: AppPaddings.h3v1Padding,
-                    decoration: BoxDecoration(
-                      borderRadius: AppBorderRadius.generalRadius,
-                      color: controller.args[1],
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "${controller.args[0][index].front}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(
-                                color: AppColors.white,
-                              ),
-                        ),
-                        AppSpacer.h2,
-                        Text(
-                          AppStrings.deckDetailFlashCardFrontInfo.tr,
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.titleSmall?.copyWith(
-                                    color: AppColors.white,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CustomCard extends StatelessWidget {
+  const _CustomCard({
+    required this.controller,
+    required this.title,
+    required this.onTap,
+  });
+
+  final ReadyDeckViewerController controller;
+  final String title;
+  final void Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Bounceable(
+      onTap: onTap,
+      child: Container(
+        alignment: Alignment.center,
+        padding: AppPaddings.h3v1Padding,
+        decoration: BoxDecoration(
+          borderRadius: AppBorderRadius.generalRadius,
+          color: controller.args[1],
+        ),
+        child: Column(
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: AppColors.white,
+                  ),
+            ),
+            AppSpacer.h2,
+            Icon(
+              Icons.touch_app_outlined,
+              color: AppColors.white,
             ),
           ],
         ),

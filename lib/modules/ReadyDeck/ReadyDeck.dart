@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:gorillacards/modules/Home/widgets/SearchInput.dart';
 import 'package:gorillacards/modules/ReadyDeck/ReadyDeckController.dart';
 import 'package:gorillacards/routes/app_pages.dart';
-import 'package:gorillacards/shared/constants/borderRadius.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
@@ -66,8 +65,6 @@ class ReadyDeck extends GetView<ReadyDeckController> {
                                           controller.searchResults[index].name);
                                   return Bounceable(
                                     onTap: () {
-                                      controller.searchResults[index].content
-                                          .shuffle();
                                       Get.toNamed(
                                         Routes.READYDECKVIEWER,
                                         arguments: [
@@ -82,9 +79,14 @@ class ReadyDeck extends GetView<ReadyDeckController> {
                                         vertical: .5.h,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: color,
-                                        borderRadius:
-                                            AppBorderRadius.generalRadius,
+                                        border: Border(
+                                          left: BorderSide(
+                                            width: .6.w,
+                                            color: color,
+                                          ),
+                                        ),
+                                        color: AppColors.santasGrey
+                                            .withOpacity(.15),
                                       ),
                                       padding: AppPaddings.h3v1Padding,
                                       child: Column(
@@ -96,10 +98,7 @@ class ReadyDeck extends GetView<ReadyDeckController> {
                                                 .searchResults[index].name,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .titleMedium
-                                                ?.copyWith(
-                                                  color: AppColors.white,
-                                                ),
+                                                .titleMedium,
                                           ),
                                           AppSpacer.h1,
                                           Text(
@@ -107,10 +106,7 @@ class ReadyDeck extends GetView<ReadyDeckController> {
                                                 .searchResults[index].desc,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .titleSmall
-                                                ?.copyWith(
-                                                  color: AppColors.white,
-                                                ),
+                                                .titleSmall,
                                           ),
                                         ],
                                       ),

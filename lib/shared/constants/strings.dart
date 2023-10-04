@@ -66,8 +66,6 @@ class AppStrings {
   // RESULT
   static const testReportsModalBottomSheetTitle =
       "testReportsModalBottomSheetTitle";
-  static const testReportsModalBottomSheetCardInfo =
-      "testReportsModalBottomSheetCardInfo";
   static const numberOfCorrect = "numberOfCorrect";
   static const numberOfWrong = "numberOfWrong";
   static const numberOfEmpty = "numberOfEmpty";
@@ -75,7 +73,6 @@ class AppStrings {
   static const congratulationsMessage = "congratulationsMessage";
 
   // DECK DETAIL
-  static const deckDetailFlashCardFrontInfo = "deckDetailFlashCardFrontInfo";
   static const successDeleteFlashCard = "successDeleteFlashCard";
   static const noCardsYet = "noCardsYet";
   static const cardCount = "cardCount";
@@ -91,5 +88,6 @@ class AppStrings {
   static const turnTheBack = "turnTheBack";
 
   // READY DECK VIEWER
-  static const label = "label";
+  static const back = "back";
+  static const total = "total";
 }

@@ -53,14 +53,12 @@
   "inputHintText": "Soruyu cevapla",
 
   "testReportsModalBottomSheetTitle": "Test Raporu",
-  "testReportsModalBottomSheetCardInfo": "Cevabı görmek için karta dokunun",
   "numberOfCorrect": "Doğru",
   "numberOfWrong": "Yanlış",
   "numberOfEmpty": "Boş",
   "showTestReportsBtnTitle": "Test raporlarını göster",
   "congratulationsMessage": "Tüm soruları bildiğiniz için tebrikler",
 
-  "deckDetailFlashCardFrontInfo": "Kartın arkasını görmek için karta dokunun",
   "successDeleteFlashCard": "Kart başarıyla silindi.",
   "noCardsYet": "Henüz kart yok.",
   "cardCount": "Kart Sayısı",
@@ -75,5 +73,6 @@
   "turnTheFront": "Kartın önünü çevir",
   "turnTheBack": "Kartın arkasını çevir",
 
-  "label": "Her gün gel bir çok kartla vakit geçir."
+  "back": "Geri",
+  "total": "Toplam"
 }

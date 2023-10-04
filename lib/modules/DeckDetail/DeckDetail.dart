@@ -213,14 +213,15 @@ class _CustomCardSide extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        AppSpacer.h2,
                         Text(
                           controller.flashCards[index].front,
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
-                        Text(
-                          AppStrings.deckDetailFlashCardFrontInfo.tr,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.titleSmall,
+                        AppSpacer.h2,
+                        Icon(
+                          Icons.touch_app_outlined,
+                          color: AppColors.santasGrey,
                         ),
                       ],
                     ),

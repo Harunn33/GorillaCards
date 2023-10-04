@@ -73,11 +73,9 @@ Future<dynamic> CustomReportsModalBottomSheet(
                                         .textTheme
                                         .headlineLarge,
                                   ),
-                                  Text(
-                                    AppStrings
-                                        .testReportsModalBottomSheetCardInfo.tr,
-                                    style:
-                                        Theme.of(context).textTheme.titleSmall,
+                                  Icon(
+                                    Icons.touch_app_outlined,
+                                    color: AppColors.santasGrey,
                                   ),
                                 ],
                               ),

@@ -53,14 +53,12 @@
   "inputHintText": "Answer the question",
 
   "testReportsModalBottomSheetTitle": "Test Reports",
-  "testReportsModalBottomSheetCardInfo": "Tap the card to see the answer",
   "numberOfCorrect": "Correct",
   "numberOfWrong": "Wrong",
   "numberOfEmpty": "Empty",
   "showTestReportsBtnTitle": "Show test reports",
   "congratulationsMessage": "Congratulations on knowing all the questions",
 
-  "deckDetailFlashCardFrontInfo": "Tap the card to see the back",
   "successDeleteFlashCard": "Card successfully deleted",
   "noCardsYet": "There is no card yet.",
   "cardCount": "Card Count",
@@ -75,5 +73,6 @@
   "turnTheFront": "Turn the front",
   "turnTheBack": "Turn the back",
 
-  "label": "Come every day and spend a lot of time with a lot of cards."
+  "back": "Back",
+  "total": "Total"
 }
