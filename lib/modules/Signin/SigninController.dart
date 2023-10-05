@@ -71,6 +71,27 @@ class SigninController extends GetxController {
     return base64Url.encode(List<int>.generate(16, (_) => random.nextInt(256)));
   }
 
+  Future<void> handleGoogleSignin() async {
+    isLoading.toggle();
+    Get.closeAllSnackbars();
+    try {
+      await signInWithGoogle();
+      Get.offAllNamed(Routes.HOME);
+    } on AuthException catch (error) {
+      isLoading.toggle();
+      CustomSnackbar(
+        title: AppStrings.error.tr,
+        message: error.message,
+      );
+    } catch (e) {
+      isLoading.toggle();
+      CustomSnackbar(
+        title: AppStrings.error.tr,
+        message: AppStrings.invalidEmailOrPassword.tr,
+      );
+    }
+  }
+
   Future<AuthResponse> signInWithGoogle() async {
     // Just a random string
     final rawNonce = generateRandomString();
@@ -133,9 +154,6 @@ class SigninController extends GetxController {
       throw 'Could not find idToken from the token response';
     }
 
-    if (supabase.auth.currentSession != null) {
-      print("TOKEN: ${supabase.auth.currentSession?.accessToken}");
-    }
     return supabase.auth.signInWithIdToken(
       provider: Provider.google,
       idToken: idToken,

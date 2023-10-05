@@ -11,7 +11,8 @@ enum Images {
   wrong("wrong"),
   question_mark("question_mark"),
   left_arrow("left_arrow"),
-  readyDecks("readyDecks");
+  readyDecks("readyDecks"),
+  google("google");
 
   final String value;
   const Images(this.value);

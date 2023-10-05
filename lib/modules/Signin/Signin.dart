@@ -10,11 +10,14 @@ import 'package:gorillacards/di.dart';
 import 'package:gorillacards/modules/Signin/SigninController.dart';
 import 'package:gorillacards/modules/Signup/SignupController.dart';
 import 'package:gorillacards/routes/app_pages.dart';
+import 'package:gorillacards/shared/constants/borderRadius.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
+import 'package:gorillacards/shared/enums/images.dart';
 import 'package:gorillacards/shared/widgets/CustomRichText.dart';
 import 'package:gorillacards/shared/widgets/CustomTextButton.dart';
 import 'package:gorillacards/shared/widgets/CustomTextFormField.dart';
+import 'package:sizer/sizer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../shared/constants/colors.dart';
@@ -99,15 +102,23 @@ class Signin extends GetView<SigninController> {
                 ),
                 AppSpacer.h1,
                 Bounceable(
-                  onTap: () async {
-                    controller.signInWithGoogle();
-
+                  onTap: () {
                     // await supabase.auth
                     //     .resetPasswordForEmail("humann210@gmail.com");
                   },
-                  child: const Text("Şifremi Unuttum"),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "Şifremi Unuttum",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.copyWith(color: AppColors.primary),
+                    ),
+                  ),
                 ),
                 AppSpacer.h3,
+
                 Obx(
                   () => CustomButton(
                     isLoading: controller.isLoading,
@@ -131,7 +142,38 @@ class Signin extends GetView<SigninController> {
                   firstText: AppStrings.dontHaveAccount.tr,
                   secondText: AppStrings.signup.tr,
                   secondTextOnTap: () => Get.offNamed(Routes.SIGNUP),
-                )
+                ),
+                AppSpacer.h3,
+                Center(
+                  child: Bounceable(
+                    onTap: () {},
+                    child: Container(
+                      padding: AppPaddings.h3v1Padding,
+                      decoration: BoxDecoration(
+                        color: AppColors.santasGrey.withOpacity(.15),
+                        borderRadius: AppBorderRadius.generalRadius,
+                      ),
+                      width: 7.h,
+                      height: 7.h,
+                      child: Images.google.png,
+                    ),
+                  ),
+                ),
+                // Center(
+                //   child: Bounceable(
+                //     onTap: () {},
+                //     child: Container(
+                //       padding: AppPaddings.h3v1Padding,
+                //       decoration: BoxDecoration(
+                //         color: AppColors.dreamyCloud,
+                //         borderRadius: AppBorderRadius.generalRadius,
+                //       ),
+                //       width: 7.h,
+                //       height: 7.h,
+                //       child: Images.google.png,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
