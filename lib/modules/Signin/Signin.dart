@@ -1,14 +1,21 @@
 // ignore_for_file: file_names
 
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
+import 'package:gorillacards/di.dart';
 import 'package:gorillacards/modules/Signin/SigninController.dart';
 import 'package:gorillacards/modules/Signup/SignupController.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/widgets/CustomRichText.dart';
+import 'package:gorillacards/shared/widgets/CustomTextButton.dart';
 import 'package:gorillacards/shared/widgets/CustomTextFormField.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../shared/constants/colors.dart';
 import '../../shared/constants/strings.dart';
@@ -89,6 +96,16 @@ class Signin extends GetView<SigninController> {
                       return null;
                     },
                   ),
+                ),
+                AppSpacer.h1,
+                Bounceable(
+                  onTap: () async {
+                    controller.signInWithGoogle();
+
+                    // await supabase.auth
+                    //     .resetPasswordForEmail("humann210@gmail.com");
+                  },
+                  child: const Text("Şifremi Unuttum"),
                 ),
                 AppSpacer.h3,
                 Obx(
