@@ -8,6 +8,7 @@ import 'package:crypto/crypto.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/models/SigninModel.dart';
 import 'package:gorillacards/routes/app_pages.dart';
@@ -102,8 +103,8 @@ class SigninController extends GetxController {
     /// Client ID that you registered with Google Cloud.
     /// You will have two different values for iOS and Android.
     final clientId = Platform.isIOS
-        ? "92425977847-sicso09p0ihs8fe1gr4nqaaidcn7qk2f.apps.googleusercontent.com"
-        : '92425977847-jtjcpr44gr0527nqpbv4tukp34fg9gqm.apps.googleusercontent.com';
+        ? dotenv.get("IOS_CLIENT_ID")
+        : dotenv.get("ANDROID_CLIENT_ID");
 
     /// reverse DNS form of the client ID + `:/` is set as the redirect URL
     final redirectUrl = '${clientId.split('.').reversed.join('.')}:/';

@@ -1,12 +1,9 @@
 // ignore_for_file: file_names
 
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
-import 'package:gorillacards/di.dart';
 import 'package:gorillacards/modules/Signin/SigninController.dart';
 import 'package:gorillacards/modules/Signup/SignupController.dart';
 import 'package:gorillacards/routes/app_pages.dart';
@@ -15,10 +12,8 @@ import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/enums/images.dart';
 import 'package:gorillacards/shared/widgets/CustomRichText.dart';
-import 'package:gorillacards/shared/widgets/CustomTextButton.dart';
 import 'package:gorillacards/shared/widgets/CustomTextFormField.dart';
 import 'package:sizer/sizer.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../shared/constants/colors.dart';
 import '../../shared/constants/strings.dart';
@@ -118,7 +113,6 @@ class Signin extends GetView<SigninController> {
                   ),
                 ),
                 AppSpacer.h3,
-
                 Obx(
                   () => CustomButton(
                     isLoading: controller.isLoading,
@@ -143,37 +137,24 @@ class Signin extends GetView<SigninController> {
                   secondText: AppStrings.signup.tr,
                   secondTextOnTap: () => Get.offNamed(Routes.SIGNUP),
                 ),
-                AppSpacer.h3,
-                Center(
-                  child: Bounceable(
-                    onTap: () {},
-                    child: Container(
-                      padding: AppPaddings.h3v1Padding,
-                      decoration: BoxDecoration(
-                        color: AppColors.santasGrey.withOpacity(.15),
-                        borderRadius: AppBorderRadius.generalRadius,
-                      ),
-                      width: 7.h,
-                      height: 7.h,
-                      child: Images.google.png,
-                    ),
-                  ),
-                ),
-                // Center(
-                //   child: Bounceable(
-                //     onTap: () {},
-                //     child: Container(
-                //       padding: AppPaddings.h3v1Padding,
-                //       decoration: BoxDecoration(
-                //         color: AppColors.dreamyCloud,
-                //         borderRadius: AppBorderRadius.generalRadius,
-                //       ),
-                //       width: 7.h,
-                //       height: 7.h,
-                //       child: Images.google.png,
-                //     ),
-                //   ),
-                // ),
+                Platform.isAndroid ? AppSpacer.h3 : const SizedBox.shrink(),
+                Platform.isAndroid
+                    ? Center(
+                        child: Bounceable(
+                          onTap: () => controller.handleGoogleSignin(),
+                          child: Container(
+                            padding: AppPaddings.h3v1Padding,
+                            decoration: BoxDecoration(
+                              color: AppColors.santasGrey.withOpacity(.15),
+                              borderRadius: AppBorderRadius.generalRadius,
+                            ),
+                            width: 7.h,
+                            height: 7.h,
+                            child: Images.google.png,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
           ),
