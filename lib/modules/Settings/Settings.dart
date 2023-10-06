@@ -18,8 +18,10 @@ class Settings extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
+    final NetworkController networkController = Get.put(NetworkController());
+
     return GetBuilder<NetworkController>(
-      builder: (networkController) {
+      builder: (builder) {
         if (networkController.connectionType.value == 0) {
           return const CustomNoInternet();
         }

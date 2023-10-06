@@ -28,7 +28,8 @@ class Signin extends GetView<SigninController> {
   @override
   Widget build(BuildContext context) {
     Get.put(SigninController());
-    return GetBuilder<NetworkController>(builder: (networkController) {
+    final NetworkController networkController = Get.put(NetworkController());
+    return GetBuilder<NetworkController>(builder: (builder) {
       if (networkController.connectionType.value == 0) {
         return const CustomNoInternet();
       }

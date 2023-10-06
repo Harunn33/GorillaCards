@@ -21,7 +21,8 @@ class ReadyDeckViewer extends GetView<ReadyDeckViewerController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<NetworkController>(builder: (networkController) {
+    final NetworkController networkController = Get.put(NetworkController());
+    return GetBuilder<NetworkController>(builder: (builder) {
       if (networkController.connectionType.value == 0) {
         return const CustomNoInternet();
       }

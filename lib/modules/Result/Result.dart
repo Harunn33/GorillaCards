@@ -26,7 +26,8 @@ class Result extends GetView<ResultController> {
   Widget build(BuildContext context) {
     final FlashCardPageController flashCardPageController = Get.find();
     Get.put(ResultController());
-    return GetBuilder<NetworkController>(builder: (networkController) {
+    final NetworkController networkController = Get.put(NetworkController());
+    return GetBuilder<NetworkController>(builder: (builder) {
       if (networkController.connectionType.value == 0) {
         return const CustomNoInternet();
       }
