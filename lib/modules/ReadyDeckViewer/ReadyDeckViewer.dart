@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
+import 'package:gorillacards/controllers/NetworkController.dart';
 import 'package:gorillacards/modules/ReadyDeckViewer/ReadyDeckViewerController.dart';
 import 'package:gorillacards/shared/constants/borderRadius.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
@@ -12,6 +13,7 @@ import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomPageViewModalSheet.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:gorillacards/shared/widgets/CustomInputLabel.dart';
+import 'package:gorillacards/shared/widgets/CustomNoInternet.dart';
 import 'package:sizer/sizer.dart';
 
 class ReadyDeckViewer extends GetView<ReadyDeckViewerController> {
@@ -19,56 +21,61 @@ class ReadyDeckViewer extends GetView<ReadyDeckViewerController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      body: Padding(
-        padding: AppPaddings.generalPadding.copyWith(
-          top: 2.h,
-          bottom: 2.h,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomInputLabel(
-                    label:
-                        "${AppStrings.total.tr}: ${controller.flashCards.length}"),
-                Bounceable(
-                  onTap: () => controller.flashCards.shuffle(),
-                  child: const Icon(
-                    Icons.shuffle_outlined,
+    return GetBuilder<NetworkController>(builder: (networkController) {
+      if (networkController.connectionType.value == 0) {
+        return const CustomNoInternet();
+      }
+      return Scaffold(
+        appBar: const CustomAppBar(),
+        body: Padding(
+          padding: AppPaddings.generalPadding.copyWith(
+            top: 2.h,
+            bottom: 2.h,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomInputLabel(
+                      label:
+                          "${AppStrings.total.tr}: ${controller.flashCards.length}"),
+                  Bounceable(
+                    onTap: () => controller.flashCards.shuffle(),
+                    child: const Icon(
+                      Icons.shuffle_outlined,
+                    ),
+                  ),
+                ],
+              ),
+              AppSpacer.h1,
+              Expanded(
+                child: Obx(
+                  () => ListView.separated(
+                    separatorBuilder: (context, index) => AppSpacer.h2,
+                    itemCount: controller.flashCards.length,
+                    itemBuilder: (context, index) {
+                      return _CustomCard(
+                        controller: controller,
+                        title: controller.flashCards[index].front,
+                        onTap: () {
+                          final PageController pageController =
+                              PageController(initialPage: index);
+                          controller.pageIndex.value = index;
+                          CustomPageViewModalSheet(
+                              context, controller, pageController);
+                        },
+                      );
+                    },
                   ),
                 ),
-              ],
-            ),
-            AppSpacer.h1,
-            Expanded(
-              child: Obx(
-                () => ListView.separated(
-                  separatorBuilder: (context, index) => AppSpacer.h2,
-                  itemCount: controller.flashCards.length,
-                  itemBuilder: (context, index) {
-                    return _CustomCard(
-                      controller: controller,
-                      title: controller.flashCards[index].front,
-                      onTap: () {
-                        final PageController pageController =
-                            PageController(initialPage: index);
-                        controller.pageIndex.value = index;
-                        CustomPageViewModalSheet(
-                            context, controller, pageController);
-                      },
-                    );
-                  },
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

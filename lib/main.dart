@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gorillacards/controllers/localizationController.dart';
+import 'package:gorillacards/bindings/networkBindings.dart';
+import 'package:gorillacards/controllers/LocalizationController.dart';
 import 'package:gorillacards/di.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         return Sizer(
           builder: (context, orientation, deviceType) {
             return GetMaterialApp(
+              initialBinding: NetworkBinding(),
               title: AppStrings.appName,
               theme: CustomTheme(),
               debugShowCheckedModeBanner: false,

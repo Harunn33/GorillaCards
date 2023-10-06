@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sizer/sizer.dart';
-
 import '../../../shared/constants/colors.dart';
 import '../../../shared/constants/paddings.dart';
 import '../../../shared/constants/strings.dart';
@@ -22,7 +20,6 @@ class SearchInput extends StatelessWidget {
       style: Theme.of(context).textTheme.titleMedium,
       onTapOutside: (event) => controller.searchFocusNode.unfocus(),
       cursorColor: AppColors.black,
-      cursorHeight: 2.h,
       focusNode: controller.searchFocusNode,
       controller: controller.searchController,
       onChanged: (value) {

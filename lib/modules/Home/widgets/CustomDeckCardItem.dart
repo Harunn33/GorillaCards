@@ -89,7 +89,7 @@ class CustomDeckCardItem extends StatelessWidget {
                   ),
                   AppSpacer.w1,
                   Text(
-                    AppStrings.slide.tr,
+                    AppStrings.swipe.tr,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],

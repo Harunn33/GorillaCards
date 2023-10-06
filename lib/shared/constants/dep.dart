@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:gorillacards/controllers/localizationController.dart';
+import 'package:gorillacards/controllers/LocalizationController.dart';
 import 'package:gorillacards/models/languageModel.dart';
 import 'package:gorillacards/shared/constants/langs.dart';
 

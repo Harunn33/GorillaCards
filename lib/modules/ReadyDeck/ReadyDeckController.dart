@@ -14,28 +14,42 @@ class ReadyDeckController extends GetxController {
   RxString searchQuery = "".obs;
   RxList<Deck> searchResults = <Deck>[].obs;
 
+  RxBool isLoading = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    getReadyDeck();
+  }
+
   Future<void> getReadyDeck() async {
-    final list = await supabase.from("ReadyDecks").select("*");
-    readyDeckList.clear();
-    for (var i = 0; i < list.length; i++) {
-      final Deck newDeck = Deck(
-        id: list[i]["id"],
-        name: list[i]["name"],
-        desc: list[i]["desc"],
-        content: <Content>[],
-        uid: "",
-      );
-      for (var j = 0; j < list[i]["content"].length; j++) {
-        newDeck.content.add(
-          Content(
-            id: int.parse(list[i]["content"][j]["id"]),
-            front: list[i]["content"][j]["front"],
-            back: list[i]["content"][j]["back"],
-          ),
+    isLoading.toggle();
+    try {
+      final list = await supabase.from("ReadyDecks").select("*");
+      readyDeckList.clear();
+      for (var i = 0; i < list.length; i++) {
+        final Deck newDeck = Deck(
+          id: list[i]["id"],
+          name: list[i]["name"],
+          desc: list[i]["desc"],
+          content: <Content>[],
+          uid: "",
         );
+        for (var j = 0; j < list[i]["content"].length; j++) {
+          newDeck.content.add(
+            Content(
+              id: int.parse(list[i]["content"][j]["id"]),
+              front: list[i]["content"][j]["front"],
+              back: list[i]["content"][j]["back"],
+            ),
+          );
+        }
+        readyDeckList.add(newDeck);
+        searchDecks();
       }
-      readyDeckList.add(newDeck);
-      searchDecks();
+      isLoading.toggle();
+    } catch (e) {
+      isLoading.toggle();
     }
   }
 

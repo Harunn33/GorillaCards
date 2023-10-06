@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
-import 'package:sizer/sizer.dart';
-
 import '../constants/colors.dart';
 
 class CustomModalBottomSheetTextFormField extends StatelessWidget {
@@ -35,7 +33,6 @@ class CustomModalBottomSheetTextFormField extends StatelessWidget {
       autofocus: autoFocus,
       onTapOutside: onTapOutside,
       cursorColor: AppColors.black,
-      cursorHeight: 2.h,
       focusNode: focusNode,
       minLines: isDescription ? 4 : 1,
       maxLines: isDescription ? 8 : 1,

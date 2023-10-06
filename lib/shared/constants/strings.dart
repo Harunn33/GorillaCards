@@ -49,7 +49,7 @@ class AppStrings {
   static const successCreateDeck = "successCreateDeck";
   static const ok = "ok";
   static const noFlashCard = "noFlashCard";
-  static const slide = "slide";
+  static const swipe = "swipe";
 
   // SETTINGS
   static const settings = "settings";

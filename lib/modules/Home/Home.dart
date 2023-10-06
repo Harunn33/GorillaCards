@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
+import 'package:gorillacards/controllers/NetworkController.dart';
 import 'package:gorillacards/modules/Home/HomeController.dart';
 import 'package:gorillacards/modules/Home/widgets/CustomDeckCardItem.dart';
 import 'package:gorillacards/modules/Home/widgets/CustomFAB.dart';
@@ -12,6 +13,7 @@ import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/enums/images.dart';
+import 'package:gorillacards/shared/widgets/CustomNoInternet.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
 import '../../shared/widgets/CustomAppBar.dart';
@@ -22,53 +24,64 @@ class Home extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(
-        hasChevronLeftIcon: false,
-      ),
-      body: Padding(
-        padding: AppPaddings.generalPadding,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppSpacer.h2,
-            Row(
-              children: [
-                Expanded(
-                  child: SearchInput(
-                    controller: controller,
+    return GetBuilder<NetworkController>(builder: (networkController) {
+      if (networkController.connectionType.value == 0) {
+        return const CustomNoInternet();
+      }
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: const CustomAppBar(
+          hasChevronLeftIcon: false,
+        ),
+        body: Padding(
+          padding: AppPaddings.generalPadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppSpacer.h2,
+              Row(
+                children: [
+                  Expanded(
+                    child: SearchInput(
+                      controller: controller,
+                    ),
                   ),
-                ),
-                AppSpacer.w2,
-                Bounceable(
+                  AppSpacer.w2,
+                  Bounceable(
                     onTap: () {
                       Get.toNamed(Routes.READYDECK);
                     },
                     child: SizedBox(
-                        width: 5.h, height: 5.h, child: Images.readyDecks.png)),
-              ],
-            ),
-            Expanded(
-              child: FutureBuilder<void>(
-                future: controller.getAllDecks(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: LoadingAnimationWidget.staggeredDotsWave(
-                        color: AppColors.primary,
-                        size: 25.sp,
-                      ),
-                    );
-                  } else if (snapshot.connectionState == ConnectionState.done) {
-                    return Obx(
-                      () => controller.allDecks.isEmpty
-                          ? Container(
-                              alignment: Alignment.center,
-                              child: Text(
-                                AppStrings.noDecksYet.tr,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
+                      width: 5.h,
+                      height: 5.h,
+                      child: Images.readyDecks.png,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Obx(
+                  () => controller.isLoading.value
+                      ? Center(
+                          child: LoadingAnimationWidget.staggeredDotsWave(
+                            color: AppColors.primary,
+                            size: 25.sp,
+                          ),
+                        )
+                      : controller.allDecks.isEmpty
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 15.h,
+                                  child: Images.emptyDeck.png,
+                                ),
+                                AppSpacer.h1,
+                                Text(
+                                  AppStrings.noDecksYet.tr,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ],
                             )
                           : RefreshIndicator(
                               color: AppColors.primary,
@@ -84,21 +97,18 @@ class Home extends GetView<HomeController> {
                                 },
                               ),
                             ),
-                    );
-                  }
-                  return const Text("404 Not Found");
-                },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: CustomFAB(
-        title: AppStrings.addDeck.tr,
-        onTap: () async {
-          controller.createBottomSheet(context: context);
-        },
-      ),
-    );
+        floatingActionButton: CustomFAB(
+          title: AppStrings.addDeck.tr,
+          onTap: () async {
+            controller.createBottomSheet(context: context);
+          },
+        ),
+      );
+    });
   }
 }

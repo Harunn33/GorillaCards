@@ -73,6 +73,9 @@ dependencies:
   # Security
   flutter_dotenv: ^5.1.0
 
+  # Network
+  connectivity_plus: ^4.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

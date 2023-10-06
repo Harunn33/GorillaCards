@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
-import 'package:sizer/sizer.dart';
-
 import '../constants/colors.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -41,7 +39,6 @@ class CustomTextFormField extends StatelessWidget {
       style: Theme.of(context).textTheme.titleMedium,
       onTapOutside: onTapOutside,
       cursorColor: AppColors.black,
-      cursorHeight: 2.h,
       focusNode: focusNode,
       controller: controller,
       validator: validator,

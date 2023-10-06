@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
-import 'package:gorillacards/controllers/localizationController.dart';
+import 'package:gorillacards/controllers/LocalizationController.dart';
 import 'package:gorillacards/models/languageModel.dart';
 import 'package:gorillacards/shared/constants/borderRadius.dart';
 import 'package:gorillacards/shared/constants/colors.dart';

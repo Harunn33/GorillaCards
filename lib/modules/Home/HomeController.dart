@@ -40,29 +40,42 @@ class HomeController extends GetxController {
 
   final String? uid = supabase.auth.currentSession?.user.id;
 
+  @override
+  void onInit() {
+    super.onInit();
+    getAllDecks();
+  }
+
   // GET ALL DECKS FOR USERS
   Future<void> getAllDecks() async {
-    final data = await supabase.from("decks").select().filter("uid", "eq", uid);
-    allDecks.clear();
-    for (var i = 0; i < data.length; i++) {
-      final Deck newDeck = Deck(
-        id: data[i]["id"],
-        name: data[i]["name"],
-        desc: data[i]["desc"],
-        content: <Content>[],
-        uid: data[i]["uid"],
-      );
-      for (var j = 0; j < data[i]["content"].length; j++) {
-        newDeck.content.add(
-          Content(
-            id: data[i]["content"][j]["id"],
-            front: data[i]["content"][j]["front"],
-            back: data[i]["content"][j]["back"],
-          ),
+    isLoading.toggle();
+    try {
+      final data =
+          await supabase.from("decks").select().filter("uid", "eq", uid);
+      allDecks.clear();
+      for (var i = 0; i < data.length; i++) {
+        final Deck newDeck = Deck(
+          id: data[i]["id"],
+          name: data[i]["name"],
+          desc: data[i]["desc"],
+          content: <Content>[],
+          uid: data[i]["uid"],
         );
+        for (var j = 0; j < data[i]["content"].length; j++) {
+          newDeck.content.add(
+            Content(
+              id: data[i]["content"][j]["id"],
+              front: data[i]["content"][j]["front"],
+              back: data[i]["content"][j]["back"],
+            ),
+          );
+        }
+        allDecks.add(newDeck);
+        searchDecks();
       }
-      allDecks.add(newDeck);
-      searchDecks();
+      isLoading.toggle();
+    } catch (e) {
+      isLoading.toggle();
     }
   }
 

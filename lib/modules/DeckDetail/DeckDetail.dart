@@ -4,6 +4,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
+import 'package:gorillacards/controllers/NetworkController.dart';
 import 'package:gorillacards/modules/DeckDetail/DeckDetailController.dart';
 import 'package:gorillacards/modules/Home/HomeController.dart';
 import 'package:gorillacards/modules/Home/widgets/CustomFAB.dart';
@@ -15,6 +16,7 @@ import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:gorillacards/shared/widgets/CustomButton.dart';
 import 'package:gorillacards/shared/widgets/CustomFlashCard.dart';
 import 'package:gorillacards/shared/widgets/CustomInputLabel.dart';
+import 'package:gorillacards/shared/widgets/CustomNoInternet.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -24,134 +26,170 @@ class DeckDetail extends GetView<DeckDetailController> {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(),
-      body: Obx(
-        () => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            controller.isLoading.value
-                ? Expanded(
-                    child: Center(
-                      child: LoadingAnimationWidget.staggeredDotsWave(
-                        color: AppColors.primary,
-                        size: 25.sp,
+    return GetBuilder<NetworkController>(builder: (networkController) {
+      if (networkController.connectionType.value == 0) {
+        return const CustomNoInternet();
+      }
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: const CustomAppBar(),
+        body: Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              controller.isLoading.value
+                  ? Expanded(
+                      child: Center(
+                        child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: AppColors.primary,
+                          size: 25.sp,
+                        ),
                       ),
-                    ),
-                  )
-                : controller.flashCards.isEmpty
-                    ? Expanded(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            AppStrings.noCardsYet.tr,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                    )
+                  : controller.flashCards.isEmpty
+                      ? Expanded(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              AppStrings.noCardsYet.tr,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: controller.flashCards.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                width: 70.w,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.symmetric(horizontal: 3.w),
+                                child: FlipCard(
+                                  controller: controller.flipCardController,
+                                  front: _CustomCardSide(
+                                    controller: controller,
+                                    index: index,
+                                    homeController: homeController,
+                                    isFront: true,
+                                  ),
+                                  back: _CustomCardSide(
+                                    controller: controller,
+                                    homeController: homeController,
+                                    index: index,
+                                    isFront: false,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      )
-                    : Expanded(
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: controller.flashCards.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              width: 70.w,
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.symmetric(horizontal: 3.w),
-                              child: FlipCard(
-                                controller: controller.flipCardController,
-                                front: _CustomCardSide(
-                                  controller: controller,
-                                  index: index,
-                                  homeController: homeController,
-                                  isFront: true,
-                                ),
-                                back: _CustomCardSide(
-                                  controller: controller,
-                                  homeController: homeController,
-                                  index: index,
-                                  isFront: false,
-                                ),
-                              ),
-                            );
-                          },
+              Obx(
+                () => Container(
+                  constraints: BoxConstraints(maxHeight: 20.h),
+                  padding: AppPaddings.generalPadding,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomInputLabel(
+                          label:
+                              "${AppStrings.deckName.tr}: ${homeController.searchResults[controller.deckIndex].name}",
                         ),
-                      ),
-            Obx(
-              () => Container(
-                constraints: BoxConstraints(maxHeight: 20.h),
-                padding: AppPaddings.generalPadding,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomInputLabel(
-                        label:
-                            "${AppStrings.deckName.tr}: ${homeController.searchResults[controller.deckIndex].name}",
-                      ),
-                      AppSpacer.h1,
-                      CustomInputLabel(
-                        label:
-                            "${AppStrings.cardCount.tr}: ${controller.flashCards.length}",
-                      ),
-                    ],
+                        AppSpacer.h1,
+                        CustomInputLabel(
+                          label:
+                              "${AppStrings.cardCount.tr}: ${controller.flashCards.length}",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            AppSpacer.h3,
-            Padding(
-              padding: AppPaddings.generalPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomButton(
-                    hasIcon: true,
-                    icon: Icons.work_outline_outlined,
-                    onTap: () => controller.redirectToFlashCardPage(context),
-                    text: AppStrings.study.tr,
-                    bg: AppColors.primary,
-                    textColor: AppColors.white,
-                    isWide: true,
-                  ),
-                  AppSpacer.h1,
-                  CustomButton(
-                    hasIcon: true,
-                    icon: Icons.edit_outlined,
-                    onTap: () => controller.editDeck(context),
-                    text: AppStrings.editDeck.tr,
-                    bg: AppColors.santasGrey,
-                    textColor: AppColors.white,
-                    isWide: true,
-                  ),
-                  AppSpacer.h1,
-                  CustomButton(
-                    hasIcon: true,
-                    icon: Icons.delete_outline_outlined,
-                    onTap: () {
-                      Get.closeAllSnackbars();
-                      Get.back();
-                      homeController.deleteDeck(controller.deckIndex);
-                    },
-                    text: AppStrings.deleteDeck.tr,
-                    bg: AppColors.red,
-                    textColor: AppColors.white,
-                    isWide: true,
-                  ),
-                ],
+              AppSpacer.h3,
+              Padding(
+                padding: AppPaddings.generalPadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomButton(
+                      hasIcon: true,
+                      icon: Icons.work_outline_outlined,
+                      onTap: () => controller.redirectToFlashCardPage(context),
+                      text: AppStrings.study.tr,
+                      bg: AppColors.primary,
+                      textColor: AppColors.white,
+                      isWide: true,
+                    ),
+                    // AppSpacer.h1,
+                    // CustomButton(
+                    //   hasIcon: true,
+                    //   icon: Icons.share_outlined,
+                    //   onTap: () async {
+                    //     print(controller
+                    //         .homeController.allDecks[controller.deckIndex]
+                    //         .toJson());
+                    //     final lastId = await supabase
+                    //         .from("decks")
+                    //         .select("id")
+                    //         .order("id", ascending: false)
+                    //         .limit(1);
+
+                    //     final Deck newDeck = Deck(
+                    //       id: lastId[0]["id"] + 1,
+                    //       name: controller
+                    //           .homeController.allDecks[controller.deckIndex].name,
+                    //       desc: controller
+                    //           .homeController.allDecks[controller.deckIndex].desc,
+                    //       content: controller.homeController
+                    //           .allDecks[controller.deckIndex].content,
+                    //       uid: "dd751128-28f2-4b91-8618-e38f0938ac58",
+                    //     );
+                    //     await supabase.from("decks").insert(newDeck.toJson());
+                    //   },
+                    //   text: "Desteyi Paylaş",
+                    //   bg: AppColors.approvalGreen,
+                    //   textColor: AppColors.white,
+                    //   isWide: true,
+                    // ),
+                    AppSpacer.h1,
+                    CustomButton(
+                      hasIcon: true,
+                      icon: Icons.edit_outlined,
+                      onTap: () => controller.editDeck(context),
+                      text: AppStrings.editDeck.tr,
+                      bg: AppColors.santasGrey,
+                      textColor: AppColors.white,
+                      isWide: true,
+                    ),
+                    AppSpacer.h1,
+                    CustomButton(
+                      hasIcon: true,
+                      icon: Icons.delete_outline_outlined,
+                      onTap: () {
+                        Get.closeAllSnackbars();
+                        Get.back();
+                        homeController.deleteDeck(controller.deckIndex);
+                      },
+                      text: AppStrings.deleteDeck.tr,
+                      bg: AppColors.red,
+                      textColor: AppColors.white,
+                      isWide: true,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Spacer(),
-          ],
+              const Spacer(),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: CustomFAB(
-        title: AppStrings.addCard.tr,
-        bg: AppColors.approvalGreen,
-        onTap: () => controller.addFlashCard(context),
-      ),
-    );
+        floatingActionButton: CustomFAB(
+          title: AppStrings.addCard.tr,
+          bg: AppColors.approvalGreen,
+          onTap: () => controller.addFlashCard(context),
+        ),
+      );
+    });
   }
 }
 
