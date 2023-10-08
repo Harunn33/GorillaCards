@@ -14,4 +14,6 @@ abstract class Routes {
   static const DECKDETAIL = "/deckDetail";
   static const READYDECK = "/readyDeck";
   static const READYDECKVIEWER = "/readyDeckViewer";
+  static const CURRICULUMTESTPAGE = "/curriculumTestPage";
+  static const NAVBAR = "/navbar";
 }

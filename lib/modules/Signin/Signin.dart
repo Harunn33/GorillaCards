@@ -102,23 +102,23 @@ class Signin extends GetView<SigninController> {
                       },
                     ),
                   ),
-                  AppSpacer.h1,
-                  Bounceable(
-                    onTap: () {
-                      // await supabase.auth
-                      //     .resetPasswordForEmail("humann210@gmail.com");
-                    },
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Şifremi Unuttum",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(color: AppColors.primary),
-                      ),
-                    ),
-                  ),
+                  // AppSpacer.h1,
+                  // Bounceable(
+                  //   onTap: () {
+                  //     // await supabase.auth
+                  //     //     .resetPasswordForEmail("humann210@gmail.com");
+                  //   },
+                  //   child: Align(
+                  //     alignment: Alignment.centerRight,
+                  //     child: Text(
+                  //       "Şifremi Unuttum",
+                  //       style: Theme.of(context)
+                  //           .textTheme
+                  //           .titleSmall
+                  //           ?.copyWith(color: AppColors.primary),
+                  //     ),
+                  //   ),
+                  // ),
                   AppSpacer.h3,
                   Obx(
                     () => CustomButton(

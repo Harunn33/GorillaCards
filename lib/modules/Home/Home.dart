@@ -16,7 +16,6 @@ import 'package:gorillacards/shared/enums/images.dart';
 import 'package:gorillacards/shared/widgets/CustomNoInternet.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
-import '../../shared/widgets/CustomAppBar.dart';
 
 class Home extends GetView<HomeController> {
   const Home({super.key});
@@ -31,9 +30,6 @@ class Home extends GetView<HomeController> {
       }
       return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: const CustomAppBar(
-          hasChevronLeftIcon: false,
-        ),
         body: Padding(
           padding: AppPaddings.generalPadding,
           child: Column(

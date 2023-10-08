@@ -13,6 +13,9 @@ class AppColors {
   static Color red = const Color(0xFFFE0000);
   static Color dustyGreen = const Color(0xFF7AA874);
   static Color approvalGreen = const Color(0xFF009688);
+  static Color brilliantAzure = const Color(0xFF33A1FF);
+  static Color frozenLandscape = const Color(0xFFAEE0FF);
+  static Color usafaBlue = const Color(0xFF004C99);
 }
 
 Color hexToColor(String hex) {

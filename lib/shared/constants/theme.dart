@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 
 ThemeData CustomTheme() {
   return ThemeData(
+    colorSchemeSeed: AppColors.dustyGreen,
     scaffoldBackgroundColor: AppColors.white,
     useMaterial3: true,
     appBarTheme: AppBarTheme(

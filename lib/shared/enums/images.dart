@@ -13,7 +13,9 @@ enum Images {
   left_arrow("left_arrow"),
   readyDecks("readyDecks"),
   google("google"),
-  emptyDeck("emptyDeck");
+  emptyDeck("emptyDeck"),
+  curriculum("curriculum"),
+  home("home");
 
   final String value;
   const Images(this.value);

@@ -62,7 +62,6 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                     height: 25.h,
                     child: Swiper(
                       itemCount: controller.flashCards.length,
-                      layout: SwiperLayout.DEFAULT,
                       loop: false,
                       controller: controller.swiperController,
                       physics: const NeverScrollableScrollPhysics(),

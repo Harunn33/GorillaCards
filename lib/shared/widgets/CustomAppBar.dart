@@ -29,7 +29,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Bounceable(
-                    onTap: backFunc ?? () => Get.back(),
+                    onTap: backFunc ??
+                        () {
+                          Get.closeAllSnackbars();
+                          Get.back();
+                        },
                     child: Icon(
                       Icons.chevron_left_outlined,
                       size: 20.sp,
