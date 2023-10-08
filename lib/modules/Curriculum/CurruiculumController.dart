@@ -9,10 +9,12 @@ class CurriculumController extends GetxController {
   RxInt currentStep = 0.obs;
   RxDouble progress = 1.0.obs;
 
+  List<String> questionTypeList = ["Translate Exercise"];
+
   @override
   void onInit() {
     super.onInit();
-    print("Müfredat");
+    getCurrentStep();
   }
 
   String getQuestionLevel(int index) {
@@ -34,8 +36,7 @@ class CurriculumController extends GetxController {
     return "";
   }
 
-  void deneme() {
-    print("Çalıştım");
+  void getCurrentStep() {
     if (storage.read("A1") ?? false) {
       currentStep.value = 1;
       update();

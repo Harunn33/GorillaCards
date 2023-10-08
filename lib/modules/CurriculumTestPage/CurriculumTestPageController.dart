@@ -6,14 +6,17 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gorillacards/di.dart';
 import 'package:gorillacards/models/CurriculumTestModel.dart';
+import 'package:gorillacards/modules/Curriculum/CurruiculumController.dart';
 
 class CurriculumTestPageController extends GetxController {
   RxString selectedChoice = "".obs;
-  RxList<CurriculumTestModel> questions = <CurriculumTestModel>[].obs;
+  RxList<QuestionList> questionList = <QuestionList>[].obs;
 
   final FlipCardController flipCardController = FlipCardController();
   final SwiperController swiperController = SwiperController();
   final GetStorage storage = GetStorage();
+  final CurriculumController curriculumController =
+      Get.find<CurriculumController>();
 
   final parameters = Get.parameters;
 
@@ -26,12 +29,12 @@ class CurriculumTestPageController extends GetxController {
   Future<void> getQuestions() async {
     final list = await supabase
         .from("Curriculum")
-        .select()
+        .select("question_list")
         .eq("level", parameters["level"]);
 
-    for (var question in list) {
-      final deneme = CurriculumTestModel.fromJson(question);
-      questions.add(deneme);
+    for (var questions in list[0]["question_list"]) {
+      final question = QuestionList.fromJson(questions);
+      questionList.add(question);
     }
   }
 }

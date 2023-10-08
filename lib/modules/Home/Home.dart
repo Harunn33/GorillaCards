@@ -13,6 +13,7 @@ import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/enums/images.dart';
+import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:gorillacards/shared/widgets/CustomNoInternet.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -22,13 +23,15 @@ class Home extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(HomeController());
     final NetworkController networkController = Get.put(NetworkController());
     return GetBuilder<NetworkController>(builder: (builder) {
       if (networkController.connectionType.value == 0) {
         return const CustomNoInternet();
       }
       return Scaffold(
+        appBar: const CustomAppBar(
+          hasChevronLeftIcon: false,
+        ),
         resizeToAvoidBottomInset: false,
         body: Padding(
           padding: AppPaddings.generalPadding,
@@ -43,15 +46,26 @@ class Home extends GetView<HomeController> {
                       controller: controller,
                     ),
                   ),
+                  // AppSpacer.w2,
+                  // Bounceable(
+                  //   onTap: () {
+                  //     Get.toNamed(Routes.READYDECK);
+                  //   },
+                  //   child: SizedBox(
+                  //     width: 4.h,
+                  //     height: 4.h,
+                  //     child: Images.readyDecks.png,
+                  //   ),
+                  // ),
                   AppSpacer.w2,
                   Bounceable(
                     onTap: () {
-                      Get.toNamed(Routes.READYDECK);
+                      Get.toNamed(Routes.CURRICULUM);
                     },
                     child: SizedBox(
-                      width: 5.h,
-                      height: 5.h,
-                      child: Images.readyDecks.png,
+                      width: 4.h,
+                      height: 4.h,
+                      child: Images.curriculum.png,
                     ),
                   ),
                 ],

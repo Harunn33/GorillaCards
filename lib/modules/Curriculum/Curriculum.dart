@@ -9,6 +9,7 @@ import 'package:gorillacards/shared/constants/borderRadius.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
+import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:sizer/sizer.dart';
 
 class Curriculum extends GetView<CurriculumController> {
@@ -17,8 +18,14 @@ class Curriculum extends GetView<CurriculumController> {
   @override
   Widget build(BuildContext context) {
     Get.put(CurriculumController());
-    controller.deneme();
     return Scaffold(
+      appBar: const CustomAppBar(
+          // backFunc: () {
+          //   controller.storage.remove("A1");
+          //   controller.storage.remove("A2");
+          //   controller.storage.remove("B1");
+          // },
+          ),
       body: Obx(
         () => Stepper(
           currentStep: controller.currentStep.value,
@@ -33,33 +40,46 @@ class Curriculum extends GetView<CurriculumController> {
             }
           },
           controlsBuilder: (context, details) {
-            return ListView.separated(
-              itemCount: 1,
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              separatorBuilder: (context, index) => AppSpacer.h1,
-              itemBuilder: (context, index) {
-                return Bounceable(
-                  onTap: () {
-                    Get.toNamed(Routes.CURRICULUMTESTPAGE, parameters: {
-                      "stepIndex": details.stepIndex.toString(),
-                      "deckIndex": index.toString(),
-                      "level": controller.getQuestionLevel(details.stepIndex),
-                    });
-                  },
-                  child: Container(
-                    padding: AppPaddings.h3v1Padding,
-                    decoration: BoxDecoration(
-                      color: AppColors.santasGrey.withOpacity(.15),
-                      borderRadius: AppBorderRadius.generalRadius,
-                    ),
-                    child: Text(
-                      "Translate Exercise",
-                      style: Theme.of(context).textTheme.titleMedium,
+            return SizedBox(
+              width: 100.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Bounceable(
+                    onTap: () {
+                      Get.toNamed(Routes.CURRICULUMTESTPAGE, parameters: {
+                        "level": controller.getQuestionLevel(details.stepIndex),
+                      });
+                    },
+                    child: Container(
+                      padding: AppPaddings.h3v1Padding,
+                      decoration: BoxDecoration(
+                        color: AppColors.santasGrey.withOpacity(.15),
+                        borderRadius: AppBorderRadius.generalRadius,
+                      ),
+                      child: Text(
+                        "Translate Exercise",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
                   ),
-                );
-              },
+                  AppSpacer.h1,
+                  Bounceable(
+                    onTap: () {},
+                    child: Container(
+                      padding: AppPaddings.h3v1Padding,
+                      decoration: BoxDecoration(
+                        color: AppColors.santasGrey.withOpacity(.15),
+                        borderRadius: AppBorderRadius.generalRadius,
+                      ),
+                      child: Text(
+                        "Fill In The Blank Exercise",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           },
           onStepCancel: () {

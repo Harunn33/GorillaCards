@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:get/route_manager.dart';
+import 'package:gorillacards/modules/Curriculum/Curriculum.dart';
+import 'package:gorillacards/modules/Curriculum/CurriculumBinding.dart';
 import 'package:gorillacards/modules/CurriculumTestPage/CurriculumTestPage.dart';
 import 'package:gorillacards/modules/CurriculumTestPage/CurriculumTestPageBinding.dart';
 import 'package:gorillacards/modules/DeckDetail/DeckDetail.dart';
@@ -9,8 +11,6 @@ import 'package:gorillacards/modules/FlashCardPage/FlashCardPage.dart';
 import 'package:gorillacards/modules/FlashCardPage/FlashCardPageBinding.dart';
 import 'package:gorillacards/modules/Home/Home.dart';
 import 'package:gorillacards/modules/Home/HomeBinding.dart';
-import 'package:gorillacards/modules/Navbar/Navbar.dart';
-import 'package:gorillacards/modules/Navbar/NavbarBinding.dart';
 import 'package:gorillacards/modules/ReadyDeck/ReadyDeck.dart';
 import 'package:gorillacards/modules/ReadyDeck/ReadyDeckBinding.dart';
 import 'package:gorillacards/modules/ReadyDeckViewer/ReadyDeckViewer.dart';
@@ -30,7 +30,7 @@ import '../modules/Welcome/index.dart';
 part 'app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.NAVBAR;
+  static const INITIAL = Routes.SPLASH;
 
   static final routes = [
     GetPage(
@@ -89,14 +89,14 @@ class AppPages {
       binding: ReadyDeckViewerBinding(),
     ),
     GetPage(
+      name: Routes.CURRICULUM,
+      page: () => const Curriculum(),
+      binding: CurriculumBinding(),
+    ),
+    GetPage(
       name: Routes.CURRICULUMTESTPAGE,
       page: () => const CurriculumTestPage(),
       binding: CurriculumTestPageBinding(),
     ),
-    GetPage(
-      name: Routes.NAVBAR,
-      page: () => const Navbar(),
-      binding: NavbarBinding(),
-    )
   ];
 }

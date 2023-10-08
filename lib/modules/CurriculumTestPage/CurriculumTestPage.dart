@@ -19,7 +19,6 @@ class CurriculumTestPage extends GetView<CurriculumTestPageController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(CurriculumTestPageController());
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Padding(
@@ -31,7 +30,7 @@ class CurriculumTestPage extends GetView<CurriculumTestPageController> {
             Expanded(
               child: Obx(
                 () => Swiper(
-                  itemCount: controller.questions.length,
+                  itemCount: controller.questionList.length,
                   loop: false,
                   controller: controller.swiperController,
                   physics: const NeverScrollableScrollPhysics(),
@@ -47,7 +46,7 @@ class CurriculumTestPage extends GetView<CurriculumTestPageController> {
                               height: 20.h,
                               child: SingleChildScrollView(
                                 child: Text(
-                                  controller.questions[index].question,
+                                  controller.questionList[index].question,
                                   style:
                                       Theme.of(context).textTheme.headlineLarge,
                                 ),
@@ -60,7 +59,7 @@ class CurriculumTestPage extends GetView<CurriculumTestPageController> {
                               height: 20.h,
                               child: SingleChildScrollView(
                                 child: Text(
-                                  controller.questions[index].answer,
+                                  controller.questionList[index].answer,
                                   style:
                                       Theme.of(context).textTheme.headlineLarge,
                                 ),
@@ -75,54 +74,62 @@ class CurriculumTestPage extends GetView<CurriculumTestPageController> {
                             () => Column(
                               children: [
                                 _Choice(
-                                  title: controller.questions[index].options.a
+                                  title: controller
+                                      .questionList[index].options.a
                                       .toString(),
                                   curriculumTestPageController: controller,
-                                  answer: controller.questions[index].answer,
-                                  isSelected: (controller
-                                              .selectedChoice.value ==
-                                          controller.questions[index].options.a
-                                              .toString())
-                                      .obs,
+                                  answer: controller.questionList[index].answer,
+                                  isSelected:
+                                      (controller.selectedChoice.value ==
+                                              controller
+                                                  .questionList[index].options.a
+                                                  .toString())
+                                          .obs,
                                   index: index,
                                 ),
                                 AppSpacer.w3,
                                 _Choice(
-                                  title: controller.questions[index].options.b
+                                  title: controller
+                                      .questionList[index].options.b
                                       .toString(),
-                                  answer: controller.questions[index].answer,
+                                  answer: controller.questionList[index].answer,
                                   curriculumTestPageController: controller,
-                                  isSelected: (controller
-                                              .selectedChoice.value ==
-                                          controller.questions[index].options.b
-                                              .toString())
-                                      .obs,
+                                  isSelected:
+                                      (controller.selectedChoice.value ==
+                                              controller
+                                                  .questionList[index].options.b
+                                                  .toString())
+                                          .obs,
                                   index: index,
                                 ),
                                 AppSpacer.w3,
                                 _Choice(
-                                  title: controller.questions[index].options.c
+                                  title: controller
+                                      .questionList[index].options.c
                                       .toString(),
-                                  answer: controller.questions[index].answer,
+                                  answer: controller.questionList[index].answer,
                                   curriculumTestPageController: controller,
-                                  isSelected: (controller
-                                              .selectedChoice.value ==
-                                          controller.questions[index].options.c
-                                              .toString())
-                                      .obs,
+                                  isSelected:
+                                      (controller.selectedChoice.value ==
+                                              controller
+                                                  .questionList[index].options.c
+                                                  .toString())
+                                          .obs,
                                   index: index,
                                 ),
                                 AppSpacer.w3,
                                 _Choice(
-                                  title: controller.questions[index].options.d
+                                  title: controller
+                                      .questionList[index].options.d
                                       .toString(),
-                                  answer: controller.questions[index].answer,
+                                  answer: controller.questionList[index].answer,
                                   curriculumTestPageController: controller,
-                                  isSelected: (controller
-                                              .selectedChoice.value ==
-                                          controller.questions[index].options.d
-                                              .toString())
-                                      .obs,
+                                  isSelected:
+                                      (controller.selectedChoice.value ==
+                                              controller
+                                                  .questionList[index].options.d
+                                                  .toString())
+                                          .obs,
                                   index: index,
                                 ),
                               ],
@@ -229,11 +236,13 @@ class _Choice extends StatelessWidget {
         padding: AppPaddings.generalPadding,
         child: Bounceable(
           onTap: () {
-            if (index == curriculumTestPageController.questions.length - 1) {
+            if (index == curriculumTestPageController.questionList.length - 1) {
               print("Sınav bitti");
               curriculumTestPageController.storage.write(
                   curriculumTestPageController.parameters["level"].toString(),
                   true);
+              curriculumTestPageController
+                  .curriculumController.currentStep.value += 1;
               Get.closeAllSnackbars();
               Get.close(1);
             } else {
