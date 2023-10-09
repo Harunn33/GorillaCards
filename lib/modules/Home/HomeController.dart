@@ -4,6 +4,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gorillacards/models/deckModel.dart';
+import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomModalBottomSheet.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
@@ -268,42 +269,43 @@ class HomeController extends GetxController {
     showDialog(
       context: context,
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 5.w,
-            vertical: 30.h,
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: FlipCard(
-              key: cardKey,
-              flipOnTouch: false,
-              fill: Fill.fillBack,
-              direction: FlipDirection.HORIZONTAL,
-              side: CardSide.FRONT,
-              front: CustomCreateFlashCard(
-                label: AppStrings.frontCard.tr,
-                btnText: AppStrings.turnTheBack.tr,
-                hint: AppStrings.frontCardText.tr,
-                focusNode: frontCardFocusNode,
-                controller: frontCardController,
-                cardKey: cardKey,
-                onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
-                homeController: this,
-                index: index,
-                uid: uid,
-              ),
-              back: CustomCreateFlashCard(
-                focusNode: backCardFocusNode,
-                controller: backCardController,
-                cardKey: cardKey,
-                label: AppStrings.backCard.tr,
-                btnText: AppStrings.turnTheFront.tr,
-                hint: AppStrings.backCardText.tr,
-                onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
-                homeController: this,
-                index: index,
-                uid: uid,
+        return Center(
+          child: Container(
+            height: 30.h,
+            margin: AppPaddings.generalPadding,
+            alignment: Alignment.center,
+            child: Material(
+              color: Colors.transparent,
+              child: FlipCard(
+                key: cardKey,
+                flipOnTouch: false,
+                fill: Fill.fillBack,
+                direction: FlipDirection.HORIZONTAL,
+                side: CardSide.FRONT,
+                front: CustomCreateFlashCard(
+                  label: AppStrings.frontCard.tr,
+                  btnText: AppStrings.turnTheBack.tr,
+                  hint: AppStrings.frontCardText.tr,
+                  focusNode: frontCardFocusNode,
+                  controller: frontCardController,
+                  cardKey: cardKey,
+                  onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
+                  homeController: this,
+                  index: index,
+                  uid: uid,
+                ),
+                back: CustomCreateFlashCard(
+                  focusNode: backCardFocusNode,
+                  controller: backCardController,
+                  cardKey: cardKey,
+                  label: AppStrings.backCard.tr,
+                  btnText: AppStrings.turnTheFront.tr,
+                  hint: AppStrings.backCardText.tr,
+                  onTapOutside: (p0) => flashCardFocusNodeUnfocus(),
+                  homeController: this,
+                  index: index,
+                  uid: uid,
+                ),
               ),
             ),
           ),

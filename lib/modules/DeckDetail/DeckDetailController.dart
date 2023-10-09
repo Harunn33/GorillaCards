@@ -15,6 +15,7 @@ import 'package:gorillacards/models/deckModel.dart';
 import 'package:gorillacards/modules/Home/HomeController.dart';
 import 'package:gorillacards/routes/app_pages.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
+import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
 import 'package:gorillacards/shared/methods/CustomSnackbar.dart';
@@ -258,40 +259,41 @@ class DeckDetailController extends GetxController {
     showDialog(
       context: context,
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 5.w,
-            vertical: 30.h,
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: FlipCard(
-              key: cardKey,
-              flipOnTouch: false,
-              fill: Fill.fillBack,
-              direction: FlipDirection.HORIZONTAL,
-              side: CardSide.FRONT,
-              front: _CustomFlashCardSide(
-                cardKey: cardKey,
-                isLoading: isLoading,
-                focusNode: frontCardFocusNode,
-                textEditingController: frontCardController,
-                label: AppStrings.frontCard.tr,
-                hintText: AppStrings.frontCardText.tr,
-                btnText: AppStrings.turnTheBack.tr,
-                onTap: () => handleAddCard(deckId, homeController.uid),
-                submit: (p0) => handleAddCard(deckId, homeController.uid),
-              ),
-              back: _CustomFlashCardSide(
-                cardKey: cardKey,
-                isLoading: isLoading,
-                focusNode: backCardFocusNode,
-                textEditingController: backCardController,
-                label: AppStrings.backCard.tr,
-                hintText: AppStrings.backCardText.tr,
-                btnText: AppStrings.turnTheFront.tr,
-                onTap: () => handleAddCard(deckId, homeController.uid),
-                submit: (p0) => handleAddCard(deckId, homeController.uid),
+        return Center(
+          child: Container(
+            height: 30.h,
+            margin: AppPaddings.generalPadding,
+            alignment: Alignment.center,
+            child: Material(
+              color: Colors.transparent,
+              child: FlipCard(
+                key: cardKey,
+                flipOnTouch: false,
+                fill: Fill.fillBack,
+                direction: FlipDirection.HORIZONTAL,
+                side: CardSide.FRONT,
+                front: _CustomFlashCardSide(
+                  cardKey: cardKey,
+                  isLoading: isLoading,
+                  focusNode: frontCardFocusNode,
+                  textEditingController: frontCardController,
+                  label: AppStrings.frontCard.tr,
+                  hintText: AppStrings.frontCardText.tr,
+                  btnText: AppStrings.turnTheBack.tr,
+                  onTap: () => handleAddCard(deckId, homeController.uid),
+                  submit: (p0) => handleAddCard(deckId, homeController.uid),
+                ),
+                back: _CustomFlashCardSide(
+                  cardKey: cardKey,
+                  isLoading: isLoading,
+                  focusNode: backCardFocusNode,
+                  textEditingController: backCardController,
+                  label: AppStrings.backCard.tr,
+                  hintText: AppStrings.backCardText.tr,
+                  btnText: AppStrings.turnTheFront.tr,
+                  onTap: () => handleAddCard(deckId, homeController.uid),
+                  submit: (p0) => handleAddCard(deckId, homeController.uid),
+                ),
               ),
             ),
           ),
@@ -426,7 +428,6 @@ class _CustomFlashCardSide extends StatelessWidget {
   Widget build(BuildContext context) {
     final DeckDetailController deckDetailController = Get.find();
     return CustomFlashCard(
-      height: 21.h,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
