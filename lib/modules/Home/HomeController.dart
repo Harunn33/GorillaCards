@@ -273,7 +273,6 @@ class HomeController extends GetxController {
           child: Container(
             height: 30.h,
             margin: AppPaddings.generalPadding,
-            alignment: Alignment.center,
             child: Material(
               color: Colors.transparent,
               child: FlipCard(
