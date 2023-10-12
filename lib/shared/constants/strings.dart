@@ -9,85 +9,95 @@ class AppStrings {
   static const String emailAlreadyExists = "emailAlreadyExists";
 
   // WELCOME
-  static const welcomeTitle = "welcomeTitle";
-  static const welcomeDescription = "welcomeDescription";
-  static const welcomeDescription2 = "welcomeDescription2";
+  static const String welcomeTitle = "welcomeTitle";
+  static const String welcomeDescription = "welcomeDescription";
+  static const String welcomeDescription2 = "welcomeDescription2";
   // SIGN IN
-  static const signin = "signin";
-  static const signinTitle = "signinTitle";
-  static const dontHaveAccount = "dontHaveAccount";
+  static const String signin = "signin";
+  static const String signinTitle = "signinTitle";
+  static const String dontHaveAccount = "dontHaveAccount";
   // SIGN UP
-  static const signup = "signup";
-  static const signupTitle = "signupTitle";
-  static const emailHint = "emailHint";
-  static const passwordHint = "passwordHint";
-  static const passwordAgainHint = "passwordAgainHint";
-  static const emailNotValid = "emailNotValid";
-  static const emailBlankError = "emailBlankError";
-  static const passwordBlankError = "passwordBlankError";
-  static const passwordNotValid = "passwordNotValid";
-  static const passwordAgainBlankError = "passwordAgainBlankError";
-  static const passwordAgainNotMatch = "passwordAgainNotMatch";
-  static const hasAccount = "hasAccount";
+  static const String signup = "signup";
+  static const String signupTitle = "signupTitle";
+  static const String emailHint = "emailHint";
+  static const String passwordHint = "passwordHint";
+  static const String passwordAgainHint = "passwordAgainHint";
+  static const String emailNotValid = "emailNotValid";
+  static const String emailBlankError = "emailBlankError";
+  static const String passwordBlankError = "passwordBlankError";
+  static const String passwordNotValid = "passwordNotValid";
+  static const String passwordAgainBlankError = "passwordAgainBlankError";
+  static const String passwordAgainNotMatch = "passwordAgainNotMatch";
+  static const String hasAccount = "hasAccount";
 
   // HOME
-  static const noDecksYet = "noDecksYet";
-  static const deckName = "deckName";
-  static const deckDescription = "deckDescription";
-  static const deckNameHint = "deckNameHint";
-  static const deckNameInvalid = "deckNameInvalid";
-  static const createDeckButtonTitle = "createDeckButtonTitle";
-  static const editDeckButtonTitle = "editDeckButtonTitle";
-  static const delete = "delete";
-  static const edit = "edit";
-  static const addDeck = "addDeck";
-  static const addCard = "addCard";
-  static const searchFieldHint = "searchFieldHint";
-  static const successDeleteDeck = "successDeleteDeck";
-  static const successAddFlashCard = "successAddFlashCard";
-  static const successEditDeck = "successEditDeck";
-  static const successCreateDeck = "successCreateDeck";
-  static const ok = "ok";
-  static const noFlashCard = "noFlashCard";
-  static const swipe = "swipe";
+  static const String noDecksYet = "noDecksYet";
+  static const String deckName = "deckName";
+  static const String deckDescription = "deckDescription";
+  static const String deckNameHint = "deckNameHint";
+  static const String deckNameInvalid = "deckNameInvalid";
+  static const String createDeckButtonTitle = "createDeckButtonTitle";
+  static const String editDeckButtonTitle = "editDeckButtonTitle";
+  static const String delete = "delete";
+  static const String edit = "edit";
+  static const String addDeck = "addDeck";
+  static const String addCard = "addCard";
+  static const String searchFieldHint = "searchFieldHint";
+  static const String successDeleteDeck = "successDeleteDeck";
+  static const String successAddFlashCard = "successAddFlashCard";
+  static const String successEditDeck = "successEditDeck";
+  static const String successCreateDeck = "successCreateDeck";
+  static const String ok = "ok";
+  static const String noFlashCard = "noFlashCard";
+  static const String swipe = "swipe";
 
   // SETTINGS
-  static const settings = "settings";
-  static const signOut = "signOut";
-  static const deleteAccount = "deleteAccount";
+  static const String settings = "settings";
+  static const String signOut = "signOut";
+  static const String deleteAccount = "deleteAccount";
 
   // FLASHCARD PAGE
-  static const question = "question";
-  static const rotate = "rotate";
-  static const done = "done";
-  static const next = "next";
-  static const inputHintText = "inputHintText";
+  static const String question = "question";
+  static const String rotate = "rotate";
+  static const String done = "done";
+  static const String next = "next";
+  static const String inputHintText = "inputHintText";
 
   // RESULT
-  static const testReportsModalBottomSheetTitle =
+  static const String testReportsModalBottomSheetTitle =
       "testReportsModalBottomSheetTitle";
-  static const numberOfCorrect = "numberOfCorrect";
-  static const numberOfWrong = "numberOfWrong";
-  static const numberOfEmpty = "numberOfEmpty";
-  static const showTestReportsBtnTitle = "showTestReportsBtnTitle";
-  static const congratulationsMessage = "congratulationsMessage";
+  static const String numberOfCorrect = "numberOfCorrect";
+  static const String numberOfWrong = "numberOfWrong";
+  static const String numberOfEmpty = "numberOfEmpty";
+  static const String showTestReportsBtnTitle = "showTestReportsBtnTitle";
+  static const String congratulationsMessage = "congratulationsMessage";
 
   // DECK DETAIL
-  static const successDeleteFlashCard = "successDeleteFlashCard";
-  static const noCardsYet = "noCardsYet";
-  static const cardCount = "cardCount";
-  static const study = "study";
-  static const editDeck = "editDeck";
-  static const deleteDeck = "deleteDeck";
-  static const csvTooltip = "csvTooltip";
-  static const frontCard = "frontCard";
-  static const frontCardText = "frontCardText";
-  static const backCard = "backCard";
-  static const backCardText = "backCardText";
-  static const turnTheFront = "turnTheFront";
-  static const turnTheBack = "turnTheBack";
+  static const String successDeleteFlashCard = "successDeleteFlashCard";
+  static const String noCardsYet = "noCardsYet";
+  static const String cardCount = "cardCount";
+  static const String study = "study";
+  static const String editDeck = "editDeck";
+  static const String deleteDeck = "deleteDeck";
+  static const String csvTooltip = "csvTooltip";
+  static const String frontCard = "frontCard";
+  static const String frontCardText = "frontCardText";
+  static const String backCard = "backCard";
+  static const String backCardText = "backCardText";
+  static const String turnTheFront = "turnTheFront";
+  static const String turnTheBack = "turnTheBack";
 
   // READY DECK VIEWER
-  static const back = "back";
-  static const total = "total";
+  static const String back = "back";
+  static const String total = "total";
+
+  // CURRICULUM
+  static const String translateExerciseTitle = "translateExerciseTitle";
+
+  // CURRICULUM TEST PAGE
+  static const String answeredCorrect = "answeredCorrect";
+  static const String answeredWrong = "answeredWrong";
+  static const String continueText = "continueText";
+  static const String trueAnswer = "trueAnswer";
+  static const String falseAnswer = "falseAnswer";
 }

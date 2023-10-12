@@ -9,6 +9,8 @@ import 'package:gorillacards/shared/constants/borderRadius.dart';
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/spacer.dart';
+import 'package:gorillacards/shared/constants/strings.dart';
+import 'package:gorillacards/shared/enums/question_type.dart';
 import 'package:gorillacards/shared/widgets/CustomAppBar.dart';
 import 'package:sizer/sizer.dart';
 
@@ -49,6 +51,7 @@ class Curriculum extends GetView<CurriculumController> {
                     onTap: () {
                       Get.toNamed(Routes.CURRICULUMTESTPAGE, parameters: {
                         "level": controller.getQuestionLevel(details.stepIndex),
+                        "question_type": QuestionType.Translate.name,
                       });
                     },
                     child: Container(
@@ -58,14 +61,19 @@ class Curriculum extends GetView<CurriculumController> {
                         borderRadius: AppBorderRadius.generalRadius,
                       ),
                       child: Text(
-                        "Translate Exercise",
+                        AppStrings.translateExerciseTitle.tr,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                   ),
                   AppSpacer.h1,
                   Bounceable(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(Routes.CURRICULUMTESTPAGE, parameters: {
+                        "level": controller.getQuestionLevel(details.stepIndex),
+                        "question_type": QuestionType.True_False.name,
+                      });
+                    },
                     child: Container(
                       padding: AppPaddings.h3v1Padding,
                       decoration: BoxDecoration(
@@ -73,7 +81,7 @@ class Curriculum extends GetView<CurriculumController> {
                         borderRadius: AppBorderRadius.generalRadius,
                       ),
                       child: Text(
-                        "Fill In The Blank Exercise",
+                        "Doğru-Yanlış Egzersizi",
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),

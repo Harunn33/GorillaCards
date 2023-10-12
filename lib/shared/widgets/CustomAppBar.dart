@@ -32,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onTap: backFunc ??
                         () {
                           Get.closeAllSnackbars();
-                          Get.back();
+                          Get.close(1);
                         },
                     child: Icon(
                       Icons.chevron_left_outlined,

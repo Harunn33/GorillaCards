@@ -74,5 +74,13 @@
   "turnTheBack": "Kartın arkasını çevir",
 
   "back": "Geri",
-  "total": "Toplam"
+  "total": "Toplam",
+
+  "translateExerciseTitle": "Çeviri Egzersizi",
+
+  "answeredCorrect": "Doğru cevapladın.",
+  "answeredWrong": "Yanlış cevapladın.",
+  "continueText": "Devam et",
+  "trueAnswer": "Doğru",
+  "falseAnswer": "Yanlış"
 }

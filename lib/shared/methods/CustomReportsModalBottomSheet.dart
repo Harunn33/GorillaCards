@@ -59,7 +59,6 @@ Future<dynamic> CustomReportsModalBottomSheet(
                       itemBuilder: (context, index) {
                         return FlipCard(
                           front: CustomFlashCard(
-                            height: 25.h,
                             child: Align(
                               alignment: Alignment.center,
                               child: Column(
@@ -67,11 +66,17 @@ Future<dynamic> CustomReportsModalBottomSheet(
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const SizedBox.shrink(),
-                                  Text(
-                                    resultController.reports[index].front,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge,
+                                  Container(
+                                    height: 20.h,
+                                    alignment: Alignment.center,
+                                    child: SingleChildScrollView(
+                                      child: Text(
+                                        resultController.reports[index].front,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge,
+                                      ),
+                                    ),
                                   ),
                                   Icon(
                                     Icons.touch_app_outlined,
@@ -82,13 +87,15 @@ Future<dynamic> CustomReportsModalBottomSheet(
                             ),
                           ),
                           back: CustomFlashCard(
-                            height: 25.h,
-                            child: Align(
+                            child: Container(
+                              height: 22.h,
                               alignment: Alignment.center,
-                              child: Text(
-                                resultController.reports[index].back,
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge,
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  resultController.reports[index].back,
+                                  style:
+                                      Theme.of(context).textTheme.headlineLarge,
+                                ),
                               ),
                             ),
                           ),

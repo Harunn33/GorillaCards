@@ -74,5 +74,13 @@
   "turnTheBack": "Turn the back",
 
   "back": "Back",
-  "total": "Total"
+  "total": "Total",
+
+  "translateExerciseTitle": "Translate Exercise",
+
+  "answeredCorrect": "You answered correct.",
+  "answeredWrong": "You answered wrong.",
+  "continueText": "Continue",
+  "trueAnswer": "True",
+  "falseAnswer": "False"
 }

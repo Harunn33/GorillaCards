@@ -10,8 +10,7 @@ import '../constants/paddings.dart';
 
 class CustomFlashCard extends StatelessWidget {
   final Widget child;
-  final double? height;
-  const CustomFlashCard({super.key, required this.child, this.height});
+  const CustomFlashCard({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

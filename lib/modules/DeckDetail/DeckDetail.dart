@@ -38,6 +38,7 @@ class DeckDetail extends GetView<DeckDetailController> {
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AppSpacer.h1,
               controller.isLoading.value
                   ? Expanded(
                       child: Center(
@@ -63,9 +64,9 @@ class DeckDetail extends GetView<DeckDetailController> {
                             itemCount: controller.flashCards.length,
                             itemBuilder: (context, index) {
                               return Container(
-                                width: 70.w,
+                                width: 100.w,
                                 alignment: Alignment.center,
-                                margin: EdgeInsets.symmetric(horizontal: 3.w),
+                                padding: EdgeInsets.symmetric(horizontal: 3.w),
                                 child: FlipCard(
                                   controller: controller.flipCardController,
                                   front: _CustomCardSide(
@@ -210,7 +211,6 @@ class _CustomCardSide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFlashCard(
-      height: 25.h,
       child: Stack(
         children: [
           Positioned(
@@ -249,30 +249,37 @@ class _CustomCardSide extends StatelessWidget {
               ? Container(
                   padding: EdgeInsets.only(right: 4.w),
                   alignment: Alignment.center,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        AppSpacer.h2,
-                        Text(
-                          controller.flashCards[index].front,
-                          style: Theme.of(context).textTheme.headlineLarge,
+                  child: Column(
+                    children: [
+                      AppSpacer.h2,
+                      Container(
+                        height: 20.h,
+                        alignment: Alignment.center,
+                        child: SingleChildScrollView(
+                          child: Text(
+                            controller.flashCards[index].front,
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
                         ),
-                        AppSpacer.h2,
-                        Icon(
-                          Icons.touch_app_outlined,
-                          color: AppColors.santasGrey,
-                        ),
-                      ],
-                    ),
+                      ),
+                      AppSpacer.h2,
+                      Icon(
+                        Icons.touch_app_outlined,
+                        color: AppColors.santasGrey,
+                      ),
+                    ],
                   ),
                 )
               : Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(right: 4.w),
-                  child: SingleChildScrollView(
-                    child: Text(
-                      controller.flashCards[index].back,
-                      style: Theme.of(context).textTheme.headlineLarge,
+                  child: SizedBox(
+                    height: 25.h,
+                    child: SingleChildScrollView(
+                      child: Text(
+                        controller.flashCards[index].back,
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
                     ),
                   ),
                 ),

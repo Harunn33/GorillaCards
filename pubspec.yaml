@@ -73,6 +73,9 @@ dependencies:
   # Network
   connectivity_plus: ^4.0.2
 
+  # Audio Player
+  assets_audio_player: ^3.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -107,6 +110,7 @@ flutter:
     - assets/images/
     - assets/jsons/
     - assets/langs/
+    - assets/sounds/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see

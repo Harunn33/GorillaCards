@@ -74,24 +74,28 @@ class FlashCardPage extends GetView<FlashCardPageController> {
                           flipOnTouch: false,
                           controller: controller.flipCardController,
                           front: CustomFlashCard(
-                            height: 25.h,
-                            child: Align(
+                            child: Container(
+                              height: 20.h,
                               alignment: Alignment.center,
-                              child: Text(
-                                controller.flashCards[index].front,
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge,
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  controller.flashCards[index].front,
+                                  style:
+                                      Theme.of(context).textTheme.headlineLarge,
+                                ),
                               ),
                             ),
                           ),
                           back: CustomFlashCard(
-                            height: 25.h,
-                            child: Align(
+                            child: Container(
+                              height: 20.h,
                               alignment: Alignment.center,
-                              child: Text(
-                                controller.flashCards[index].back,
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge,
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  controller.flashCards[index].back,
+                                  style:
+                                      Theme.of(context).textTheme.headlineLarge,
+                                ),
                               ),
                             ),
                           ),
