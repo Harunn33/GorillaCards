@@ -93,6 +93,7 @@ class AppStrings {
 
   // CURRICULUM
   static const String translateExerciseTitle = "translateExerciseTitle";
+  static const String trueFalseExerciseTitle = "trueFalseExerciseTitle";
 
   // CURRICULUM TEST PAGE
   static const String answeredCorrect = "answeredCorrect";

@@ -271,15 +271,13 @@ class _CustomCardSide extends StatelessWidget {
                   ),
                 )
               : Container(
+                  height: 25.h,
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(right: 4.w),
-                  child: SizedBox(
-                    height: 25.h,
-                    child: SingleChildScrollView(
-                      child: Text(
-                        controller.flashCards[index].back,
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
+                  child: SingleChildScrollView(
+                    child: Text(
+                      controller.flashCards[index].back,
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ),
                 ),

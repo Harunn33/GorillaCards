@@ -32,6 +32,9 @@ class CurriculumTestPageController extends GetxController {
 
   final parameters = Get.parameters;
 
+  RxInt correctCount = 0.obs;
+  RxInt wrongCount = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -83,6 +86,7 @@ class CurriculumTestPageController extends GetxController {
         message: AppStrings.answeredCorrect.tr,
         bg: AppColors.dustyGreen,
       );
+      correctCount.value += 1;
     } else {
       flipCardController.state?.toggleCard();
       PlaySounds.wrong();
@@ -96,6 +100,7 @@ class CurriculumTestPageController extends GetxController {
         title: AppStrings.error.tr,
         message: AppStrings.answeredWrong.tr,
       );
+      wrongCount.value += 1;
     }
   }
 

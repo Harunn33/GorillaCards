@@ -7,6 +7,7 @@ import 'package:gorillacards/modules/CurriculumTestPage/CurriculumTestPageContro
 import 'package:gorillacards/shared/constants/colors.dart';
 import 'package:gorillacards/shared/constants/paddings.dart';
 import 'package:gorillacards/shared/constants/strings.dart';
+import 'package:gorillacards/shared/enums/question_type.dart';
 
 SnackbarController CustomRawSnackbar(
     {required BuildContext context,
@@ -31,12 +32,36 @@ SnackbarController CustomRawSnackbar(
             curriculumTestPageController.storage.write(
                 curriculumTestPageController.parameters["level"].toString(),
                 true);
-            curriculumTestPageController
-                .curriculumController.currentStep.value += 1;
             Get.close(1);
+            if (curriculumTestPageController.parameters["question_type"] ==
+                QuestionType.Translate.name) {
+              curriculumTestPageController.storage.write(
+                  "${curriculumTestPageController.parameters["level"]}-${curriculumTestPageController.parameters["question_type"]}",
+                  (curriculumTestPageController.correctCount.value /
+                          curriculumTestPageController
+                              .translateQuestionList.length) *
+                      100);
+            } else if (curriculumTestPageController
+                    .parameters["question_type"] ==
+                QuestionType.True_False.name) {
+              curriculumTestPageController.storage.write(
+                  "${curriculumTestPageController.parameters["level"]}-${curriculumTestPageController.parameters["question_type"]}",
+                  (curriculumTestPageController.correctCount.value /
+                          curriculumTestPageController
+                              .trueFalseQuestionList.length) *
+                      100);
+            }
           } else {
             curriculumTestPageController.swiperController.next();
             curriculumTestPageController.selectedChoice.value = "";
+            curriculumTestPageController.curriculumController.translatePercent
+                .value = (curriculumTestPageController.correctCount.value /
+                    curriculumTestPageController.translateQuestionList.length) *
+                100;
+            curriculumTestPageController.curriculumController.trueFalsePercent
+                .value = (curriculumTestPageController.correctCount.value /
+                    curriculumTestPageController.trueFalseQuestionList.length) *
+                100;
             Get.back();
           }
         },
